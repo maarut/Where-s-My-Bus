@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  FavouritesViewController.swift
 //  Where's My Bus
 //
 //  Created by Maarut Chandegra on 25/07/2016.
@@ -8,7 +8,8 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class FavouritesViewController: UITableViewController
+{
 
     override func viewDidLoad() {
         super.viewDidLoad()

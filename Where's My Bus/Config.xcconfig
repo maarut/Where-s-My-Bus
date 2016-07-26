@@ -1,0 +1,10 @@
+//
+//  Config.xcconfig
+//  Where's My Bus
+//
+//  Created by Maarut Chandegra on 25/07/2016.
+//  Copyright © 2016 Maarut Chandegra. All rights reserved.
+//
+#include "Keys.xcconfig"
+
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) TFL_APP_ID=@\"$(TFL_APP_ID)\" TFL_APP_KEY=@\"$(TFL_APP_KEY)\"

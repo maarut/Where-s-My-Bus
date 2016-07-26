@@ -8,11 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		E36B78781D46242E00F5C325 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78771D46242E00F5C325 /* AppDelegate.swift */; };
-		E36B787A1D46242E00F5C325 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78791D46242E00F5C325 /* ViewController.swift */; };
+		E36B787A1D46242E00F5C325 /* FavouritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78791D46242E00F5C325 /* FavouritesViewController.swift */; };
 		E36B787D1D46242E00F5C325 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E36B787B1D46242E00F5C325 /* Main.storyboard */; };
 		E36B787F1D46242E00F5C325 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E36B787E1D46242E00F5C325 /* Assets.xcassets */; };
 		E36B78821D46242E00F5C325 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E36B78801D46242E00F5C325 /* LaunchScreen.storyboard */; };
 		E36B788D1D46242E00F5C325 /* Where_s_My_BusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B788C1D46242E00F5C325 /* Where_s_My_BusTests.swift */; };
+		E36B789A1D46517400F5C325 /* AddStopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78991D46517400F5C325 /* AddStopViewController.swift */; };
+		E36B789C1D46538900F5C325 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B789B1D46538900F5C325 /* DataController.swift */; };
+		E36B789F1D4657D400F5C325 /* WheresMyBusModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E36B789D1D4657D400F5C325 /* WheresMyBusModel.xcdatamodeld */; };
+		E36B78A61D4678FA00F5C325 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = E36B78A51D4678FA00F5C325 /* Constants.m */; };
+		E36B78A81D46992B00F5C325 /* TFLConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78A71D46992B00F5C325 /* TFLConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,7 +33,7 @@
 /* Begin PBXFileReference section */
 		E36B78741D46242E00F5C325 /* Where's My Bus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Where's My Bus.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E36B78771D46242E00F5C325 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E36B78791D46242E00F5C325 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E36B78791D46242E00F5C325 /* FavouritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewController.swift; sourceTree = "<group>"; };
 		E36B787C1D46242E00F5C325 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E36B787E1D46242E00F5C325 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E36B78811D46242E00F5C325 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -36,6 +41,14 @@
 		E36B78881D46242E00F5C325 /* Where's My BusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Where's My BusTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E36B788C1D46242E00F5C325 /* Where_s_My_BusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Where_s_My_BusTests.swift; sourceTree = "<group>"; };
 		E36B788E1D46242E00F5C325 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E36B78991D46517400F5C325 /* AddStopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddStopViewController.swift; sourceTree = "<group>"; };
+		E36B789B1D46538900F5C325 /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		E36B789E1D4657D400F5C325 /* WheresMyBusModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WheresMyBusModel.xcdatamodel; sourceTree = "<group>"; };
+		E36B78A21D46767300F5C325 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		E36B78A31D4678FA00F5C325 /* Where's My Bus-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Where's My Bus-Bridging-Header.h"; sourceTree = "<group>"; };
+		E36B78A41D4678FA00F5C325 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		E36B78A51D4678FA00F5C325 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		E36B78A71D46992B00F5C325 /* TFLConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,8 +90,10 @@
 		E36B78761D46242E00F5C325 /* Where's My Bus */ = {
 			isa = PBXGroup;
 			children = (
+				E36B78A11D46764B00F5C325 /* Environments */,
+				E36B78981D4624B100F5C325 /* View Controllers */,
+				E36B78971D46248200F5C325 /* Model */,
 				E36B78771D46242E00F5C325 /* AppDelegate.swift */,
-				E36B78791D46242E00F5C325 /* ViewController.swift */,
 				E36B787B1D46242E00F5C325 /* Main.storyboard */,
 				E36B787E1D46242E00F5C325 /* Assets.xcassets */,
 				E36B78801D46242E00F5C325 /* LaunchScreen.storyboard */,
@@ -94,6 +109,44 @@
 				E36B788E1D46242E00F5C325 /* Info.plist */,
 			);
 			path = "Where's My BusTests";
+			sourceTree = "<group>";
+		};
+		E36B78971D46248200F5C325 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E36B78A01D46584100F5C325 /* TFL */,
+				E36B789B1D46538900F5C325 /* DataController.swift */,
+				E36B789D1D4657D400F5C325 /* WheresMyBusModel.xcdatamodeld */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		E36B78981D4624B100F5C325 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E36B78791D46242E00F5C325 /* FavouritesViewController.swift */,
+				E36B78991D46517400F5C325 /* AddStopViewController.swift */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		E36B78A01D46584100F5C325 /* TFL */ = {
+			isa = PBXGroup;
+			children = (
+				E36B78A71D46992B00F5C325 /* TFLConstants.swift */,
+			);
+			name = TFL;
+			sourceTree = "<group>";
+		};
+		E36B78A11D46764B00F5C325 /* Environments */ = {
+			isa = PBXGroup;
+			children = (
+				E36B78A21D46767300F5C325 /* Config.xcconfig */,
+				E36B78A41D4678FA00F5C325 /* Constants.h */,
+				E36B78A51D4678FA00F5C325 /* Constants.m */,
+				E36B78A31D4678FA00F5C325 /* Where's My Bus-Bridging-Header.h */,
+			);
+			name = Environments;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -199,8 +252,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E36B787A1D46242E00F5C325 /* ViewController.swift in Sources */,
+				E36B787A1D46242E00F5C325 /* FavouritesViewController.swift in Sources */,
+				E36B78A81D46992B00F5C325 /* TFLConstants.swift in Sources */,
+				E36B789C1D46538900F5C325 /* DataController.swift in Sources */,
 				E36B78781D46242E00F5C325 /* AppDelegate.swift in Sources */,
+				E36B789A1D46517400F5C325 /* AddStopViewController.swift in Sources */,
+				E36B789F1D4657D400F5C325 /* WheresMyBusModel.xcdatamodeld in Sources */,
+				E36B78A61D4678FA00F5C325 /* Constants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,28 +385,36 @@
 		};
 		E36B78921D46242E00F5C325 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E36B78A21D46767300F5C325 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = "Where's My Bus/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.maarut.Where-s-My-Bus";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Where's My Bus/Where's My Bus-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		E36B78931D46242E00F5C325 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E36B78A21D46767300F5C325 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = "Where's My Bus/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.maarut.Where-s-My-Bus";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Where's My Bus/Where's My Bus-Bridging-Header.h";
 			};
 			name = Release;
 		};
 		E36B78951D46242E00F5C325 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E36B78A21D46767300F5C325 /* Config.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = "Where's My BusTests/Info.plist";
@@ -361,6 +427,7 @@
 		};
 		E36B78961D46242E00F5C325 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E36B78A21D46767300F5C325 /* Config.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = "Where's My BusTests/Info.plist";
@@ -390,6 +457,7 @@
 				E36B78931D46242E00F5C325 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E36B78941D46242E00F5C325 /* Build configuration list for PBXNativeTarget "Where's My BusTests" */ = {
 			isa = XCConfigurationList;
@@ -398,8 +466,22 @@
 				E36B78961D46242E00F5C325 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		E36B789D1D4657D400F5C325 /* WheresMyBusModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				E36B789E1D4657D400F5C325 /* WheresMyBusModel.xcdatamodel */,
+			);
+			currentVersion = E36B789E1D4657D400F5C325 /* WheresMyBusModel.xcdatamodel */;
+			path = WheresMyBusModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = E36B786C1D46242E00F5C325 /* Project object */;
 }
