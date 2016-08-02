@@ -11,7 +11,6 @@ import CoreData
 
 class DataController
 {
-    private let networkOperationQueue = NSOperationQueue()
     private let model: NSManagedObjectModel
     private let coordinator: NSPersistentStoreCoordinator
     private let dbURL: NSURL

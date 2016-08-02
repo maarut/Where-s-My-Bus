@@ -18,6 +18,14 @@
 		E36B789F1D4657D400F5C325 /* WheresMyBusModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E36B789D1D4657D400F5C325 /* WheresMyBusModel.xcdatamodeld */; };
 		E36B78A61D4678FA00F5C325 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = E36B78A51D4678FA00F5C325 /* Constants.m */; };
 		E36B78A81D46992B00F5C325 /* TFLConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78A71D46992B00F5C325 /* TFLConstants.swift */; };
+		E36B78AA1D491CA900F5C325 /* TFLNetworkOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78A91D491CA900F5C325 /* TFLNetworkOperation.swift */; };
+		E36B78AC1D491FAD00F5C325 /* TFLURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78AB1D491FAD00F5C325 /* TFLURL.swift */; };
+		E36B78AF1D4926A000F5C325 /* Range+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78AE1D4926A000F5C325 /* Range+Utils.swift */; };
+		E36B78B21D4A02E200F5C325 /* StopPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78B11D4A02E200F5C325 /* StopPoints.swift */; };
+		E36B78B41D4A15AF00F5C325 /* StopPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78B31D4A15AF00F5C325 /* StopPoint.swift */; };
+		E36B78B61D4B6D0B00F5C325 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78B51D4B6D0B00F5C325 /* Line.swift */; };
+		E36B78B81D4BA67400F5C325 /* TFLBusStopSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78B71D4BA67400F5C325 /* TFLBusStopSearch.swift */; };
+		E38A26961D4FDB44008C6F8E /* TFLClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38A26951D4FDB44008C6F8E /* TFLClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +57,14 @@
 		E36B78A41D4678FA00F5C325 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		E36B78A51D4678FA00F5C325 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		E36B78A71D46992B00F5C325 /* TFLConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLConstants.swift; sourceTree = "<group>"; };
+		E36B78A91D491CA900F5C325 /* TFLNetworkOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLNetworkOperation.swift; sourceTree = "<group>"; };
+		E36B78AB1D491FAD00F5C325 /* TFLURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLURL.swift; sourceTree = "<group>"; };
+		E36B78AE1D4926A000F5C325 /* Range+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Range+Utils.swift"; sourceTree = "<group>"; };
+		E36B78B11D4A02E200F5C325 /* StopPoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopPoints.swift; sourceTree = "<group>"; };
+		E36B78B31D4A15AF00F5C325 /* StopPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopPoint.swift; sourceTree = "<group>"; };
+		E36B78B51D4B6D0B00F5C325 /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
+		E36B78B71D4BA67400F5C325 /* TFLBusStopSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLBusStopSearch.swift; sourceTree = "<group>"; };
+		E38A26951D4FDB44008C6F8E /* TFLClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +106,7 @@
 		E36B78761D46242E00F5C325 /* Where's My Bus */ = {
 			isa = PBXGroup;
 			children = (
+				E36B78AD1D49269100F5C325 /* utils */,
 				E36B78A11D46764B00F5C325 /* Environments */,
 				E36B78981D4624B100F5C325 /* View Controllers */,
 				E36B78971D46248200F5C325 /* Model */,
@@ -133,7 +150,12 @@
 		E36B78A01D46584100F5C325 /* TFL */ = {
 			isa = PBXGroup;
 			children = (
+				E36B78B01D4A02C000F5C325 /* JSON Objects */,
 				E36B78A71D46992B00F5C325 /* TFLConstants.swift */,
+				E36B78A91D491CA900F5C325 /* TFLNetworkOperation.swift */,
+				E36B78AB1D491FAD00F5C325 /* TFLURL.swift */,
+				E36B78B71D4BA67400F5C325 /* TFLBusStopSearch.swift */,
+				E38A26951D4FDB44008C6F8E /* TFLClient.swift */,
 			);
 			name = TFL;
 			sourceTree = "<group>";
@@ -147,6 +169,24 @@
 				E36B78A31D4678FA00F5C325 /* Where's My Bus-Bridging-Header.h */,
 			);
 			name = Environments;
+			sourceTree = "<group>";
+		};
+		E36B78AD1D49269100F5C325 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				E36B78AE1D4926A000F5C325 /* Range+Utils.swift */,
+			);
+			name = utils;
+			sourceTree = "<group>";
+		};
+		E36B78B01D4A02C000F5C325 /* JSON Objects */ = {
+			isa = PBXGroup;
+			children = (
+				E36B78B11D4A02E200F5C325 /* StopPoints.swift */,
+				E36B78B31D4A15AF00F5C325 /* StopPoint.swift */,
+				E36B78B51D4B6D0B00F5C325 /* Line.swift */,
+			);
+			name = "JSON Objects";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -254,10 +294,18 @@
 			files = (
 				E36B787A1D46242E00F5C325 /* FavouritesViewController.swift in Sources */,
 				E36B78A81D46992B00F5C325 /* TFLConstants.swift in Sources */,
+				E36B78B41D4A15AF00F5C325 /* StopPoint.swift in Sources */,
+				E36B78AC1D491FAD00F5C325 /* TFLURL.swift in Sources */,
 				E36B789C1D46538900F5C325 /* DataController.swift in Sources */,
+				E36B78B81D4BA67400F5C325 /* TFLBusStopSearch.swift in Sources */,
 				E36B78781D46242E00F5C325 /* AppDelegate.swift in Sources */,
 				E36B789A1D46517400F5C325 /* AddStopViewController.swift in Sources */,
+				E38A26961D4FDB44008C6F8E /* TFLClient.swift in Sources */,
+				E36B78B61D4B6D0B00F5C325 /* Line.swift in Sources */,
 				E36B789F1D4657D400F5C325 /* WheresMyBusModel.xcdatamodeld in Sources */,
+				E36B78B21D4A02E200F5C325 /* StopPoints.swift in Sources */,
+				E36B78AF1D4926A000F5C325 /* Range+Utils.swift in Sources */,
+				E36B78AA1D491CA900F5C325 /* TFLNetworkOperation.swift in Sources */,
 				E36B78A61D4678FA00F5C325 /* Constants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

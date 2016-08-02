@@ -17,4 +17,9 @@ struct TFLConstants
         static let AppId = kTFLAppID
         static let AppKey = kTFLAppKey
     }
+    
+    struct ParameterKeys {
+        static let AppId = "app_id"
+        static let AppKey = "app_key"
+    }
 }
