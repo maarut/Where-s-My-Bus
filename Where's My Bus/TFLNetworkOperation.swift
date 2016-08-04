@@ -8,17 +8,20 @@
 
 import Foundation
 
+// MARK: - TFLNetworkOperationRequestor Protocol
 protocol TFLNetworkOperationRequestor
 {
     var request: NSURLRequest { get }
 }
 
+// MARK: - TFLNetworkOperationProcessor Protocol
 protocol TFLNetworkOperationProcessor
 {
     func handleError(error: NSError)
     func processData(data: NSData)
 }
 
+// MARK: - TFLNetworkOperationError Enum
 enum TFLNetworkOperationError: Int
 {
     case InvalidStatus = 900
@@ -26,6 +29,7 @@ enum TFLNetworkOperationError: Int
     case JsonParse
 }
 
+// MARK: - TFLNetworkOperation
 class TFLNetworkOperation: NSOperation
 {
     private let incomingData = NSMutableData()
@@ -67,6 +71,7 @@ class TFLNetworkOperation: NSOperation
     }
 }
 
+// MARK: - NSURLSessionDataDelegate Implementation
 extension TFLNetworkOperation: NSURLSessionDataDelegate
 {
     func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveResponse response: NSURLResponse,
@@ -83,7 +88,6 @@ extension TFLNetworkOperation: NSURLSessionDataDelegate
 
                 let invalidStatusProcessor = InvalidStatusProcessor(processor: processor)
                 processor = invalidStatusProcessor
-//                completionHandler(.Cancel)
             }
         }
         completionHandler(.Allow)
@@ -115,6 +119,7 @@ extension TFLNetworkOperation: NSURLSessionDataDelegate
     }
 }
 
+// MARK: - InvalidStatusProcessor
 private class InvalidStatusProcessor: TFLNetworkOperationProcessor
 {
     let processor: TFLNetworkOperationProcessor

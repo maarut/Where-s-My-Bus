@@ -182,6 +182,7 @@ extension AddStopViewController: CLLocationManagerDelegate
     }
 }
 
+// MARK: - TFLBusStopSearchResultsProcessor Implementation
 extension AddStopViewController: TFLBusStopSearchResultsProcessor
 {
     func processStopPoints(stopPoints: StopPoints)
@@ -204,6 +205,7 @@ extension AddStopViewController: TFLBusStopSearchResultsProcessor
     }
 }
 
+// MARK: - MKPointAnnotation Private Extension
 private extension MKPointAnnotation
 {
     convenience init(stopPoint: StopPoint)

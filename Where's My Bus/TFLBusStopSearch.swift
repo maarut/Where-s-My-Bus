@@ -9,12 +9,14 @@
 import Foundation
 import CoreLocation
 
+// MARK: - TFLBusStopSearchResultsProcessor Protocol
 protocol TFLBusStopSearchResultsProcessor: class
 {
     func processStopPoints(stopPoints: StopPoints)
     func handleError(error: NSError)
 }
 
+// MARK: - TFLBusStopSearchErrorCodes Enum
 enum TFLBusStopSearchErrorCodes: Int
 {
     case KeyNotFound
@@ -22,6 +24,7 @@ enum TFLBusStopSearchErrorCodes: Int
     case JsonParse
 }
 
+// MARK: - TFLBusStopSearchCriteria Struct
 struct TFLBusStopSearchCriteria
 {
     static let MaxRadius: Int32 = 1000
@@ -35,6 +38,7 @@ struct TFLBusStopSearchCriteria
     }
 }
 
+// MARK: - TFLBusStopSearch Class
 class TFLBusStopSearch: TFLNetworkOperationRequestor, TFLNetworkOperationProcessor
 {
     private unowned var resultsHandler: TFLBusStopSearchResultsProcessor
@@ -78,6 +82,7 @@ class TFLBusStopSearch: TFLNetworkOperationRequestor, TFLNetworkOperationProcess
     }
 }
 
+// MARK: - TFLBusStopSearch Private Methods
 private extension TFLBusStopSearch
 {
     func parseStopPoints(data: [String: AnyObject]) -> StopPoints?
