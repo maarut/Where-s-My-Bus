@@ -22,7 +22,12 @@ enum StopPointError: Int
     case LineParsing
 }
 
-struct StopPoint
+func ==(lhs: StopPoint, rhs: StopPoint) -> Bool
+{
+    return lhs.id == rhs.id
+}
+
+struct StopPoint: Equatable
 {
     static let LatKey = "lat"
     static let LonKey = "lon"

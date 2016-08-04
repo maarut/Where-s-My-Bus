@@ -26,6 +26,7 @@
 		E36B78B61D4B6D0B00F5C325 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78B51D4B6D0B00F5C325 /* Line.swift */; };
 		E36B78B81D4BA67400F5C325 /* TFLBusStopSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78B71D4BA67400F5C325 /* TFLBusStopSearch.swift */; };
 		E38A26961D4FDB44008C6F8E /* TFLClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38A26951D4FDB44008C6F8E /* TFLClient.swift */; };
+		E38A26981D533E45008C6F8E /* Dispatch+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38A26971D533E45008C6F8E /* Dispatch+Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		E36B78B51D4B6D0B00F5C325 /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		E36B78B71D4BA67400F5C325 /* TFLBusStopSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLBusStopSearch.swift; sourceTree = "<group>"; };
 		E38A26951D4FDB44008C6F8E /* TFLClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLClient.swift; sourceTree = "<group>"; };
+		E38A26971D533E45008C6F8E /* Dispatch+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dispatch+Utils.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				E36B78AE1D4926A000F5C325 /* Range+Utils.swift */,
+				E38A26971D533E45008C6F8E /* Dispatch+Utils.swift */,
 			);
 			name = utils;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 				E38A26961D4FDB44008C6F8E /* TFLClient.swift in Sources */,
 				E36B78B61D4B6D0B00F5C325 /* Line.swift in Sources */,
 				E36B789F1D4657D400F5C325 /* WheresMyBusModel.xcdatamodeld in Sources */,
+				E38A26981D533E45008C6F8E /* Dispatch+Utils.swift in Sources */,
 				E36B78B21D4A02E200F5C325 /* StopPoints.swift in Sources */,
 				E36B78AF1D4926A000F5C325 /* Range+Utils.swift in Sources */,
 				E36B78AA1D491CA900F5C325 /* TFLNetworkOperation.swift in Sources */,

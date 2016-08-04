@@ -12,12 +12,12 @@ class TFLURL
 {
     let url: NSURL
     
-    init(method: String, parameters: [String: AnyObject])
+    init(method: String, parameters: [String: Any])
     {
         let url = NSURLComponents()
         url.scheme = TFLConstants.API.Scheme
         url.host = TFLConstants.API.Host
-        url.path = method
+        url.path = "/\(method)"
         
         url.queryItems = parameters.map { NSURLQueryItem(name: $0, value: "\($1)") }
         url.queryItems!.append(NSURLQueryItem(name: TFLConstants.ParameterKeys.AppId, value: TFLConstants.API.AppId))

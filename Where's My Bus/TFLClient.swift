@@ -15,11 +15,9 @@ class TFLClient {
     
     private init() { }
     
-    func busStopSearch(searchCriteria: TFLBusStopSearchCriteria, resultsProcessor: TFLBusStopSearchResultsProcessor,
-        errorHandler: (NSError) -> Void)
+    func busStopSearch(searchCriteria: TFLBusStopSearchCriteria, resultsProcessor: TFLBusStopSearchResultsProcessor)
     {
-        let busStopSearch = TFLBusStopSearch(searchCriteria: searchCriteria, resultsHandler: resultsProcessor,
-            errorHandler: errorHandler)
+        let busStopSearch = TFLBusStopSearch(searchCriteria: searchCriteria, resultsHandler: resultsProcessor)
         let networkOp = TFLNetworkOperation(processor: busStopSearch, requestor: busStopSearch)
         networkOperationQueue.addOperation(networkOp)
     }

@@ -37,15 +37,19 @@ struct StopPoints
             throw makeError("Key \(StopPoints.StopPointsKey) not found.", code: .StopPointsKeyNotFound)
         }
         self.centrePoint = CLLocationCoordinate2D(latitude: centrePoint[0], longitude: centrePoint[1])
-        do {
-            self.stopPoints = try stopPoints.flatMap { try StopPoint(json: $0) }
+        self.stopPoints = try stopPoints.flatMap {
+            do { return try StopPoint(json: $0) }
+            catch let error as NSError {
+                if error.code == StopPointError.StopLetterKeyNotFound.rawValue {
+                    return nil
+                }
+                let userInfo: [String: AnyObject] =
+                    [NSLocalizedDescriptionKey: "Could not parse JSON dictionary for key \(StopPoints.StopPointsKey).",
+                        NSUnderlyingErrorKey: error]
+                throw NSError(domain: "StopPoints.init", code: StopPointsError.StopPointsParsing.rawValue,
+                    userInfo: userInfo)
+            }
         }
-        catch let error as NSError {
-            let userInfo: [String: AnyObject] =
-                [NSLocalizedDescriptionKey: "Could not parse JSON dictionary for key \(StopPoints.StopPointsKey).",
-                 NSUnderlyingErrorKey: error]
-            throw NSError(domain: "StopPoints.init", code: StopPointsError.StopPointsParsing.rawValue,
-                userInfo: userInfo)
-        }
+        
     }
 }

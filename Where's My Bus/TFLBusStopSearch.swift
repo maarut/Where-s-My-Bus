@@ -12,6 +12,7 @@ import CoreLocation
 protocol TFLBusStopSearchResultsProcessor: class
 {
     func processStopPoints(stopPoints: StopPoints)
+    func handleError(error: NSError)
 }
 
 enum TFLBusStopSearchErrorCodes: Int
@@ -23,11 +24,11 @@ enum TFLBusStopSearchErrorCodes: Int
 
 struct TFLBusStopSearchCriteria
 {
-    static let MaxRadius: CLLocationDistance = 1000
+    static let MaxRadius: Int32 = 1000
     let centrePoint: CLLocationCoordinate2D
-    let radius: CLLocationDistance
+    let radius: Int32
     
-    init(centrePoint: CLLocationCoordinate2D, radius: CLLocationDistance)
+    init(centrePoint: CLLocationCoordinate2D, radius: Int32)
     {
         self.centrePoint = centrePoint
         self.radius = radius < TFLBusStopSearchCriteria.MaxRadius ? radius : TFLBusStopSearchCriteria.MaxRadius
@@ -37,7 +38,6 @@ struct TFLBusStopSearchCriteria
 class TFLBusStopSearch: TFLNetworkOperationRequestor, TFLNetworkOperationProcessor
 {
     private unowned var resultsHandler: TFLBusStopSearchResultsProcessor
-    private let errorHandler: (NSError) -> Void
     private let _request: NSURLRequest
     var request: NSURLRequest {
         get {
@@ -45,19 +45,15 @@ class TFLBusStopSearch: TFLNetworkOperationRequestor, TFLNetworkOperationProcess
         }
     }
 
-    init(searchCriteria: TFLBusStopSearchCriteria, resultsHandler: TFLBusStopSearchResultsProcessor,
-         errorHandler: (NSError) -> Void)
+    init(searchCriteria: TFLBusStopSearchCriteria, resultsHandler: TFLBusStopSearchResultsProcessor)
     {
-        let parameters: [String: AnyObject] = [
-            TFLConstants.ParameterKeys.AppId: kTFLAppID,
-            TFLConstants.ParameterKeys.AppKey: kTFLAppKey,
+        let parameters: [String: Any] = [
             "stopTypes": "NaptanPublicBusCoachTram",
             "lat": searchCriteria.centrePoint.latitude,
             "lon": searchCriteria.centrePoint.longitude,
             "radius": searchCriteria.radius
         ]
         _request = NSURLRequest(URL: TFLURL(method: "StopPoint", parameters: parameters).url)
-        self.errorHandler = errorHandler
         self.resultsHandler = resultsHandler
     }
     
@@ -77,10 +73,8 @@ class TFLBusStopSearch: TFLNetworkOperationRequestor, TFLNetworkOperationProcess
         }
     }
     
-    func handleError(error: NSError)
-    {
-        NSLog("\(error)\n\(error.localizedDescription)")
-        errorHandler(error)
+    func handleError(error: NSError) {
+        resultsHandler.handleError(error)
     }
 }
 
@@ -113,7 +107,7 @@ private extension TFLBusStopSearch
         catch let error as NSError {
             parsedResult = nil
             let userInfo = [NSLocalizedDescriptionKey: "Unable to parse JSON object", NSUnderlyingErrorKey: error]
-            let error = NSError(domain: "TFLBusStopSearch.parseJSON",
+            let error = NSError(domain: "TFLBusStopSearch.parseJson",
                 code: TFLBusStopSearchErrorCodes.JsonParse.rawValue, userInfo: userInfo)
             handleError(error)
         }
