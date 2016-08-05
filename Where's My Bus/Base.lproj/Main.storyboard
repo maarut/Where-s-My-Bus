@@ -7,10 +7,10 @@
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--Favourites View Controller-->
+        <!--Favourites-->
         <scene sceneID="fO8-t7-qBd">
             <objects>
-                <tableViewController id="KeJ-Pp-XGS" customClass="FavouritesViewController" customModule="Where_s_My_Bus" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Favourites" id="KeJ-Pp-XGS" customClass="FavouritesViewController" customModule="Where_s_My_Bus" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="A56-pg-Wep">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -54,12 +54,12 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yw9-n4-um4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1092" y="429"/>
+            <point key="canvasLocation" x="1098" y="429"/>
         </scene>
-        <!--Add Stop View Controller-->
+        <!--Nearby Bus Stops-->
         <scene sceneID="zv7-Q0-gyN">
             <objects>
-                <viewController id="hWy-e0-xzU" customClass="AddStopViewController" customModule="Where_s_My_Bus" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Nearby Bus Stops" id="hWy-e0-xzU" customClass="AddStopViewController" customModule="Where_s_My_Bus" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1nc-pH-iAj"/>
                         <viewControllerLayoutGuide type="bottom" id="dqd-Sl-uxg"/>
@@ -111,11 +111,40 @@
                         <outlet property="informationalOverlay" destination="zwA-yH-dYQ" id="TiE-FP-ltF"/>
                         <outlet property="informationalText" destination="wMb-2F-5Sv" id="y9N-gH-Zxj"/>
                         <outlet property="map" destination="VBM-Uz-WuA" id="jvK-r9-YJb"/>
+                        <segue destination="KoQ-yI-usC" kind="show" identifier="BusStopDetailSegue" id="loM-Y1-HRs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aBw-iC-OiS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1848" y="429"/>
+        </scene>
+        <!--Bus ETA's-->
+        <scene sceneID="hqf-mo-rF1">
+            <objects>
+                <tableViewController title="Bus ETA's" id="KoQ-yI-usC" customClass="BusStopDetailsViewController" customModule="Where_s_My_Bus" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="6Mv-dD-If7">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="busEta" id="8hL-fX-rjN">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8hL-fX-rjN" id="E78-2C-YBy">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="KoQ-yI-usC" id="cBH-PJ-q85"/>
+                            <outlet property="delegate" destination="KoQ-yI-usC" id="UJ1-Mc-CHn"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="K0S-li-g2U" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2562" y="429"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="lTZ-RE-IZp">

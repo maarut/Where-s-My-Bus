@@ -97,7 +97,7 @@ extension AddStopViewController: MKMapViewDelegate
         calloutAccessoryControlTapped control: UIControl)
     {
         if view.rightCalloutAccessoryView == control {
-            
+            performSegueWithIdentifier("BusStopDetailSegue", sender: self)
         }
     }
     
