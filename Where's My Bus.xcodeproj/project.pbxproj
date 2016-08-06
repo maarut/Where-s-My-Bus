@@ -13,7 +13,7 @@
 		E36B787F1D46242E00F5C325 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E36B787E1D46242E00F5C325 /* Assets.xcassets */; };
 		E36B78821D46242E00F5C325 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E36B78801D46242E00F5C325 /* LaunchScreen.storyboard */; };
 		E36B788D1D46242E00F5C325 /* Where_s_My_BusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B788C1D46242E00F5C325 /* Where_s_My_BusTests.swift */; };
-		E36B789A1D46517400F5C325 /* AddStopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78991D46517400F5C325 /* AddStopViewController.swift */; };
+		E36B789A1D46517400F5C325 /* SearchStopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78991D46517400F5C325 /* SearchStopViewController.swift */; };
 		E36B789C1D46538900F5C325 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B789B1D46538900F5C325 /* DataController.swift */; };
 		E36B789F1D4657D400F5C325 /* WheresMyBusModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E36B789D1D4657D400F5C325 /* WheresMyBusModel.xcdatamodeld */; };
 		E36B78A61D4678FA00F5C325 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = E36B78A51D4678FA00F5C325 /* Constants.m */; };
@@ -28,6 +28,8 @@
 		E38A26961D4FDB44008C6F8E /* TFLClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38A26951D4FDB44008C6F8E /* TFLClient.swift */; };
 		E38A26981D533E45008C6F8E /* Dispatch+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38A26971D533E45008C6F8E /* Dispatch+Utils.swift */; };
 		E3CA5C631D54ACD100FD668C /* BusStopDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CA5C621D54ACD100FD668C /* BusStopDetailsViewController.swift */; };
+		E3CA5C651D54F27C00FD668C /* BusArrival.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CA5C641D54F27C00FD668C /* BusArrival.swift */; };
+		E3CA5C671D5502C100FD668C /* TFLBusArrivalSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CA5C661D5502C100FD668C /* TFLBusArrivalSearch.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,7 +53,7 @@
 		E36B78881D46242E00F5C325 /* Where's My BusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Where's My BusTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E36B788C1D46242E00F5C325 /* Where_s_My_BusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Where_s_My_BusTests.swift; sourceTree = "<group>"; };
 		E36B788E1D46242E00F5C325 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E36B78991D46517400F5C325 /* AddStopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddStopViewController.swift; sourceTree = "<group>"; };
+		E36B78991D46517400F5C325 /* SearchStopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchStopViewController.swift; sourceTree = "<group>"; };
 		E36B789B1D46538900F5C325 /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		E36B789E1D4657D400F5C325 /* WheresMyBusModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WheresMyBusModel.xcdatamodel; sourceTree = "<group>"; };
 		E36B78A21D46767300F5C325 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
@@ -69,6 +71,8 @@
 		E38A26951D4FDB44008C6F8E /* TFLClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLClient.swift; sourceTree = "<group>"; };
 		E38A26971D533E45008C6F8E /* Dispatch+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dispatch+Utils.swift"; sourceTree = "<group>"; };
 		E3CA5C621D54ACD100FD668C /* BusStopDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusStopDetailsViewController.swift; sourceTree = "<group>"; };
+		E3CA5C641D54F27C00FD668C /* BusArrival.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusArrival.swift; sourceTree = "<group>"; };
+		E3CA5C661D5502C100FD668C /* TFLBusArrivalSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLBusArrivalSearch.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,7 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				E36B78791D46242E00F5C325 /* FavouritesViewController.swift */,
-				E36B78991D46517400F5C325 /* AddStopViewController.swift */,
+				E36B78991D46517400F5C325 /* SearchStopViewController.swift */,
 				E3CA5C621D54ACD100FD668C /* BusStopDetailsViewController.swift */,
 			);
 			name = "View Controllers";
@@ -161,6 +165,7 @@
 				E36B78AB1D491FAD00F5C325 /* TFLURL.swift */,
 				E36B78B71D4BA67400F5C325 /* TFLBusStopSearch.swift */,
 				E38A26951D4FDB44008C6F8E /* TFLClient.swift */,
+				E3CA5C661D5502C100FD668C /* TFLBusArrivalSearch.swift */,
 			);
 			name = TFL;
 			sourceTree = "<group>";
@@ -191,6 +196,7 @@
 				E36B78B11D4A02E200F5C325 /* StopPoints.swift */,
 				E36B78B31D4A15AF00F5C325 /* StopPoint.swift */,
 				E36B78B51D4B6D0B00F5C325 /* Line.swift */,
+				E3CA5C641D54F27C00FD668C /* BusArrival.swift */,
 			);
 			name = "JSON Objects";
 			sourceTree = "<group>";
@@ -304,8 +310,10 @@
 				E36B78AC1D491FAD00F5C325 /* TFLURL.swift in Sources */,
 				E36B789C1D46538900F5C325 /* DataController.swift in Sources */,
 				E36B78B81D4BA67400F5C325 /* TFLBusStopSearch.swift in Sources */,
+				E3CA5C651D54F27C00FD668C /* BusArrival.swift in Sources */,
 				E36B78781D46242E00F5C325 /* AppDelegate.swift in Sources */,
-				E36B789A1D46517400F5C325 /* AddStopViewController.swift in Sources */,
+				E36B789A1D46517400F5C325 /* SearchStopViewController.swift in Sources */,
+				E3CA5C671D5502C100FD668C /* TFLBusArrivalSearch.swift in Sources */,
 				E38A26961D4FDB44008C6F8E /* TFLClient.swift in Sources */,
 				E36B78B61D4B6D0B00F5C325 /* Line.swift in Sources */,
 				E36B789F1D4657D400F5C325 /* WheresMyBusModel.xcdatamodeld in Sources */,

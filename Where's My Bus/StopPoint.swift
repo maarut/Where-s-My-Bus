@@ -13,12 +13,8 @@ typealias NaptanId = String
 
 enum StopPointError: Int
 {
-    case LatKeyNotFound
-    case LonKeyNotFound
-    case NameKeyNotFound
     case StopLetterKeyNotFound
-    case LinesKeyNotFound
-    case IdKeyNotFound
+    case KeyNotFound
     case LineParsing
 }
 
@@ -50,22 +46,22 @@ struct StopPoint: Equatable
                 userInfo: [NSLocalizedDescriptionKey: errorString])
         }
         guard let lat = json[StopPoint.LatKey] as? Double else {
-            throw makeError("Key \(StopPoint.LatKey) not found.", code: .LatKeyNotFound)
+            throw makeError("Key \(StopPoint.LatKey) not found.", code: .KeyNotFound)
         }
         guard let lon = json[StopPoint.LonKey] as? Double else {
-            throw makeError("Key \(StopPoint.LonKey) not found.", code: .LonKeyNotFound)
+            throw makeError("Key \(StopPoint.LonKey) not found.", code: .KeyNotFound)
         }
         guard let name = json[StopPoint.NameKey] as? String else {
-            throw makeError("Key \(StopPoint.NameKey) not found.", code: .NameKeyNotFound)
+            throw makeError("Key \(StopPoint.NameKey) not found.", code: .KeyNotFound)
         }
         guard let stopLetter = json[StopPoint.StopLetterKey] as? String else {
             throw makeError("Key \(StopPoint.StopLetterKey) not found.", code: .StopLetterKeyNotFound)
         }
         guard let linesJson = json[StopPoint.LinesKey] as? [[String: AnyObject]] else {
-            throw makeError("Key \(StopPoint.LinesKey) not found.", code: .LinesKeyNotFound)
+            throw makeError("Key \(StopPoint.LinesKey) not found.", code: .KeyNotFound)
         }
         guard let id = json[StopPoint.IdKey] as? String else {
-            throw makeError("Key \(StopPoint.IdKey) not found.", code: .IdKeyNotFound)
+            throw makeError("Key \(StopPoint.IdKey) not found.", code: .KeyNotFound)
         }
         self.location = CLLocationCoordinate2D(latitude: lat, longitude: lon)
         self.stopLetter = stopLetter

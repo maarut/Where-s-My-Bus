@@ -1,5 +1,5 @@
 //
-//  AddStopViewController.swift
+//  SearchStopViewController.swift
 //  Where's My Bus
 //
 //  Created by Maarut Chandegra on 25/07/2016.
@@ -10,14 +10,13 @@ import UIKit
 import CoreLocation
 import MapKit
 
-class AddStopViewController: UIViewController
+class SearchStopViewController: UIViewController
 {
     @IBOutlet weak var map: MKMapView!
     @IBOutlet weak var informationalOverlay: UIView!
     @IBOutlet weak var informationalText: UILabel!
     
     private let locationManager = CLLocationManager()
-    private var visibleStopPoints = [StopPoint]()
     
     override func viewDidLoad()
     {
@@ -49,17 +48,31 @@ class AddStopViewController: UIViewController
         }
  
     }
- 
+    
     override func viewWillAppear(animated: Bool)
     {
         super.viewWillAppear(animated)
         locationManager.requestLocation()
 
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+    {
+        if segue.identifier == "BusStopDetailSegue" {
+            let annotation = sender as! BusStopAnnotation
+            let destinationVC = segue.destinationViewController as! BusStopDetailsViewController
+            TFLClient.instance.busArrivalTimesForStop(annotation.stopPoint.id, resultsProcessor: destinationVC)
+        }
+    }
+    
+    @IBAction func refreshLocation(sender: AnyObject)
+    {
+        locationManager.requestLocation()
+    }
 }
 
 // MARK: - Private Functions
-private extension AddStopViewController
+private extension SearchStopViewController
 {
     func promptForLocationServicesDenied()
     {
@@ -91,13 +104,15 @@ private extension AddStopViewController
 }
 
 // MARK: - MKMapViewDelegate Implementation
-extension AddStopViewController: MKMapViewDelegate
+extension SearchStopViewController: MKMapViewDelegate
 {
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView,
         calloutAccessoryControlTapped control: UIControl)
     {
         if view.rightCalloutAccessoryView == control {
-            performSegueWithIdentifier("BusStopDetailSegue", sender: self)
+            if let annotation = view.annotation as? BusStopAnnotation {
+                performSegueWithIdentifier("BusStopDetailSegue", sender: annotation)
+            }
         }
     }
     
@@ -151,7 +166,7 @@ extension AddStopViewController: MKMapViewDelegate
 }
 
 // MARK: - CLLocationManagerDelegate Implementation
-extension AddStopViewController: CLLocationManagerDelegate
+extension SearchStopViewController: CLLocationManagerDelegate
 {
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     {
@@ -183,19 +198,18 @@ extension AddStopViewController: CLLocationManagerDelegate
 }
 
 // MARK: - TFLBusStopSearchResultsProcessor Implementation
-extension AddStopViewController: TFLBusStopSearchResultsProcessor
+extension SearchStopViewController: TFLBusStopSearchResultsProcessor
 {
     func processStopPoints(stopPoints: StopPoints)
     {
         Dispatch.mainQueue.async {
-            let newStopPoints = stopPoints.stopPoints.filter { !self.visibleStopPoints.contains($0) }
-            let defunctStopPoints = self.visibleStopPoints.filter { !stopPoints.stopPoints.contains($0) }
-            self.visibleStopPoints = stopPoints.stopPoints
-            let defunctAnnotations = self.map.annotations.filter { an in
-                defunctStopPoints.contains { (sp: StopPoint) -> Bool in sp.location == an.coordinate }
+            let annotations = self.map.annotations.flatMap { $0 as? BusStopAnnotation }
+            let newStopPoints = stopPoints.stopPoints.filter { sp in
+                !annotations.contains { sp == $0.stopPoint }
             }
+            let defunctAnnotations = annotations.filter { !stopPoints.stopPoints.contains($0.stopPoint) }
             self.map.removeAnnotations(defunctAnnotations)
-            self.map.addAnnotations(newStopPoints.map { MKPointAnnotation(stopPoint: $0) })
+            self.map.addAnnotations(newStopPoints.map { BusStopAnnotation(stopPoint: $0) })
         }
     }
     
@@ -205,23 +219,27 @@ extension AddStopViewController: TFLBusStopSearchResultsProcessor
     }
 }
 
-// MARK: - MKPointAnnotation Private Extension
-private extension MKPointAnnotation
+// MARK: - BusStopAnnocation Private Class
+private class BusStopAnnotation: NSObject, MKAnnotation
 {
-    convenience init(stopPoint: StopPoint)
+    private (set) var stopPoint: StopPoint
+    @objc var coordinate: CLLocationCoordinate2D {
+        get {
+            return stopPoint.location
+        }
+    }
+    
+    @objc private (set) var title: String?
+    @objc private (set) var subtitle: String?
+    
+    init(stopPoint: StopPoint)
     {
-        self.init()
-        self.coordinate = stopPoint.location
-        let title: String
-        if stopPoint.stopLetter.hasPrefix("-") {
-            title = stopPoint.name
-        }
-        else {
-            title = "\(stopPoint.stopLetter) - \(stopPoint.name)"
-        }
-        self.title = title
+        self.stopPoint = stopPoint
+        self.title = stopPoint.stopLetter.hasPrefix("-") ? stopPoint.name :
+            "\(stopPoint.stopLetter) - \(stopPoint.name)"
         let subtitle = stopPoint.lines.reduce("") { $0.isEmpty ? "\($1.name)" : "\($0), \($1.name)" }
         self.subtitle = subtitle
+        super.init()
     }
 }
 

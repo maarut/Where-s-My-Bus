@@ -10,8 +10,7 @@ import CoreLocation
 
 enum StopPointsError: Int
 {
-    case CentrePointKeyNotFound
-    case StopPointsKeyNotFound
+    case KeyNotFound
     case StopPointsParsing
 }
 
@@ -31,10 +30,10 @@ struct StopPoints
                            userInfo: [NSLocalizedDescriptionKey: errorString])
         }
         guard let centrePoint = json[StopPoints.CentrePointKey] as? [Double] else {
-            throw makeError("Key \(StopPoints.CentrePointKey) not found.", code: .CentrePointKeyNotFound)
+            throw makeError("Key \(StopPoints.CentrePointKey) not found.", code: .KeyNotFound)
         }
         guard let stopPoints = json[StopPoints.StopPointsKey] as? [[String: AnyObject]] else {
-            throw makeError("Key \(StopPoints.StopPointsKey) not found.", code: .StopPointsKeyNotFound)
+            throw makeError("Key \(StopPoints.StopPointsKey) not found.", code: .KeyNotFound)
         }
         self.centrePoint = CLLocationCoordinate2D(latitude: centrePoint[0], longitude: centrePoint[1])
         self.stopPoints = try stopPoints.flatMap {

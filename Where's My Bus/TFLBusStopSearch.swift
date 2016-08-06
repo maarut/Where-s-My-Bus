@@ -19,7 +19,6 @@ protocol TFLBusStopSearchResultsProcessor: class
 // MARK: - TFLBusStopSearchErrorCodes Enum
 enum TFLBusStopSearchErrorCodes: Int
 {
-    case KeyNotFound
     case NoData
     case JsonParse
 }
@@ -41,7 +40,7 @@ struct TFLBusStopSearchCriteria
 // MARK: - TFLBusStopSearch Class
 class TFLBusStopSearch: TFLNetworkOperationRequestor, TFLNetworkOperationProcessor
 {
-    private unowned var resultsHandler: TFLBusStopSearchResultsProcessor
+    private weak var resultsHandler: TFLBusStopSearchResultsProcessor?
     private let _request: NSURLRequest
     var request: NSURLRequest {
         get {
@@ -73,12 +72,12 @@ class TFLBusStopSearch: TFLNetworkOperationRequestor, TFLNetworkOperationProcess
             return
         }
         if let stopPoints = parseStopPoints(json) {
-            resultsHandler.processStopPoints(stopPoints)
+            resultsHandler?.processStopPoints(stopPoints)
         }
     }
     
     func handleError(error: NSError) {
-        resultsHandler.handleError(error)
+        resultsHandler?.handleError(error)
     }
 }
 
@@ -113,7 +112,7 @@ private extension TFLBusStopSearch
             parsedResult = nil
             let userInfo = [NSLocalizedDescriptionKey: "Unable to parse JSON object", NSUnderlyingErrorKey: error]
             let error = NSError(domain: "TFLBusStopSearch.parseJson",
-                code: TFLBusStopSearchErrorCodes.JsonParse.rawValue, userInfo: userInfo)
+                code: TFLBusStopSearchErrorCodes.NoData.rawValue, userInfo: userInfo)
             handleError(error)
         }
         return parsedResult

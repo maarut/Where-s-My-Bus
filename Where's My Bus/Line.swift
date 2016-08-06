@@ -13,9 +13,7 @@ typealias LineDetails = String
 
 enum LineError: Int
 {
-    case IdKeyNotFound
-    case NameKeyNotFound
-    case URIKeyNotFound
+    case KeyNotFound
 }
 
 struct Line
@@ -36,13 +34,13 @@ struct Line
                            userInfo: [NSLocalizedDescriptionKey: errorString])
         }
         guard let id = json[Line.IdKey] as? String else {
-            throw makeError("Key \(Line.IdKey) not found.", code: .IdKeyNotFound)
+            throw makeError("Key \(Line.IdKey) not found.", code: .KeyNotFound)
         }
         guard let name = json[Line.NameKey] as? String else {
-            throw makeError("Key \(Line.NameKey) not found.", code: .NameKeyNotFound)
+            throw makeError("Key \(Line.NameKey) not found.", code: .KeyNotFound)
         }
         guard let uri = json[Line.UriKey] as? String else {
-            throw makeError("Key \(Line.UriKey) not found.", code: .URIKeyNotFound)
+            throw makeError("Key \(Line.UriKey) not found.", code: .KeyNotFound)
         }
         self.id = LineId(id)
         self.name = name

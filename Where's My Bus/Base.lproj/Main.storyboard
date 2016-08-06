@@ -59,7 +59,7 @@
         <!--Nearby Bus Stops-->
         <scene sceneID="zv7-Q0-gyN">
             <objects>
-                <viewController title="Nearby Bus Stops" id="hWy-e0-xzU" customClass="AddStopViewController" customModule="Where_s_My_Bus" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Nearby Bus Stops" id="hWy-e0-xzU" customClass="SearchStopViewController" customModule="Where_s_My_Bus" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1nc-pH-iAj"/>
                         <viewControllerLayoutGuide type="bottom" id="dqd-Sl-uxg"/>
@@ -69,7 +69,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VBM-Uz-WuA">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="492"/>
                             </mapView>
                             <view hidden="YES" userInteractionEnabled="NO" alpha="0.65000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zwA-yH-dYQ" userLabel="Informational Overlay">
                                 <rect key="frame" x="150" y="72" width="300" height="64"/>
@@ -91,6 +91,16 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ixl-Tb-YKZ">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem image="Near Me" id="PJk-pm-n2n">
+                                        <connections>
+                                            <action selector="refreshLocation:" destination="hWy-e0-xzU" id="lUN-1d-Z2F"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -99,10 +109,13 @@
                             <constraint firstItem="VBM-Uz-WuA" firstAttribute="top" secondItem="1nc-pH-iAj" secondAttribute="bottom" id="EAk-Qg-J6C"/>
                             <constraint firstItem="zwA-yH-dYQ" firstAttribute="top" secondItem="1nc-pH-iAj" secondAttribute="bottom" constant="8" symbolic="YES" id="H3l-fn-ZkV"/>
                             <constraint firstItem="zwA-yH-dYQ" firstAttribute="centerX" secondItem="VBM-Uz-WuA" secondAttribute="centerX" id="J4O-KQ-CX7"/>
+                            <constraint firstItem="ixl-Tb-YKZ" firstAttribute="leading" secondItem="Pfk-jZ-FyY" secondAttribute="leading" symbolic="YES" id="LMW-2Q-Q79"/>
+                            <constraint firstItem="dqd-Sl-uxg" firstAttribute="top" secondItem="ixl-Tb-YKZ" secondAttribute="bottom" id="Oyu-BG-Tii"/>
                             <constraint firstAttribute="trailing" secondItem="VBM-Uz-WuA" secondAttribute="trailing" id="ceR-2U-3kP"/>
                             <constraint firstItem="wMb-2F-5Sv" firstAttribute="centerX" secondItem="zwA-yH-dYQ" secondAttribute="centerX" id="h1E-Qi-2Jh"/>
+                            <constraint firstAttribute="trailing" secondItem="ixl-Tb-YKZ" secondAttribute="trailing" id="hmp-Fi-V8i"/>
+                            <constraint firstItem="VBM-Uz-WuA" firstAttribute="bottom" secondItem="ixl-Tb-YKZ" secondAttribute="top" id="ht3-IF-Gvs"/>
                             <constraint firstItem="wMb-2F-5Sv" firstAttribute="height" secondItem="zwA-yH-dYQ" secondAttribute="height" multiplier="0.9" id="jWF-CC-DCU"/>
-                            <constraint firstItem="VBM-Uz-WuA" firstAttribute="bottom" secondItem="dqd-Sl-uxg" secondAttribute="top" id="kqg-HV-ROi"/>
                             <constraint firstItem="VBM-Uz-WuA" firstAttribute="leading" secondItem="Pfk-jZ-FyY" secondAttribute="leading" id="qrv-h0-dEU"/>
                             <constraint firstItem="wMb-2F-5Sv" firstAttribute="centerY" secondItem="zwA-yH-dYQ" secondAttribute="centerY" id="ufx-kC-PTi"/>
                         </constraints>
@@ -165,4 +178,7 @@
             <point key="canvasLocation" x="305" y="429"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Near Me" width="25" height="25"/>
+    </resources>
 </document>

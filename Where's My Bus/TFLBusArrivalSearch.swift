@@ -1,0 +1,98 @@
+//
+//  TFLBusArrivalSearch.swift
+//  Where's My Bus
+//
+//  Created by Maarut Chandegra on 05/08/2016.
+//  Copyright © 2016 Maarut Chandegra. All rights reserved.
+//
+
+import Foundation
+// MARK: - TFLBusArrivalSearchResultsProcessor Protocol
+protocol TFLBusArrivalSearchResultsProcessor: class
+{
+    func processResults(arrivals: [BusArrival])
+    func handleError(error: NSError)
+}
+
+// MARK: - TFLBusArrivalSearchError Enum
+enum TFLBusArrivalSearchError: Int
+{
+    case JsonParse
+    case NoData
+}
+
+// MARK: - TFLBusArrivalSearch class
+class TFLBusArrivalSearch: TFLNetworkOperationProcessor, TFLNetworkOperationRequestor
+{
+    private weak var resultsHandler: TFLBusArrivalSearchResultsProcessor?
+    private let _request: NSURLRequest
+    var request: NSURLRequest {
+        get {
+            return _request
+        }
+    }
+    
+    init(stationId: NaptanId, resultsHandler: TFLBusArrivalSearchResultsProcessor)
+    {
+        let method = "StopPoint/\(stationId)/Arrivals"
+        _request = NSURLRequest(URL: TFLURL(method: method, parameters: [:]).url)
+        self.resultsHandler = resultsHandler
+    }
+    
+    func processData(data: NSData)
+    {
+        guard let parsedJson = parseJson(data) else { return }
+        guard let json = parsedJson as? [[String: AnyObject]] else {
+            
+            let userInfo = [NSLocalizedDescriptionKey: "Returned data could not be formatted in to JSON."]
+            let error = NSError(domain: "TFLBusStopSearch.processData",
+                                code: TFLBusStopSearchErrorCodes.JsonParse.rawValue, userInfo: userInfo)
+            handleError(error)
+            return
+        }
+        resultsHandler?.processResults(parseArrivals(json))
+    }
+    
+    func handleError(error: NSError)
+    {
+        resultsHandler?.handleError(error)
+    }
+}
+
+// MARK: - TFLBusArrivalSearch Private Functions
+private extension TFLBusArrivalSearch
+{
+    func parseArrivals(data: [[String: AnyObject]]) -> [BusArrival]
+    {
+        let arrivals: [BusArrival]
+        do {
+            arrivals = try data.flatMap { try BusArrival(json: $0) }
+        }
+        catch let error as NSError {
+            arrivals = []
+            
+            let userInfo = [NSLocalizedDescriptionKey: "JSON response could not be parsed.",
+                            NSUnderlyingErrorKey: error]
+            let error = NSError(domain: "TFLBusArrivalSearch.parseArrivals",
+                                code: TFLBusStopSearchErrorCodes.JsonParse.rawValue, userInfo: userInfo)
+            handleError(error)
+        }
+        return arrivals
+    }
+    
+    func parseJson(data: NSData) -> AnyObject?
+    {
+        let parsedResult: AnyObject?
+        do {
+            parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+        }
+        catch let error as NSError {
+            parsedResult = nil
+            let userInfo = [NSLocalizedDescriptionKey: "Unable to parse JSON object", NSUnderlyingErrorKey: error]
+            let error = NSError(domain: "TFLBusArrivalSearch.parseJson",
+                                code: TFLBusStopSearchErrorCodes.NoData.rawValue, userInfo: userInfo)
+            handleError(error)
+        }
+        return parsedResult
+    }
+}

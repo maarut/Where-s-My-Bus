@@ -14,6 +14,8 @@ class FavouritesViewController: UITableViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        refreshControl = UIRefreshControl()
+        refreshControl!.addTarget(self, action: #selector(refresh(_:)), forControlEvents: .ValueChanged)
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -21,6 +23,11 @@ class FavouritesViewController: UITableViewController
     {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func refresh(control: UIRefreshControl)
+    {
+        control.endRefreshing()
     }
 }
 
