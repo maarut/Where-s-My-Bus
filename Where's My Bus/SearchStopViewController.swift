@@ -15,24 +15,75 @@ class SearchStopViewController: UIViewController
     @IBOutlet weak var map: MKMapView!
     @IBOutlet weak var informationalOverlay: UIView!
     @IBOutlet weak var informationalText: UILabel!
+    @IBOutlet weak var toolbar: UIToolbar!
     
     private let locationManager = CLLocationManager()
+    private var normalNearMeBarButton: UIBarButtonItem!
+    private var pressedNearMeBarButton: UIBarButtonItem!
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        informationalOverlay.layer.cornerRadius = 10.0
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        map.delegate = self
+        authoriseLocationServices()
+        normalNearMeBarButton = UIBarButtonItem(image: NearMeArrow.nearMeArrow(state: .Normal), style: .Plain,
+            target: self, action: #selector(nearMePressed(_:)))
+        pressedNearMeBarButton = UIBarButtonItem(image: NearMeArrow.nearMeArrow(state: .Pressed), style: .Plain,
+            target: self, action: #selector(nearMePressed(_:)))
+        resetToolbar()
+    }
+    
+    override func viewWillAppear(animated: Bool)
+    {
+        super.viewWillAppear(animated)
         checkLocationServices()
-        informationalOverlay.layer.cornerRadius = 10.0
+        locationManager.requestLocation()
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+    {
+        if segue.identifier == "BusStopDetailSegue" {
+            let annotation = sender as! BusStopAnnotation
+            let destinationVC = segue.destinationViewController as! BusStopDetailsViewController
+            destinationVC.stopPoint = annotation.stopPoint
+        }
+    }
+}
+
+// MARK: - IBActions
+extension SearchStopViewController
+{
+    func nearMePressed(sender: UIBarButtonItem)
+    {
+        switch sender {
+        case normalNearMeBarButton:
+            locationManager.requestLocation()
+            toolbar.setItems([pressedNearMeBarButton], animated: true)
+            break
+        case pressedNearMeBarButton:
+            locationManager.stopUpdatingLocation()
+            resetToolbar()
+            break
+        default:
+            break
+        }
+    }
+}
+
+// MARK: - Private Functions
+private extension SearchStopViewController
+{
+    func authoriseLocationServices()
+    {
         switch CLLocationManager.authorizationStatus()
         {
         case .NotDetermined:
             locationManager.requestWhenInUseAuthorization()
             break
         case .Denied:
-           promptForLocationServicesDenied()
+            promptForLocationServicesDenied()
             break
         case .Restricted:
             let alertVC = UIAlertController(title: "Location Services Restricted",
@@ -46,34 +97,13 @@ class SearchStopViewController: UIViewController
         default:
             break
         }
- 
     }
     
-    override func viewWillAppear(animated: Bool)
+    func resetToolbar()
     {
-        super.viewWillAppear(animated)
-        locationManager.requestLocation()
-
+        self.toolbar.setItems([self.normalNearMeBarButton], animated: true)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
-    {
-        if segue.identifier == "BusStopDetailSegue" {
-            let annotation = sender as! BusStopAnnotation
-            let destinationVC = segue.destinationViewController as! BusStopDetailsViewController
-            TFLClient.instance.busArrivalTimesForStop(annotation.stopPoint.id, resultsProcessor: destinationVC)
-        }
-    }
-    
-    @IBAction func refreshLocation(sender: AnyObject)
-    {
-        locationManager.requestLocation()
-    }
-}
-
-// MARK: - Private Functions
-private extension SearchStopViewController
-{
     func promptForLocationServicesDenied()
     {
         let alertVC = UIAlertController(title: "Location Services Denied",
@@ -177,6 +207,7 @@ extension SearchStopViewController: CLLocationManagerDelegate
             let region = MKCoordinateRegionMakeWithDistance(location.coordinate, distance, distance)
             map.setRegion(region, animated: true)
         }
+        resetToolbar()
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError)
@@ -235,7 +266,7 @@ private class BusStopAnnotation: NSObject, MKAnnotation
     init(stopPoint: StopPoint)
     {
         self.stopPoint = stopPoint
-        self.title = stopPoint.stopLetter.hasPrefix("-") ? stopPoint.name :
+        self.title = stopPoint.stopLetter.isEmpty ? stopPoint.name :
             "\(stopPoint.stopLetter) - \(stopPoint.name)"
         let subtitle = stopPoint.lines.reduce("") { $0.isEmpty ? "\($1.name)" : "\($0), \($1.name)" }
         self.subtitle = subtitle

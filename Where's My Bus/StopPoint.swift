@@ -64,11 +64,11 @@ struct StopPoint: Equatable
             throw makeError("Key \(StopPoint.IdKey) not found.", code: .KeyNotFound)
         }
         self.location = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-        self.stopLetter = stopLetter
+        self.stopLetter = stopLetter.hasPrefix("-") ? "" : stopLetter
         self.name = name
         self.id = NaptanId(id)
         do {
-            self.lines = try linesJson.flatMap { try Line(json: $0) }
+            self.lines = try linesJson.flatMap { try Line(json: $0) }.sort { $0.id < $1.id }
         }
         catch let error as NSError {
             let userInfo: [String: AnyObject] =

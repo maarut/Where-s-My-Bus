@@ -45,7 +45,7 @@ struct BusArrival: Equatable
             return NSError(domain: "BusArrivals.init", code: code.rawValue,
                 userInfo: [NSLocalizedDescriptionKey: errorString])
         }
-        guard let id = json[BusArrival.IdKey] as? Int else {
+        guard let id = Int(json[BusArrival.IdKey] as? String ?? "") else {
             throw makeError("Key \(BusArrival.IdKey) not found.", code: .KeyNotFound)
         }
         guard let numberPlate = json[BusArrival.NumberPlateKey] as? String else {

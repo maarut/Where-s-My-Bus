@@ -44,4 +44,10 @@ class Dispatch {
     {
         dispatch_sync(queue, block)
     }
+    
+    func after(intervalInUSec: Int64, block: () -> Void)
+    {
+        let time = dispatch_time(DISPATCH_TIME_NOW, intervalInUSec)
+        dispatch_after(time, queue, block)
+    }
 }

@@ -51,6 +51,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="KoQ-yI-usC" kind="show" identifier="BusStopDetailSegue" id="I0H-Em-55H"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yw9-n4-um4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -70,6 +73,9 @@
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VBM-Uz-WuA">
                                 <rect key="frame" x="0.0" y="64" width="600" height="492"/>
+                                <connections>
+                                    <outlet property="delegate" destination="hWy-e0-xzU" id="jxd-HS-jpY"/>
+                                </connections>
                             </mapView>
                             <view hidden="YES" userInteractionEnabled="NO" alpha="0.65000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zwA-yH-dYQ" userLabel="Informational Overlay">
                                 <rect key="frame" x="150" y="72" width="300" height="64"/>
@@ -93,13 +99,8 @@
                             </label>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ixl-Tb-YKZ">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
-                                <items>
-                                    <barButtonItem image="Near Me" id="PJk-pm-n2n">
-                                        <connections>
-                                            <action selector="refreshLocation:" destination="hWy-e0-xzU" id="lUN-1d-Z2F"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
+                                <items/>
+                                <color key="tintColor" red="0.0" green="0.47843137254901963" blue="0.99607843137254903" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -124,6 +125,7 @@
                         <outlet property="informationalOverlay" destination="zwA-yH-dYQ" id="TiE-FP-ltF"/>
                         <outlet property="informationalText" destination="wMb-2F-5Sv" id="y9N-gH-Zxj"/>
                         <outlet property="map" destination="VBM-Uz-WuA" id="jvK-r9-YJb"/>
+                        <outlet property="toolbar" destination="ixl-Tb-YKZ" id="wfk-0h-oIZ"/>
                         <segue destination="KoQ-yI-usC" kind="show" identifier="BusStopDetailSegue" id="loM-Y1-HRs"/>
                     </connections>
                 </viewController>
@@ -135,17 +137,33 @@
         <scene sceneID="hqf-mo-rF1">
             <objects>
                 <tableViewController title="Bus ETA's" id="KoQ-yI-usC" customClass="BusStopDetailsViewController" customModule="Where_s_My_Bus" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="6Mv-dD-If7">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="6Mv-dD-If7">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="busEta" id="8hL-fX-rjN">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="busEta" textLabel="qjz-AO-nhf" detailTextLabel="CdH-4E-xBI" style="IBUITableViewCellStyleSubtitle" id="8hL-fX-rjN">
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8hL-fX-rjN" id="E78-2C-YBy">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qjz-AO-nhf">
+                                            <rect key="frame" x="15" y="6" width="31.5" height="19.5"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CdH-4E-xBI">
+                                            <rect key="frame" x="15" y="25.5" width="40.5" height="13.5"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -157,7 +175,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K0S-li-g2U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2562" y="429"/>
+            <point key="canvasLocation" x="1449" y="1211"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="lTZ-RE-IZp">
@@ -178,7 +196,7 @@
             <point key="canvasLocation" x="305" y="429"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="Near Me" width="25" height="25"/>
-    </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="loM-Y1-HRs"/>
+    </inferredMetricsTieBreakers>
 </document>

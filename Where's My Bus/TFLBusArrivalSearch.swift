@@ -50,7 +50,8 @@ class TFLBusArrivalSearch: TFLNetworkOperationProcessor, TFLNetworkOperationRequ
             handleError(error)
             return
         }
-        resultsHandler?.processResults(parseArrivals(json))
+        let arrivals = parseArrivals(json)
+        resultsHandler?.processResults(arrivals.sort { $0.ETA < $1.ETA })
     }
     
     func handleError(error: NSError)

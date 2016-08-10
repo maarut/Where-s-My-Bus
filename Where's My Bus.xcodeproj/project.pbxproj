@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E324CAA51D5A41BE00BC19E0 /* UIColor+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E324CAA41D5A41BE00BC19E0 /* UIColor+Utils.swift */; };
+		E3638A3A1D58BBD700AEBF4F /* NearMeArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3638A391D58BBD700AEBF4F /* NearMeArrow.swift */; };
 		E36B78781D46242E00F5C325 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78771D46242E00F5C325 /* AppDelegate.swift */; };
 		E36B787A1D46242E00F5C325 /* FavouritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78791D46242E00F5C325 /* FavouritesViewController.swift */; };
 		E36B787D1D46242E00F5C325 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E36B787B1D46242E00F5C325 /* Main.storyboard */; };
@@ -43,6 +45,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E324CAA41D5A41BE00BC19E0 /* UIColor+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Utils.swift"; sourceTree = "<group>"; };
+		E3638A391D58BBD700AEBF4F /* NearMeArrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearMeArrow.swift; sourceTree = "<group>"; };
 		E36B78741D46242E00F5C325 /* Where's My Bus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Where's My Bus.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E36B78771D46242E00F5C325 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E36B78791D46242E00F5C325 /* FavouritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewController.swift; sourceTree = "<group>"; };
@@ -93,6 +97,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E3638A381D58BBB900AEBF4F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E3638A391D58BBD700AEBF4F /* NearMeArrow.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		E36B786B1D46242E00F5C325 = {
 			isa = PBXGroup;
 			children = (
@@ -114,6 +126,7 @@
 		E36B78761D46242E00F5C325 /* Where's My Bus */ = {
 			isa = PBXGroup;
 			children = (
+				E3638A381D58BBB900AEBF4F /* Views */,
 				E36B78AD1D49269100F5C325 /* utils */,
 				E36B78A11D46764B00F5C325 /* Environments */,
 				E36B78981D4624B100F5C325 /* View Controllers */,
@@ -186,6 +199,7 @@
 			children = (
 				E36B78AE1D4926A000F5C325 /* Range+Utils.swift */,
 				E38A26971D533E45008C6F8E /* Dispatch+Utils.swift */,
+				E324CAA41D5A41BE00BC19E0 /* UIColor+Utils.swift */,
 			);
 			name = utils;
 			sourceTree = "<group>";
@@ -310,7 +324,9 @@
 				E36B78AC1D491FAD00F5C325 /* TFLURL.swift in Sources */,
 				E36B789C1D46538900F5C325 /* DataController.swift in Sources */,
 				E36B78B81D4BA67400F5C325 /* TFLBusStopSearch.swift in Sources */,
+				E324CAA51D5A41BE00BC19E0 /* UIColor+Utils.swift in Sources */,
 				E3CA5C651D54F27C00FD668C /* BusArrival.swift in Sources */,
+				E3638A3A1D58BBD700AEBF4F /* NearMeArrow.swift in Sources */,
 				E36B78781D46242E00F5C325 /* AppDelegate.swift in Sources */,
 				E36B789A1D46517400F5C325 /* SearchStopViewController.swift in Sources */,
 				E3CA5C671D5502C100FD668C /* TFLBusArrivalSearch.swift in Sources */,
