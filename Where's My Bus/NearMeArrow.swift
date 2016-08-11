@@ -8,16 +8,19 @@
 
 import UIKit
 
+// MARK: - NearMeArrowState Enum
 enum NearMeArrowState
 {
     case Pressed
     case Normal
 }
 
+// MARK: - NearMeArrow Implementation
 class NearMeArrow
 {
-    static func nearMeArrow(state state: NearMeArrowState,
-        colour: UIColor = UIColor(hexValue: 0x007AFE, alpha: 1.0)) -> UIImage
+    private static let defaultColour = UIColor(hexValue: 0x007AFE, alpha: 1.0)
+    
+    static func get(state state: NearMeArrowState, colour: UIColor = NearMeArrow.defaultColour) -> UIImage
     {
         struct DispatchOnce {
             static var pressedToken = 0
@@ -55,6 +58,7 @@ class NearMeArrow
     }
 }
 
+// MARK: - NearMeArrowView Implementation
 private class NearMeArrowView: UIView
 {
     var arrowColour: UIColor

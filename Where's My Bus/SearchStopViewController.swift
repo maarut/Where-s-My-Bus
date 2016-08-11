@@ -28,9 +28,9 @@ class SearchStopViewController: UIViewController
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         authoriseLocationServices()
-        normalNearMeBarButton = UIBarButtonItem(image: NearMeArrow.nearMeArrow(state: .Normal), style: .Plain,
+        normalNearMeBarButton = UIBarButtonItem(image: NearMeArrow.get(state: .Normal), style: .Plain,
             target: self, action: #selector(nearMePressed(_:)))
-        pressedNearMeBarButton = UIBarButtonItem(image: NearMeArrow.nearMeArrow(state: .Pressed), style: .Plain,
+        pressedNearMeBarButton = UIBarButtonItem(image: NearMeArrow.get(state: .Pressed), style: .Plain,
             target: self, action: #selector(nearMePressed(_:)))
         resetToolbar()
     }
@@ -144,6 +144,10 @@ extension SearchStopViewController: MKMapViewDelegate
                 performSegueWithIdentifier("BusStopDetailSegue", sender: annotation)
             }
         }
+        else if view.leftCalloutAccessoryView == control {
+            (control as! UIButton).setImage(FavouritesStar.get(.Filled), forState: .Normal)
+            NSLog("Favourite")
+        }
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView?
@@ -158,6 +162,12 @@ extension SearchStopViewController: MKMapViewDelegate
             view.pinTintColor = MKPinAnnotationView.redPinColor()
             view.canShowCallout = true
             view.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
+            var frame = view.rightCalloutAccessoryView!.frame
+            frame.origin = CGPointZero
+            let button = UIButton(type: .Custom)
+            button.frame = frame
+            button.setImage(FavouritesStar.get(.Empty), forState: .Normal)
+            view.leftCalloutAccessoryView = button
             return view
         }
         
@@ -220,6 +230,7 @@ extension SearchStopViewController: CLLocationManagerDelegate
             break
         case CLError.LocationUnknown.rawValue:
             NSLog("Unable to determine location. Will try again later.")
+            resetToolbar()
             break
         default:
             break

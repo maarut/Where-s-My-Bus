@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E324CAA51D5A41BE00BC19E0 /* UIColor+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E324CAA41D5A41BE00BC19E0 /* UIColor+Utils.swift */; };
+		E324CAA71D5B842700BC19E0 /* FavouritesStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E324CAA61D5B842700BC19E0 /* FavouritesStar.swift */; };
 		E3638A3A1D58BBD700AEBF4F /* NearMeArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3638A391D58BBD700AEBF4F /* NearMeArrow.swift */; };
 		E36B78781D46242E00F5C325 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78771D46242E00F5C325 /* AppDelegate.swift */; };
 		E36B787A1D46242E00F5C325 /* FavouritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78791D46242E00F5C325 /* FavouritesViewController.swift */; };
@@ -46,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		E324CAA41D5A41BE00BC19E0 /* UIColor+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Utils.swift"; sourceTree = "<group>"; };
+		E324CAA61D5B842700BC19E0 /* FavouritesStar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavouritesStar.swift; sourceTree = "<group>"; };
 		E3638A391D58BBD700AEBF4F /* NearMeArrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearMeArrow.swift; sourceTree = "<group>"; };
 		E36B78741D46242E00F5C325 /* Where's My Bus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Where's My Bus.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E36B78771D46242E00F5C325 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				E3638A391D58BBD700AEBF4F /* NearMeArrow.swift */,
+				E324CAA61D5B842700BC19E0 /* FavouritesStar.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E36B787A1D46242E00F5C325 /* FavouritesViewController.swift in Sources */,
+				E324CAA71D5B842700BC19E0 /* FavouritesStar.swift in Sources */,
 				E36B78A81D46992B00F5C325 /* TFLConstants.swift in Sources */,
 				E36B78B41D4A15AF00F5C325 /* StopPoint.swift in Sources */,
 				E36B78AC1D491FAD00F5C325 /* TFLURL.swift in Sources */,

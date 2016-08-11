@@ -141,9 +141,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <progressView key="tableHeaderView" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="1" id="ttv-ZA-E3R">
+                            <rect key="frame" x="0.0" y="64" width="600" height="2"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </progressView>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="busEta" textLabel="qjz-AO-nhf" detailTextLabel="CdH-4E-xBI" style="IBUITableViewCellStyleSubtitle" id="8hL-fX-rjN">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="94" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8hL-fX-rjN" id="E78-2C-YBy">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -172,6 +176,9 @@
                             <outlet property="delegate" destination="KoQ-yI-usC" id="UJ1-Mc-CHn"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="progressView" destination="ttv-ZA-E3R" id="c1P-b1-Dbg"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K0S-li-g2U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -13,21 +13,23 @@ class BusStopDetailsViewController: UITableViewController
     var stopPoint: StopPoint?
     private var arrivals = [BusArrival]()
     private var timer: NSTimer?
-    private var arrivalRefreshCounter = 30
+    private var arrivalRefreshCounter = 3000
+    private let arrivalRefreshCounterInterval = 3000
     
+    @IBOutlet weak var progressView: UIProgressView!
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         refreshControl = UIRefreshControl()
-        refreshControl!.addTarget(self, action: #selector(refresh(_:)), forControlEvents: .ValueChanged)
+        refreshControl!.addTarget(self, action: #selector(favourite(_:)), forControlEvents: .ValueChanged)
         if let stopPoint = stopPoint {
             navigationItem.title = "Stop\(stopPoint.stopLetter.isEmpty ? "" : " \(stopPoint.stopLetter)")"
             TFLClient.instance.busArrivalTimesForStop(stopPoint.id, resultsProcessor: self)
         }
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add,
-            target: self, action: #selector(refresh(_:)))
-        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(timerElapsed(_:)),
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: FavouritesStar.get(.Empty),
+            style: .Plain, target: self, action: #selector(favourite(_:)))
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(timerElapsed(_:)),
             userInfo: nil, repeats: true)
     }
     
@@ -41,21 +43,23 @@ class BusStopDetailsViewController: UITableViewController
     {
         if arrivalRefreshCounter == 0 {
             refresh()
-            arrivalRefreshCounter = 30
         }
         else {
             arrivalRefreshCounter -= 1
         }
-        
+        progressView.progress = Float(arrivalRefreshCounter) / Float(arrivalRefreshCounterInterval)
     }
     
-    func refresh(control: UIRefreshControl)
+    func favourite(control: UIRefreshControl)
     {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: FavouritesStar.get(.Filled),
+            style: .Plain, target: self, action: #selector(favourite(_:)))
         refresh()
     }
     
-    func refresh()
+    private func refresh()
     {
+        arrivalRefreshCounter = arrivalRefreshCounterInterval
         if let stopPoint = stopPoint {
             TFLClient.instance.busArrivalTimesForStop(stopPoint.id , resultsProcessor: self)
         }
