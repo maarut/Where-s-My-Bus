@@ -10,25 +10,33 @@ import UIKit
 
 class BusStopDetailsViewController: UITableViewController
 {
-    var stopPoint: StopPoint?
+    var stopPoint: StopPoint!
+    var dataController: DataController!
+    
     private var arrivals = [BusArrival]()
     private var timer: NSTimer?
     private var arrivalRefreshCounter = 3000
     private let arrivalRefreshCounterInterval = 3000
-    
+    private var favouritedButton: UIBarButtonItem!
+    private var addToFavouriteButton: UIBarButtonItem!
     @IBOutlet weak var progressView: UIProgressView!
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         refreshControl = UIRefreshControl()
-        refreshControl!.addTarget(self, action: #selector(favourite(_:)), forControlEvents: .ValueChanged)
+        refreshControl!.addTarget(self, action: #selector(toggleFavourite(_:)), forControlEvents: .ValueChanged)
         if let stopPoint = stopPoint {
             navigationItem.title = "Stop\(stopPoint.stopLetter.isEmpty ? "" : " \(stopPoint.stopLetter)")"
             TFLClient.instance.busArrivalTimesForStop(stopPoint.id, resultsProcessor: self)
         }
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: FavouritesStar.get(.Empty),
-            style: .Plain, target: self, action: #selector(favourite(_:)))
+        favouritedButton = UIBarButtonItem(image: FavouritesStar.get(.Filled),
+            style: .Plain, target: self, action: #selector(toggleFavourite(_:)))
+        addToFavouriteButton = UIBarButtonItem(image: FavouritesStar.get(.Empty),
+            style: .Plain, target: self, action: #selector(toggleFavourite(_:)))
+        navigationItem.rightBarButtonItem = dataController.isFavourite(stopPoint.id) ?
+            favouritedButton :
+            addToFavouriteButton
         timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(timerElapsed(_:)),
             userInfo: nil, repeats: true)
     }
@@ -50,11 +58,17 @@ class BusStopDetailsViewController: UITableViewController
         progressView.progress = Float(arrivalRefreshCounter) / Float(arrivalRefreshCounterInterval)
     }
     
-    func favourite(control: UIRefreshControl)
+    func toggleFavourite(control: UIRefreshControl)
     {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: FavouritesStar.get(.Filled),
-            style: .Plain, target: self, action: #selector(favourite(_:)))
-        refresh()
+        if dataController.isFavourite(stopPoint.id) {
+            dataController.unfavourite(stopPoint.id)
+            navigationItem.rightBarButtonItem = addToFavouriteButton
+        }
+        else {
+            dataController.favourite(stopPoint.id)
+            navigationItem.rightBarButtonItem = favouritedButton
+        }
+        
     }
     
     private func refresh()

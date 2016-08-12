@@ -9,9 +9,12 @@
 import UIKit
 import CoreLocation
 import MapKit
+import CoreData
 
 class SearchStopViewController: UIViewController
 {
+    var dataController: DataController!
+    
     @IBOutlet weak var map: MKMapView!
     @IBOutlet weak var informationalOverlay: UIView!
     @IBOutlet weak var informationalText: UILabel!
@@ -20,10 +23,18 @@ class SearchStopViewController: UIViewController
     private let locationManager = CLLocationManager()
     private var normalNearMeBarButton: UIBarButtonItem!
     private var pressedNearMeBarButton: UIBarButtonItem!
-    
+    private var allFavourites: NSFetchedResultsController!
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        allFavourites = dataController.allFavourites()
+        allFavourites.delegate = self
+        do {
+            try allFavourites.performFetch()
+        }
+        catch let error as NSError {
+            NSLog("\(error)\n\(error.localizedDescription)")
+        }
         informationalOverlay.layer.cornerRadius = 10.0
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -33,13 +44,13 @@ class SearchStopViewController: UIViewController
         pressedNearMeBarButton = UIBarButtonItem(image: NearMeArrow.get(state: .Pressed), style: .Plain,
             target: self, action: #selector(nearMePressed(_:)))
         resetToolbar()
+        locationManager.requestLocation()
     }
     
     override func viewWillAppear(animated: Bool)
     {
         super.viewWillAppear(animated)
         checkLocationServices()
-        locationManager.requestLocation()
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
@@ -48,6 +59,7 @@ class SearchStopViewController: UIViewController
             let annotation = sender as! BusStopAnnotation
             let destinationVC = segue.destinationViewController as! BusStopDetailsViewController
             destinationVC.stopPoint = annotation.stopPoint
+            destinationVC.dataController = dataController
         }
     }
 }
@@ -139,22 +151,30 @@ extension SearchStopViewController: MKMapViewDelegate
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView,
         calloutAccessoryControlTapped control: UIControl)
     {
-        if view.rightCalloutAccessoryView == control {
-            if let annotation = view.annotation as? BusStopAnnotation {
+        if let annotation = view.annotation as? BusStopAnnotation {
+            if view.rightCalloutAccessoryView == control {
                 performSegueWithIdentifier("BusStopDetailSegue", sender: annotation)
             }
-        }
-        else if view.leftCalloutAccessoryView == control {
-            (control as! UIButton).setImage(FavouritesStar.get(.Filled), forState: .Normal)
-            NSLog("Favourite")
+            else if view.leftCalloutAccessoryView == control {
+                if dataController.isFavourite(annotation.stopPoint.id) {
+                    dataController.unfavourite(annotation.stopPoint.id)
+                }
+                else {
+                    dataController.favourite(annotation.stopPoint.id)
+                }
+            }
         }
     }
-    
+
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView?
     {
         if annotation is MKUserLocation { return nil }
+        let image = dataController!.isFavourite((annotation as! BusStopAnnotation).stopPoint.id) ?
+            FavouritesStar.get(.Filled) :
+            FavouritesStar.get(.Empty)
         if let view = mapView.dequeueReusableAnnotationViewWithIdentifier("StopPoint") as? MKPinAnnotationView {
             view.annotation = annotation
+            (view.leftCalloutAccessoryView as! UIButton).setImage(image, forState: .Normal)
             return view
         }
         else {
@@ -166,7 +186,7 @@ extension SearchStopViewController: MKMapViewDelegate
             frame.origin = CGPointZero
             let button = UIButton(type: .Custom)
             button.frame = frame
-            button.setImage(FavouritesStar.get(.Empty), forState: .Normal)
+            button.setImage(image, forState: .Normal)
             view.leftCalloutAccessoryView = button
             return view
         }
@@ -181,7 +201,7 @@ extension SearchStopViewController: MKMapViewDelegate
         let bottomMostPoint = MKMapPointMake(origin.x, origin.y + size.height)
         let width = Int32(MKMetersBetweenMapPoints(origin, rightMostPoint))
         let height = Int32(MKMetersBetweenMapPoints(origin, bottomMostPoint))
-        if width < 2 * TFLBusStopSearchCriteria.MaxRadius ||
+        if width < 2 * TFLBusStopSearchCriteria.MaxRadius &&
            height < 2 * TFLBusStopSearchCriteria.MaxRadius {
             let radius = min(max(width, height), TFLBusStopSearchCriteria.MaxRadius)
             let searchCriteria = TFLBusStopSearchCriteria(centrePoint: mapView.centerCoordinate, radius: radius)
@@ -257,7 +277,30 @@ extension SearchStopViewController: TFLBusStopSearchResultsProcessor
     
     func handleError(error: NSError)
     {
-        NSLog("\(error)")
+        NSLog("\(error)\n\(error.localizedDescription)")
+    }
+}
+
+// MARKY - NSFetchedResultsControllerDelegate Implementation
+extension SearchStopViewController: NSFetchedResultsControllerDelegate
+{
+    func controllerDidChangeContent(controller: NSFetchedResultsController)
+    {
+        Dispatch.mainQueue.async {
+            let busStops = self.map.annotations.flatMap { $0 as? BusStopAnnotation }
+            for stop in busStops {
+                let view = self.map.viewForAnnotation(stop)
+                (view?.leftCalloutAccessoryView as! UIButton).setImage(FavouritesStar.get(.Empty), forState: .Normal)
+            }
+            let favourites = controller.fetchedObjects as! [Favourite]
+            for favourite in favourites {
+                let annotations = busStops.filter { $0.stopPoint.id == favourite.naptanId }
+                if let annotation = annotations.first, let view = self.map.viewForAnnotation(annotation) {
+                    (view.leftCalloutAccessoryView as! UIButton).setImage(
+                        FavouritesStar.get(.Filled), forState: .Normal)
+                }
+            }
+        }
     }
 }
 

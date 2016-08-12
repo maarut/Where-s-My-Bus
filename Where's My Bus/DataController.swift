@@ -71,6 +71,58 @@ class DataController
             }
         }
     }
+    
+    func unfavourite(naptanId: NaptanId)
+    {
+        mainThreadContext.performBlock {
+            if let fav = self.retrieve(naptanId) {
+                self.mainThreadContext.deleteObject(fav)
+                self.save()
+            }
+        }
+    }
+    
+    func favourite(naptanId: NaptanId)
+    {
+        mainThreadContext.performBlock {
+            if self.retrieve(naptanId) == nil {
+                let _ = Favourite(naptanId: naptanId, context: self.mainThreadContext)
+                self.save()
+            }
+        }
+    }
+    
+    func isFavourite(naptanId: NaptanId) -> Bool
+    {
+        var isFavourite = false
+        mainThreadContext.performBlockAndWait {
+            isFavourite = self.retrieve(naptanId) != nil
+        }
+        return isFavourite
+    }
+    
+    func allFavourites() -> NSFetchedResultsController
+    {
+        let request = NSFetchRequest(entityName: "Favourite")
+        request.sortDescriptors = [NSSortDescriptor(key: "naptanId", ascending: true)]
+        return NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.mainThreadContext,
+                                          sectionNameKeyPath: nil, cacheName: nil)
+    }
+    
+    private func retrieve(naptanId: NaptanId) -> Favourite?
+    {
+        let fetchRequest = NSFetchRequest(entityName: "Favourite")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "naptanId", ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "naptanId == %@", naptanId)
+        do {
+            let results = try self.mainThreadContext.executeFetchRequest(fetchRequest)
+            return results.first as? Favourite
+        }
+        catch let error as NSError {
+            logErrorAndAbort(error)
+        }
+        return nil
+    }
 }
 
 private func logErrorAndAbort(error: NSError)

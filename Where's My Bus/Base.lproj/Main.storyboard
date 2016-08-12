@@ -47,7 +47,7 @@
                     <navigationItem key="navigationItem" id="fuS-Ju-m9D">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="hgU-Bh-oY8">
                             <connections>
-                                <segue destination="hWy-e0-xzU" kind="show" id="sfu-ra-qdV"/>
+                                <segue destination="hWy-e0-xzU" kind="show" identifier="AddStopSegue" id="sfu-ra-qdV"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -204,6 +204,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="loM-Y1-HRs"/>
+        <segue reference="I0H-Em-55H"/>
     </inferredMetricsTieBreakers>
 </document>
