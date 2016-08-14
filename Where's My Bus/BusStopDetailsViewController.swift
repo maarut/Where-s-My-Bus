@@ -10,7 +10,8 @@ import UIKit
 
 class BusStopDetailsViewController: UITableViewController
 {
-    var stopPoint: StopPoint!
+    var stopPoint: StopPoint?
+    var stationId: NaptanId?
     var dataController: DataController!
     
     private var arrivals = [BusArrival]()
@@ -25,18 +26,25 @@ class BusStopDetailsViewController: UITableViewController
     {
         super.viewDidLoad()
         refreshControl = UIRefreshControl()
-        refreshControl!.addTarget(self, action: #selector(toggleFavourite(_:)), forControlEvents: .ValueChanged)
-        if let stopPoint = stopPoint {
-            navigationItem.title = "Stop\(stopPoint.stopLetter.isEmpty ? "" : " \(stopPoint.stopLetter)")"
-            TFLClient.instance.busArrivalTimesForStop(stopPoint.id, resultsProcessor: self)
-        }
+        refreshControl!.addTarget(self, action: #selector(refresh), forControlEvents: .ValueChanged)
         favouritedButton = UIBarButtonItem(image: FavouritesStar.get(.Filled),
             style: .Plain, target: self, action: #selector(toggleFavourite(_:)))
         addToFavouriteButton = UIBarButtonItem(image: FavouritesStar.get(.Empty),
             style: .Plain, target: self, action: #selector(toggleFavourite(_:)))
-        navigationItem.rightBarButtonItem = dataController.isFavourite(stopPoint.id) ?
-            favouritedButton :
-            addToFavouriteButton
+        if let stopPoint = stopPoint {
+            stationId = stopPoint.id
+            TFLClient.instance.busArrivalTimesForStop(stopPoint.id, resultsProcessor: self)
+            navigationItem.rightBarButtonItem = dataController.isFavourite(stopPoint.id) ?
+                favouritedButton :
+                addToFavouriteButton
+            updateNavigationItemTitle()
+        }
+        else if let stationId = stationId {
+            TFLClient.instance.detailsForBusStop(stationId, resultsProcessor: self)
+            navigationItem.rightBarButtonItem = dataController.isFavourite(stationId) ?
+                favouritedButton :
+                addToFavouriteButton
+        }
         timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(timerElapsed(_:)),
             userInfo: nil, repeats: true)
     }
@@ -60,18 +68,26 @@ class BusStopDetailsViewController: UITableViewController
     
     func toggleFavourite(control: UIRefreshControl)
     {
-        if dataController.isFavourite(stopPoint.id) {
-            dataController.unfavourite(stopPoint.id)
-            navigationItem.rightBarButtonItem = addToFavouriteButton
+        if let stopPoint = stopPoint {
+            if dataController.isFavourite(stopPoint.id) {
+                dataController.unfavourite(stopPoint.id)
+                navigationItem.rightBarButtonItem = addToFavouriteButton
+            }
+            else {
+                dataController.favourite(stopPoint.id)
+                navigationItem.rightBarButtonItem = favouritedButton
+            }
         }
-        else {
-            dataController.favourite(stopPoint.id)
-            navigationItem.rightBarButtonItem = favouritedButton
-        }
-        
     }
     
-    private func refresh()
+    private func updateNavigationItemTitle()
+    {
+        if let stopPoint = stopPoint {
+            navigationItem.title = stopPoint.stopLetter.isEmpty ? stopPoint.name : "Stop \(stopPoint.stopLetter)"
+        }
+    }
+    
+    func refresh()
     {
         arrivalRefreshCounter = arrivalRefreshCounterInterval
         if let stopPoint = stopPoint {
@@ -125,6 +141,7 @@ extension BusStopDetailsViewController
     }
 }
 
+// MARK: - TFLBusArrivalSearchResultsProcessor Implementation
 extension BusStopDetailsViewController: TFLBusArrivalSearchResultsProcessor
 {
     func handleError(error: NSError)
@@ -139,5 +156,17 @@ extension BusStopDetailsViewController: TFLBusArrivalSearchResultsProcessor
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
         }
+    }
+}
+
+// MARK: - TFLBusStopDetailsProcessor Implementation
+// handleError(_:) implemented in TFLBusArrivalSearchResultsProcessor extension
+extension BusStopDetailsViewController: TFLBusStopDetailsProcessor
+{
+    func processStopPoint(stopPoint: StopPoint)
+    {
+        self.stopPoint = stopPoint
+        updateNavigationItemTitle()
+        TFLClient.instance.busArrivalTimesForStop(stopPoint.id, resultsProcessor: self)
     }
 }

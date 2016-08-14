@@ -31,12 +31,15 @@ struct StopPoint: Equatable
     static let IdKey = "id"
     static let LinesKey = "lines"
     static let NameKey = "commonName"
+    static let ChildrenKey = "children"
+    static let StopTypeKey = "stopType"
     
     let location: CLLocationCoordinate2D
     let id: NaptanId
     let stopLetter: String
     let lines: [Line]
     let name: String
+    let children: [StopPoint]
     
     init?(json: [String: AnyObject]) throws
     {
@@ -63,6 +66,9 @@ struct StopPoint: Equatable
         guard let id = json[StopPoint.IdKey] as? String else {
             throw makeError("Key \(StopPoint.IdKey) not found.", code: .KeyNotFound)
         }
+        guard let children = json[StopPoint.ChildrenKey] as? [[String: AnyObject]] else {
+            throw makeError("Key \(StopPoint.ChildrenKey) not found.", code: .KeyNotFound)
+        }
         self.location = CLLocationCoordinate2D(latitude: lat, longitude: lon)
         self.stopLetter = stopLetter.hasPrefix("-") ? "" : stopLetter
         self.name = name
@@ -75,6 +81,19 @@ struct StopPoint: Equatable
                 [NSLocalizedDescriptionKey: "Could not parse JSON dictionary for key \(StopPoint.LinesKey).",
                 NSUnderlyingErrorKey: error]
             throw NSError(domain: "StopPoint.init", code: StopPointError.LineParsing.rawValue, userInfo: userInfo)
+        }
+        self.children = try children.flatMap {
+            do { return try StopPoint(json: $0) }
+            catch let error as NSError {
+                if error.code == StopPointError.StopLetterKeyNotFound.rawValue {
+                    return nil
+                }
+                let userInfo: [String: AnyObject] =
+                    [NSLocalizedDescriptionKey: "Could not parse JSON dictionary for key \(StopPoints.StopPointsKey).",
+                        NSUnderlyingErrorKey: error]
+                throw NSError(domain: "StopPoints.init", code: StopPointsError.StopPointsParsing.rawValue,
+                    userInfo: userInfo)
+            }
         }
     }
 }

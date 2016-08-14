@@ -28,18 +28,12 @@ class FavouritesViewController: UITableViewController
         catch let error as NSError {
             NSLog("\(error)\n\(error.localizedDescription)")
         }
-        // Do any additional setup after loading the view, typically from a nib.
-    }
-
-    override func didReceiveMemoryWarning()
-    {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func refresh(control: UIRefreshControl)
     {
         control.endRefreshing()
+        tableView.reloadData()
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
@@ -49,7 +43,9 @@ class FavouritesViewController: UITableViewController
             (segue.destinationViewController as! SearchStopViewController).dataController = dataController
             break
         case .Some("BusStopDetailSegue"):
-            (segue.destinationViewController as! BusStopDetailsViewController).dataController = dataController
+            let nextVC = (segue.destinationViewController as! BusStopDetailsViewController)
+            nextVC.dataController = dataController
+            nextVC.stationId = (sender as? Favourite)?.naptanId
             break
         default:
             break
@@ -68,6 +64,7 @@ extension FavouritesViewController
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         if let cell = tableView.dequeueReusableCellWithIdentifier("Favourite") {
+            cell.detailTextLabel?.text = "The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog."
             return cell
         }
         return UITableViewCell()
@@ -77,10 +74,19 @@ extension FavouritesViewController
 // MARK: - UITableViewDelegate Implementation
 extension FavouritesViewController
 {
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        if let favourite = allFavourites.fetchedObjects?[indexPath.row] as? Favourite {
+            performSegueWithIdentifier("BusStopDetailSegue", sender: favourite)
+        }
+    }
 }
 
 // MARK: - NSFetchedResultsControllerDelegate Implementation
 extension FavouritesViewController: NSFetchedResultsControllerDelegate
 {
-    
+    func controllerDidChangeContent(controller: NSFetchedResultsController)
+    {
+        tableView.reloadData()
+    }
 }

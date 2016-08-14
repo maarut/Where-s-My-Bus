@@ -105,8 +105,8 @@ class DataController
     {
         let request = NSFetchRequest(entityName: "Favourite")
         request.sortDescriptors = [NSSortDescriptor(key: "naptanId", ascending: true)]
-        return NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.mainThreadContext,
-                                          sectionNameKeyPath: nil, cacheName: nil)
+        return NSFetchedResultsController(fetchRequest: request, managedObjectContext: mainThreadContext,
+            sectionNameKeyPath: nil, cacheName: nil)
     }
     
     private func retrieve(naptanId: NaptanId) -> Favourite?

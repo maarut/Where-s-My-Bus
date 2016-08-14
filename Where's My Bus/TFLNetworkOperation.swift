@@ -162,17 +162,15 @@ private class InvalidStatusProcessor: TFLNetworkOperationProcessor
     
     func parseJson(data: NSData) -> AnyObject?
     {
-        let parsedResult: AnyObject?
         do {
-            parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+            return try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
         }
         catch let error as NSError {
-            parsedResult = nil
             let userInfo = [NSLocalizedDescriptionKey: "Unable to parse JSON object", NSUnderlyingErrorKey: error]
             let error = NSError(domain: "InvalidStatusProcessor.parseJson",
                 code: TFLNetworkOperationError.Response.rawValue, userInfo: userInfo)
             handleError(error)
         }
-        return parsedResult
+        return nil
     }
 }

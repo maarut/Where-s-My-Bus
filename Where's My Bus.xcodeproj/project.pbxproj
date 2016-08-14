@@ -11,6 +11,7 @@
 		E324CAA71D5B842700BC19E0 /* FavouritesStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E324CAA61D5B842700BC19E0 /* FavouritesStar.swift */; };
 		E324CAAA1D5C9FDF00BC19E0 /* Favourite+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E324CAA81D5C9FDF00BC19E0 /* Favourite+CoreDataProperties.swift */; };
 		E324CAAB1D5C9FDF00BC19E0 /* Favourite.swift in Sources */ = {isa = PBXBuildFile; fileRef = E324CAA91D5C9FDF00BC19E0 /* Favourite.swift */; };
+		E324CAAE1D5E110600BC19E0 /* TFLBusStopDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = E324CAAD1D5E110600BC19E0 /* TFLBusStopDetails.swift */; };
 		E3638A3A1D58BBD700AEBF4F /* NearMeArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3638A391D58BBD700AEBF4F /* NearMeArrow.swift */; };
 		E36B78781D46242E00F5C325 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78771D46242E00F5C325 /* AppDelegate.swift */; };
 		E36B787A1D46242E00F5C325 /* FavouritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78791D46242E00F5C325 /* FavouritesViewController.swift */; };
@@ -52,6 +53,7 @@
 		E324CAA61D5B842700BC19E0 /* FavouritesStar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavouritesStar.swift; sourceTree = "<group>"; };
 		E324CAA81D5C9FDF00BC19E0 /* Favourite+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Favourite+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E324CAA91D5C9FDF00BC19E0 /* Favourite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Favourite.swift; sourceTree = "<group>"; };
+		E324CAAD1D5E110600BC19E0 /* TFLBusStopDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLBusStopDetails.swift; sourceTree = "<group>"; };
 		E3638A391D58BBD700AEBF4F /* NearMeArrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearMeArrow.swift; sourceTree = "<group>"; };
 		E36B78741D46242E00F5C325 /* Where's My Bus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Where's My Bus.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E36B78771D46242E00F5C325 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				E36B78B71D4BA67400F5C325 /* TFLBusStopSearch.swift */,
 				E38A26951D4FDB44008C6F8E /* TFLClient.swift */,
 				E3CA5C661D5502C100FD668C /* TFLBusArrivalSearch.swift */,
+				E324CAAD1D5E110600BC19E0 /* TFLBusStopDetails.swift */,
 			);
 			name = TFL;
 			sourceTree = "<group>";
@@ -350,6 +353,7 @@
 				E36B789A1D46517400F5C325 /* SearchStopViewController.swift in Sources */,
 				E3CA5C671D5502C100FD668C /* TFLBusArrivalSearch.swift in Sources */,
 				E38A26961D4FDB44008C6F8E /* TFLClient.swift in Sources */,
+				E324CAAE1D5E110600BC19E0 /* TFLBusStopDetails.swift in Sources */,
 				E324CAAB1D5C9FDF00BC19E0 /* Favourite.swift in Sources */,
 				E36B78B61D4B6D0B00F5C325 /* Line.swift in Sources */,
 				E36B789F1D4657D400F5C325 /* WheresMyBusModel.xcdatamodeld in Sources */,

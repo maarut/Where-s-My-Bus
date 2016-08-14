@@ -18,14 +18,27 @@ class TFLClient {
     func busStopSearch(searchCriteria: TFLBusStopSearchCriteria, resultsProcessor: TFLBusStopSearchResultsProcessor)
     {
         let busStopSearch = TFLBusStopSearch(searchCriteria: searchCriteria, resultsHandler: resultsProcessor)
-        let networkOp = TFLNetworkOperation(processor: busStopSearch, requestor: busStopSearch)
-        networkOperationQueue.addOperation(networkOp)
+        performOperation(busStopSearch, requestor: busStopSearch)
+        
     }
     
     func busArrivalTimesForStop(stop: NaptanId, resultsProcessor: TFLBusArrivalSearchResultsProcessor)
     {
         let busArrivalSearch = TFLBusArrivalSearch(stationId: stop, resultsHandler: resultsProcessor)
-        let networkOp = TFLNetworkOperation(processor: busArrivalSearch, requestor: busArrivalSearch)
+        performOperation(busArrivalSearch, requestor: busArrivalSearch)
+        
+    }
+    
+    func detailsForBusStop(stationId: NaptanId, resultsProcessor: TFLBusStopDetailsProcessor)
+    {
+        let detailsSearch = TFLBusStopDetails(stationId: stationId, resultsHandler: resultsProcessor)
+        performOperation(detailsSearch, requestor: detailsSearch)
+        
+    }
+    
+    private func performOperation(operation: TFLNetworkOperationProcessor, requestor: TFLNetworkOperationRequestor)
+    {
+        let networkOp = TFLNetworkOperation(processor: operation, requestor: requestor)
         networkOperationQueue.addOperation(networkOp)
     }
 }
