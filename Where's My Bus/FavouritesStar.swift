@@ -28,14 +28,14 @@ class FavouritesStar
         switch state {
         case .Empty:
             dispatch_once(&DispatchOnce.emptyToken) {
-                let star = FavouritesStarView(frame: CGRect(x: 0, y: 0, width: 36, height: 36),
+                let star = FavouritesStarView(frame: CGRect(x: 0, y: 0, width: 30, height: 30),
                     colour: colour, state: state)
                 DispatchOnce.emptyImage = FavouritesStar.generateImageFrom(star)
             }
             return DispatchOnce.emptyImage
         case .Filled:
             dispatch_once(&DispatchOnce.filledToken) {
-                let star = FavouritesStarView(frame: CGRect(x: 0, y: 0, width: 36, height: 36),
+                let star = FavouritesStarView(frame: CGRect(x: 0, y: 0, width: 30, height: 30),
                     colour: colour, state: state)
                 DispatchOnce.filledImage = FavouritesStar.generateImageFrom(star)
             }
