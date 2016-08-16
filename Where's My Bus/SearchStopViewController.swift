@@ -57,7 +57,7 @@ class SearchStopViewController: UIViewController
     {
         if segue.identifier == "BusStopDetailSegue" {
             let annotation = sender as! BusStopAnnotation
-            let destinationVC = segue.destinationViewController as! BusStopDetailsViewController
+            let destinationVC = segue.destinationViewController as! BusStopDetailsContainerViewController
             destinationVC.stopPoint = annotation.stopPoint
             destinationVC.dataController = dataController
         }

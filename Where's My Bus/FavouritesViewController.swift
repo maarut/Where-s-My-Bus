@@ -43,7 +43,7 @@ class FavouritesViewController: UITableViewController
             (segue.destinationViewController as! SearchStopViewController).dataController = dataController
             break
         case .Some("BusStopDetailSegue"):
-            let nextVC = (segue.destinationViewController as! BusStopDetailsViewController)
+            let nextVC = (segue.destinationViewController as! BusStopDetailsContainerViewController)
             nextVC.dataController = dataController
             nextVC.stationId = (sender as? Favourite)?.naptanId
             break
