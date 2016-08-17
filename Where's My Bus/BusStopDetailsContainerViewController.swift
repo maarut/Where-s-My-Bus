@@ -18,9 +18,29 @@ class BusStopDetailsContainerViewController: UIViewController
     @IBOutlet weak var routeButton: UITabBarItem!
     @IBOutlet weak var etaButton: UITabBarItem!
     
+    private var favouritedButton: UIBarButtonItem!
+    private var addToFavouriteButton: UIBarButtonItem!
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        favouritedButton = UIBarButtonItem(image: FavouritesStar.get(.Filled),
+            style: .Plain, target: self, action: #selector(toggleFavourite(_:)))
+        addToFavouriteButton = UIBarButtonItem(image: FavouritesStar.get(.Empty),
+            style: .Plain, target: self, action: #selector(toggleFavourite(_:)))
+        if let stopPoint = stopPoint {
+            navigationItem.rightBarButtonItem = dataController.isFavourite(stopPoint.id) ?
+                favouritedButton :
+                addToFavouriteButton
+            updateNavigationItemTitle(stopPoint)
+        }
+        else if let stationId = stationId {
+            navigationItem.rightBarButtonItem = dataController.isFavourite(stationId) ?
+                favouritedButton :
+                addToFavouriteButton
+        }
+        routeButton.title = "↓Route"
+        etaButton.title = "↓ETA"
         switch retrieveSortOrder() {
         case .Route:
             tabBar.selectedItem = routeButton
@@ -40,6 +60,25 @@ class BusStopDetailsContainerViewController: UIViewController
             nextVC.stopPoint = stopPoint
             nextVC.sortOrder = retrieveSortOrder()
         }
+    }
+    
+    func toggleFavourite(control: UIBarButtonItem)
+    {
+        if let stationId = stationId ?? stopPoint?.id {
+            if dataController.isFavourite(stationId) {
+                dataController.unfavourite(stationId)
+                navigationItem.rightBarButtonItem = addToFavouriteButton
+            }
+            else {
+                dataController.favourite(stationId)
+                navigationItem.rightBarButtonItem = favouritedButton
+            }
+        }
+    }
+    
+    func updateNavigationItemTitle(stopPoint: StopPoint)
+    {
+        navigationItem.title = stopPoint.stopLetter.isEmpty ? stopPoint.name : "Stop \(stopPoint.stopLetter)"
     }
     
     private func retrieveSortOrder() -> BusStopDetailsSortOrder

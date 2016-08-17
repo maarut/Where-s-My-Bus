@@ -199,10 +199,10 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </progressView>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="busEta" id="8hL-fX-rjN">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="route" id="8hL-fX-rjN" customClass="BusArrivalDetailsCell" customModule="Where_s_My_Bus" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="30" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8hL-fX-rjN" id="E78-2C-YBy">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="7" contentMode="center" tableViewCell="8hL-fX-rjN" id="E78-2C-YBy">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
@@ -213,7 +213,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view tag="4" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GAp-WO-ajz">
-                                            <rect key="frame" x="444" y="10.5" width="148" height="24"/>
+                                            <rect key="frame" x="432" y="10" width="148" height="24"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NUMBER PLATE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2fK-Pr-QaZ">
                                                     <rect key="frame" x="13" y="2" width="123" height="20"/>
@@ -244,13 +244,99 @@
                                         <constraint firstItem="GAp-WO-ajz" firstAttribute="centerY" secondItem="E78-2C-YBy" secondAttribute="centerY" id="K9n-l2-t5L"/>
                                         <constraint firstItem="SV0-tQ-kY6" firstAttribute="top" secondItem="E78-2C-YBy" secondAttribute="topMargin" id="PtA-cW-vrH"/>
                                         <constraint firstItem="rHD-BK-oH4" firstAttribute="top" secondItem="SV0-tQ-kY6" secondAttribute="bottom" id="azd-XY-kF8"/>
-                                        <constraint firstItem="rHD-BK-oH4" firstAttribute="leading" secondItem="E78-2C-YBy" secondAttribute="leading" constant="20" symbolic="YES" id="ivJ-Es-BOU"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="GAp-WO-ajz" secondAttribute="trailing" id="r2Y-63-SWD"/>
+                                        <constraint firstItem="rHD-BK-oH4" firstAttribute="leading" secondItem="E78-2C-YBy" secondAttribute="leading" constant="20" symbolic="YES" identifier="routeConstraint" id="eDo-nn-VUH"/>
+                                        <constraint firstAttribute="trailing" secondItem="GAp-WO-ajz" secondAttribute="trailing" constant="20" symbolic="YES" id="r2Y-63-SWD"/>
                                         <constraint firstItem="rHD-BK-oH4" firstAttribute="leading" secondItem="SV0-tQ-kY6" secondAttribute="leading" id="xld-t9-CBj"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="direction" destination="rHD-BK-oH4" id="mRE-G4-SOl"/>
+                                    <outlet property="eta" destination="SV0-tQ-kY6" id="NjY-Yw-0yE"/>
+                                    <outlet property="numberPlate" destination="2fK-Pr-QaZ" id="FaO-gu-loM"/>
+                                    <outlet property="numberPlateBorder" destination="GAp-WO-ajz" id="FwB-pb-8Mt"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="eta" id="OzC-DS-NrQ" customClass="BusArrivalDetailsCell" customModule="Where_s_My_Bus" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="74" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="7" contentMode="center" tableViewCell="OzC-DS-NrQ" id="Bep-r3-iSF">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p9y-d8-KLP">
+                                            <rect key="frame" x="58" y="28" width="41" height="14"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <view tag="4" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jBr-9T-ZjP">
+                                            <rect key="frame" x="444" y="10" width="148" height="24"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NUMBER PLATE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DR7-nP-nDU">
+                                                    <rect key="frame" x="13" y="2" width="123" height="20"/>
+                                                    <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" red="0.99215686270000003" green="0.81176470590000005" blue="0.027450980390000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstItem="DR7-nP-nDU" firstAttribute="centerX" secondItem="jBr-9T-ZjP" secondAttribute="centerX" id="I1r-Ol-EaW"/>
+                                                <constraint firstItem="DR7-nP-nDU" firstAttribute="centerY" secondItem="jBr-9T-ZjP" secondAttribute="centerY" id="K8b-f3-1Gz"/>
+                                                <constraint firstAttribute="width" secondItem="DR7-nP-nDU" secondAttribute="width" multiplier="1.2" id="e0R-hL-E5l"/>
+                                                <constraint firstAttribute="height" secondItem="DR7-nP-nDU" secondAttribute="height" multiplier="1.2" id="fkU-9p-5xJ"/>
+                                            </constraints>
+                                        </view>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7hC-PI-lWu">
+                                            <rect key="frame" x="58" y="8" width="32" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="20" id="XWD-i0-4Ng"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <view tag="5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L6W-o4-3AG">
+                                            <rect key="frame" x="8" y="8.5" width="42" height="27"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="6" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="H28" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hWa-7t-U2F">
+                                                    <rect key="frame" x="5.5" y="3.5" width="31" height="20"/>
+                                                    <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="17"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" red="0.63137254899999995" green="0.0" blue="0.17254901959999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstItem="hWa-7t-U2F" firstAttribute="centerY" secondItem="L6W-o4-3AG" secondAttribute="centerY" id="gpl-qn-30M"/>
+                                                <constraint firstAttribute="height" secondItem="hWa-7t-U2F" secondAttribute="height" multiplier="1.35" id="jw9-Ka-72L"/>
+                                                <constraint firstItem="hWa-7t-U2F" firstAttribute="centerX" secondItem="L6W-o4-3AG" secondAttribute="centerX" id="rxw-36-70A"/>
+                                                <constraint firstAttribute="width" secondItem="hWa-7t-U2F" secondAttribute="width" multiplier="1.35" id="y1n-Mi-v9G"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="L6W-o4-3AG" firstAttribute="centerY" secondItem="Bep-r3-iSF" secondAttribute="centerY" id="6z0-o1-zFi"/>
+                                        <constraint firstItem="7hC-PI-lWu" firstAttribute="top" secondItem="Bep-r3-iSF" secondAttribute="topMargin" id="Dyq-LD-fAl"/>
+                                        <constraint firstAttribute="leadingMargin" secondItem="L6W-o4-3AG" secondAttribute="leading" id="HY2-q8-AEN"/>
+                                        <constraint firstItem="jBr-9T-ZjP" firstAttribute="centerY" secondItem="Bep-r3-iSF" secondAttribute="centerY" id="RcE-qT-wCs"/>
+                                        <constraint firstItem="p9y-d8-KLP" firstAttribute="leading" secondItem="7hC-PI-lWu" secondAttribute="leading" id="Xdc-9Z-8eL"/>
+                                        <constraint firstItem="p9y-d8-KLP" firstAttribute="top" secondItem="7hC-PI-lWu" secondAttribute="bottom" id="YZG-r9-WIG"/>
+                                        <constraint firstItem="p9y-d8-KLP" firstAttribute="leading" secondItem="L6W-o4-3AG" secondAttribute="trailing" constant="8" symbolic="YES" identifier="etaConstraint" id="ePQ-tH-ag3"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="jBr-9T-ZjP" secondAttribute="trailing" id="tvy-K4-9ds"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="direction" destination="p9y-d8-KLP" id="TXR-VV-6eR"/>
+                                    <outlet property="eta" destination="7hC-PI-lWu" id="cUY-PR-ryv"/>
+                                    <outlet property="numberPlate" destination="DR7-nP-nDU" id="Gh3-Ga-Wa1"/>
+                                    <outlet property="numberPlateBorder" destination="jBr-9T-ZjP" id="QRg-5t-TQx"/>
+                                    <outlet property="route" destination="hWa-7t-U2F" id="gFM-Ml-OZW"/>
+                                    <outlet property="routeBorder" destination="L6W-o4-3AG" id="otO-G8-XKb"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
+                        <sections/>
                         <connections>
                             <outlet property="dataSource" destination="KoQ-yI-usC" id="cBH-PJ-q85"/>
                             <outlet property="delegate" destination="KoQ-yI-usC" id="UJ1-Mc-CHn"/>
@@ -284,6 +370,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="xrI-hN-eWK"/>
+        <segue reference="JxO-Cq-WfJ"/>
     </inferredMetricsTieBreakers>
 </document>
