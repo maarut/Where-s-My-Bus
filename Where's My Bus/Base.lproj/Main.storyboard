@@ -15,9 +15,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <progressView key="tableHeaderView" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" id="Uen-Ak-aHe">
+                            <rect key="frame" x="0.0" y="64" width="600" height="2"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </progressView>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Favourite" rowHeight="80" id="Gl6-o0-fE7" customClass="FavouritesCell" customModule="Where_s_My_Bus" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="600" height="80"/>
+                                <rect key="frame" x="0.0" y="94" width="600" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Gl6-o0-fE7" id="ER1-vX-wYH">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="79.5"/>
@@ -113,6 +117,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="progressView" destination="Uen-Ak-aHe" id="9lF-E4-kRB"/>
                         <segue destination="p3W-Oe-Rfm" kind="show" identifier="BusStopDetailSegue" id="JxO-Cq-WfJ"/>
                     </connections>
                 </tableViewController>

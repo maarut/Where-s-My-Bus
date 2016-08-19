@@ -11,18 +11,24 @@ import CoreData
 
 class FavouritesViewController: UITableViewController
 {
+    @IBOutlet weak var progressView: UIProgressView!
+    
     var dataController: DataController!
     
     private var allFavourites: NSFetchedResultsController!
     private var favouritesMap = [NaptanId: FavouritesDetails]()
+    private var timer: NSTimer?
+    private var arrivalRefreshCounter = 3000
+    private let arrivalRefreshCounterInterval = 3000
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        navigationItem.title = "Favourite Bus Stops"
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 70
         refreshControl = UIRefreshControl()
-        refreshControl!.addTarget(self, action: #selector(refresh(_:)), forControlEvents: .ValueChanged)
+        refreshControl!.addTarget(self, action: #selector(refresh), forControlEvents: .ValueChanged)
         allFavourites = dataController.allFavourites()
         allFavourites.delegate = self
         do {
@@ -32,14 +38,29 @@ class FavouritesViewController: UITableViewController
             NSLog("\(error)\n\(error.localizedDescription)")
         }
         mapFavourites()
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(timerElapsed(_:)),
+            userInfo: nil, repeats: true)
     }
     
-    func refresh(control: UIRefreshControl)
+    func timerElapsed(timer: NSTimer)
     {
-        control.endRefreshing()
+        if arrivalRefreshCounter == 0 {
+            refresh()
+        }
+        else {
+            arrivalRefreshCounter -= 1
+        }
+        progressView.progress = Float(arrivalRefreshCounter) / Float(arrivalRefreshCounterInterval)
+    }
+    
+    func refresh()
+    {
+        arrivalRefreshCounter = arrivalRefreshCounterInterval
+        progressView.progress = 1.0
         for detail in favouritesMap.values {
             detail.refresh()
         }
+        refreshControl?.endRefreshing()
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
@@ -55,6 +76,14 @@ class FavouritesViewController: UITableViewController
             break
         default:
             break
+        }
+    }
+    
+    override func viewWillAppear(animated: Bool)
+    {
+        super.viewWillAppear(animated)
+        if let selectedRow = tableView.indexPathForSelectedRow {
+            tableView.deselectRowAtIndexPath(selectedRow, animated: true)
         }
     }
     
@@ -101,9 +130,12 @@ extension FavouritesViewController
                     routeInfo = ETAInformationView(frame: CGRectZero)
                     cell.stackView.addArrangedSubview(routeInfo)
                 }
+                let minutesToArrival = Int(details.arrivals[i].ETA / 60.0)
                 routeInfo.route.text = "\(details.arrivals[i].lineName)"
                 routeInfo.routeBorder.layer.cornerRadius = 3.0
-                routeInfo.eta.text = "\(details.arrivals[i].ETA)"
+                routeInfo.towards.text = details.arrivals[i].towards
+                if minutesToArrival == 0 { routeInfo.eta.text = "Due" }
+                else { routeInfo.eta.text = "\(minutesToArrival) min\(minutesToArrival == 1 ? "" : "s")" }
                 UIView.animateWithDuration(0.3) { routeInfo.hidden = false }
             }
             if details.arrivals.count < cell.stackView.arrangedSubviews.count {
@@ -143,6 +175,7 @@ extension FavouritesViewController: NSFetchedResultsControllerDelegate
     }
 }
 
+// MARK: - FavouritesDetails Class
 private class FavouritesDetails
 {
     let stationId: NaptanId
@@ -173,7 +206,7 @@ private class FavouritesDetails
         if let index = viewController?.allFavourites.fetchedObjects?
             .indexOf( { ($0 as! Favourite).naptanId == stationId } ) {
             let indexPath = NSIndexPath(forRow: index, inSection: 0)
-            viewController?.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            viewController?.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
         }
     }
 }

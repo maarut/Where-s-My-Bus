@@ -69,6 +69,7 @@ class BusStopDetailsViewController: UITableViewController
     func refresh()
     {
         arrivalRefreshCounter = arrivalRefreshCounterInterval
+        progressView.progress = 1.0
         if let stopPoint = stopPoint {
             TFLClient.instance.busArrivalTimesForStop(stopPoint.id , resultsProcessor: self)
         }
