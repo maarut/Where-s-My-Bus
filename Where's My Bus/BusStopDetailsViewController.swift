@@ -141,8 +141,6 @@ extension BusStopDetailsViewController
         case .ETA:
             cell.route.text = arrival
             cell.routeBorder.layer.cornerRadius = 3.0
-            cell.routeBorder.layer.borderWidth = 1.0
-            cell.routeBorder.layer.borderColor = UIColor(hexValue: 0xA1002C).CGColor
             break
         case .Route:
             break

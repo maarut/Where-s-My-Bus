@@ -78,7 +78,9 @@ class BusStopDetailsContainerViewController: UIViewController
     
     func updateNavigationItemTitle(stopPoint: StopPoint)
     {
-        navigationItem.title = stopPoint.stopLetter.isEmpty ? stopPoint.name : "Stop \(stopPoint.stopLetter)"
+        Dispatch.mainQueue.async {
+            self.navigationItem.title = stopPoint.stopLetter.isEmpty ? stopPoint.name : "Stop \(stopPoint.stopLetter)"
+        }
     }
     
     private func retrieveSortOrder() -> BusStopDetailsSortOrder
