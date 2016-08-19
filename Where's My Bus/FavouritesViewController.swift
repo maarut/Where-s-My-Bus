@@ -106,12 +106,12 @@ extension FavouritesViewController
                 routeInfo.eta.text = "\(details.arrivals[i].ETA)"
                 UIView.animateWithDuration(0.3) { routeInfo.hidden = false }
             }
-            while details.arrivals.count < cell.stackView.arrangedSubviews.count {
-                let subview = cell.stackView.arrangedSubviews.last!
-                cell.stackView.removeArrangedSubview(subview)
-                subview.removeFromSuperview()
+            if details.arrivals.count < cell.stackView.arrangedSubviews.count {
+                for i in details.arrivals.count ..< cell.stackView.arrangedSubviews.count {
+                    cell.stackView.arrangedSubviews[i].hidden = true
+                }
+                cell.stackView.layoutIfNeeded()
             }
-            cell.stackView.layoutIfNeeded()
             cell.layoutIfNeeded()
             return cell
         }

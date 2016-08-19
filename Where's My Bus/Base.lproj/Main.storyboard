@@ -11,16 +11,16 @@
         <scene sceneID="fO8-t7-qBd">
             <objects>
                 <tableViewController title="Favourites" id="KeJ-Pp-XGS" customClass="FavouritesViewController" customModule="Where_s_My_Bus" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="28" sectionFooterHeight="28" id="A56-pg-Wep">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="82" sectionHeaderHeight="28" sectionFooterHeight="28" id="A56-pg-Wep">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Favourite" id="Gl6-o0-fE7" customClass="FavouritesCell" customModule="Where_s_My_Bus" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="600" height="70"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Favourite" rowHeight="80" id="Gl6-o0-fE7" customClass="FavouritesCell" customModule="Where_s_My_Bus" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Gl6-o0-fE7" id="ER1-vX-wYH">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="69.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="79.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bus Stop Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ioS-9V-icE">
@@ -29,17 +29,17 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="FlI-R6-6aE">
-                                            <rect key="frame" x="20" y="37" width="80" height="25"/>
+                                        <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="35" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="FlI-R6-6aE">
+                                            <rect key="frame" x="20" y="37" width="560" height="35"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" placeholderIntrinsicWidth="80" placeholderIntrinsicHeight="27" translatesAutoresizingMaskIntoConstraints="NO" id="GBP-OG-0TV" customClass="ETAInformationView" customModule="Where_s_My_Bus" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="80" height="25"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="560" height="35"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AIn-MJ-Hso">
-                                                            <rect key="frame" x="0.0" y="0.0" width="42" height="25"/>
+                                                            <rect key="frame" x="0.0" y="4" width="41.5" height="27"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="H28" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wql-Ef-hyq">
-                                                                    <rect key="frame" x="6" y="3.5" width="31" height="19"/>
+                                                                    <rect key="frame" x="5.5" y="4" width="31" height="20"/>
                                                                     <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="17"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
@@ -47,32 +47,39 @@
                                                             </subviews>
                                                             <color key="backgroundColor" red="0.63137254899999995" green="0.0" blue="0.17254901959999999" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" secondItem="wql-Ef-hyq" secondAttribute="width" multiplier="1.35" id="3IM-gE-zxS" userLabel="Route Border Width is 1.35x Route Width"/>
-                                                                <constraint firstItem="wql-Ef-hyq" firstAttribute="centerX" secondItem="AIn-MJ-Hso" secondAttribute="centerX" id="D7B-nB-JHG" userLabel="Route Center X with Route Border"/>
-                                                                <constraint firstItem="wql-Ef-hyq" firstAttribute="centerY" secondItem="AIn-MJ-Hso" secondAttribute="centerY" id="QbA-Ay-4w2" userLabel="Route Center Y with Route Border"/>
-                                                                <constraint firstAttribute="height" secondItem="wql-Ef-hyq" secondAttribute="height" multiplier="1.35" id="slE-KN-2Ya" userLabel="Route Border Height is 1.35x Route Height"/>
+                                                                <constraint firstAttribute="width" secondItem="wql-Ef-hyq" secondAttribute="width" multiplier="1.35" identifier="Route Border Width is 1.35x Route Width" id="3IM-gE-zxS" userLabel="Route Border Width is 1.35x Route Width"/>
+                                                                <constraint firstItem="wql-Ef-hyq" firstAttribute="centerX" secondItem="AIn-MJ-Hso" secondAttribute="centerX" identifier="Route Center X with Route Border" id="D7B-nB-JHG" userLabel="Route Center X with Route Border"/>
+                                                                <constraint firstItem="wql-Ef-hyq" firstAttribute="centerY" secondItem="AIn-MJ-Hso" secondAttribute="centerY" identifier="Route Center Y with Route Border" id="QbA-Ay-4w2" userLabel="Route Center Y with Route Border"/>
+                                                                <constraint firstAttribute="height" secondItem="wql-Ef-hyq" secondAttribute="height" multiplier="1.35" identifier="Route Border Height is 1.35x Route Height" id="slE-KN-2Ya" userLabel="Route Border Height is 1.35x Route Height"/>
                                                             </constraints>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ETA" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w7A-K0-9TN">
-                                                            <rect key="frame" x="50" y="2.5" width="30" height="21"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <rect key="frame" x="49.5" y="0.0" width="28.5" height="19.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Towards" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gQc-uC-WYE">
+                                                            <rect key="frame" x="49.5" y="19.5" width="44" height="13.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="trailing" secondItem="w7A-K0-9TN" secondAttribute="trailing" identifier="ETA Label Trailing to Information View Trailing" id="E1g-8a-4X6" userLabel="ETA Label Trailing to Information View Trailing"/>
+                                                        <constraint firstItem="gQc-uC-WYE" firstAttribute="leading" secondItem="w7A-K0-9TN" secondAttribute="leading" identifier="Towards Label Leading to ETA Label Leading" id="7PT-mw-ftG" userLabel="Towards Label Leading to ETA Label Leading"/>
+                                                        <constraint firstItem="AIn-MJ-Hso" firstAttribute="centerY" secondItem="GBP-OG-0TV" secondAttribute="centerY" identifier="Route Border Center Y to Information View Center Y" id="KC9-y8-meB"/>
                                                         <constraint firstItem="AIn-MJ-Hso" firstAttribute="leading" secondItem="GBP-OG-0TV" secondAttribute="leading" identifier="Route Border Leading to Information View Leading" id="LBc-Z6-8RK" userLabel="Route Border Leading to Information View Leading"/>
-                                                        <constraint firstItem="AIn-MJ-Hso" firstAttribute="top" secondItem="GBP-OG-0TV" secondAttribute="top" identifier="Route Border Top to Information View Top" id="OZN-Av-VAP" userLabel="Route Border Top to Information View Top"/>
-                                                        <constraint firstItem="AIn-MJ-Hso" firstAttribute="bottom" secondItem="GBP-OG-0TV" secondAttribute="bottom" identifier="Route Border Bottom to Information View Bottom" id="cFU-D6-Rr1" userLabel="Route Border Bottom to Information View Bottom"/>
-                                                        <constraint firstItem="w7A-K0-9TN" firstAttribute="centerY" secondItem="AIn-MJ-Hso" secondAttribute="centerY" identifier="ETA Label Center Y to Route Border Center Y" id="g4S-Ne-ZPm" userLabel="ETA Label Center Y to Route Border Center Y"/>
+                                                        <constraint firstItem="gQc-uC-WYE" firstAttribute="top" secondItem="w7A-K0-9TN" secondAttribute="bottom" identifier="Towards Label Top to ETA Label Bottom" id="NED-Um-M2d" userLabel="Towards Label Top to ETA Label Bottom"/>
                                                         <constraint firstItem="w7A-K0-9TN" firstAttribute="leading" secondItem="AIn-MJ-Hso" secondAttribute="trailing" constant="8" symbolic="YES" identifier="ETA Label Leading to Route Border Trailing" id="hQr-yp-QHu" userLabel="ETA Label Leading to Route Border Trailing"/>
+                                                        <constraint firstItem="w7A-K0-9TN" firstAttribute="top" secondItem="GBP-OG-0TV" secondAttribute="top" identifier="ETA Label Top to Top Border" id="uvP-pW-ckA" userLabel="ETA Label Top to Top Border"/>
                                                     </constraints>
                                                     <connections>
                                                         <outlet property="eta" destination="w7A-K0-9TN" id="qK6-Fb-hXf"/>
                                                         <outlet property="route" destination="wql-Ef-hyq" id="fWJ-Gp-WkB"/>
                                                         <outlet property="routeBorder" destination="AIn-MJ-Hso" id="NdB-bU-1k9"/>
+                                                        <outlet property="towards" destination="gQc-uC-WYE" id="LJK-iF-gUc"/>
                                                     </connections>
                                                 </view>
                                             </subviews>
@@ -84,6 +91,7 @@
                                         <constraint firstItem="FlI-R6-6aE" firstAttribute="top" secondItem="ioS-9V-icE" secondAttribute="bottom" constant="8" symbolic="YES" identifier="Stackview top to Bus Stop Label Bottom" id="Lff-sx-Sqv" userLabel="Stackview top to Bus Stop Label Bottom"/>
                                         <constraint firstItem="ioS-9V-icE" firstAttribute="leading" secondItem="ER1-vX-wYH" secondAttribute="leading" constant="20" symbolic="YES" identifier="Bus Stop Label To Leading Margin" id="QKI-rt-jc1" userLabel="Bus Stop Label To Leading Margin"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="FlI-R6-6aE" secondAttribute="bottom" identifier="Stackview bottom to Bottom Margin" id="tmF-3G-mRT" userLabel="Stackview bottom to Bottom Margin"/>
+                                        <constraint firstAttribute="trailing" secondItem="FlI-R6-6aE" secondAttribute="trailing" constant="20" symbolic="YES" identifier="Stackview Trailing to Trailing Margin" id="zEW-hi-vz3" userLabel="StackviewTrailing to Trailing Margin"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -338,20 +346,11 @@
                                                 <constraint firstAttribute="height" secondItem="DR7-nP-nDU" secondAttribute="height" multiplier="1.2" id="fkU-9p-5xJ"/>
                                             </constraints>
                                         </view>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7hC-PI-lWu">
-                                            <rect key="frame" x="70" y="8" width="32" height="20"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="20" id="XWD-i0-4Ng"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <view tag="5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L6W-o4-3AG">
                                             <rect key="frame" x="20" y="8.5" width="42" height="27"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="6" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="H28" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hWa-7t-U2F">
-                                                    <rect key="frame" x="5.5" y="3.5" width="31" height="20"/>
+                                                    <rect key="frame" x="6" y="3" width="31" height="20"/>
                                                     <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -365,6 +364,15 @@
                                                 <constraint firstAttribute="width" secondItem="hWa-7t-U2F" secondAttribute="width" multiplier="1.35" id="y1n-Mi-v9G"/>
                                             </constraints>
                                         </view>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7hC-PI-lWu">
+                                            <rect key="frame" x="70" y="8" width="32" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="20" id="XWD-i0-4Ng"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="L6W-o4-3AG" firstAttribute="centerY" secondItem="Bep-r3-iSF" secondAttribute="centerY" id="6z0-o1-zFi"/>
