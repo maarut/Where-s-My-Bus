@@ -170,6 +170,24 @@ extension FavouritesViewController
         return UITableViewCell()
     }
     
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool
+    {
+        return true
+    }
+    
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle,
+        forRowAtIndexPath indexPath: NSIndexPath)
+    {
+        switch editingStyle {
+        case .Delete:
+            if let favourite = allFavourites.fetchedObjects?[indexPath.row] as? Favourite {
+                dataController.unfavourite(favourite.naptanId ?? "")
+            }
+            break
+        default:
+            break
+        }
+    }
 }
 
 // MARK: - UITableViewDelegate Implementation
@@ -186,12 +204,22 @@ extension FavouritesViewController
 // MARK: - NSFetchedResultsControllerDelegate Implementation
 extension FavouritesViewController: NSFetchedResultsControllerDelegate
 {
-    func controllerDidChangeContent(controller: NSFetchedResultsController)
+    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject,
+        atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?)
     {
-        Dispatch.mainQueue.async {
-            self.mapFavourites()
-            self.refreshProgressViewVisibility()
-            self.tableView.reloadData()
+        mapFavourites()
+        switch type {
+        case .Delete:
+            tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Left)
+            refreshProgressViewVisibility()
+            break
+        case .Insert:
+            tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
+            refreshProgressViewVisibility()
+            break
+        case .Move, .Update:
+            tableView.reloadRowsAtIndexPaths([indexPath!, newIndexPath!], withRowAnimation: .None)
+            break
         }
     }
 }
