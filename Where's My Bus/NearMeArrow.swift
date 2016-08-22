@@ -82,7 +82,7 @@ private class NearMeArrowView: UIView
     
     override convenience init(frame: CGRect)
     {
-        self.init(frame: frame, colour: UIColor(hexValue: 0x007AFE, alpha: 1.0), state: .Normal)
+        self.init(frame: frame, colour: NearMeArrow.defaultColour, state: .Normal)
     }
     
     required init?(coder aDecoder: NSCoder)

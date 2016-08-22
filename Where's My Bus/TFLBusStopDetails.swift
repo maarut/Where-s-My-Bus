@@ -91,12 +91,25 @@ private extension TFLBusStopDetails
     func parseChildren(json: [String: AnyObject]) -> [StopPoint]
     {
         if let children = json[StopPoint.ChildrenKey] as? [[String: AnyObject]] {
-            do {
-                return try children.flatMap { try StopPoint(json: $0) }
+            var parsedChildren = [StopPoint]()
+            for child in children {
+                do {
+                    if let parsedChild = try StopPoint(json: child) {
+                        parsedChildren.append(parsedChild)
+                    }
+                    
+                }
+                catch let error as NSError {
+                    if error.code != StopPointError.StopLetterKeyNotFound.rawValue {
+                        processError(error)
+                        return []
+                    }
+                    else {
+                        parsedChildren += parseChildren(child)
+                    }
+                }
             }
-            catch let error as NSError {
-                processError(error)
-            }
+            return parsedChildren
         }
         return []
     }

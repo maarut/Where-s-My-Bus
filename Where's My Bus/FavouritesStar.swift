@@ -69,7 +69,7 @@ private class FavouritesStarView: UIView
     
     override convenience init(frame: CGRect)
     {
-        self.init(frame: frame, colour: UIColor(hexValue: 0x007AFE, alpha: 1.0), state: .Empty)
+        self.init(frame: frame, colour: FavouritesStar.defaultColour, state: .Empty)
     }
     
     required init?(coder aDecoder: NSCoder)

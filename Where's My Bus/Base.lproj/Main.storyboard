@@ -11,7 +11,7 @@
         <scene sceneID="fO8-t7-qBd">
             <objects>
                 <tableViewController title="Favourites" id="KeJ-Pp-XGS" customClass="FavouritesViewController" customModule="Where_s_My_Bus" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="82" sectionHeaderHeight="28" sectionFooterHeight="28" id="A56-pg-Wep">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" id="A56-pg-Wep">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -43,7 +43,7 @@
                                                             <rect key="frame" x="0.0" y="4" width="41.5" height="27"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="H28" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wql-Ef-hyq">
-                                                                    <rect key="frame" x="5.5" y="4" width="31" height="20"/>
+                                                                    <rect key="frame" x="5.5" y="3.5" width="31" height="20"/>
                                                                     <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="17"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
@@ -211,19 +211,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VtQ-aU-goY">
-                                <rect key="frame" x="0.0" y="551" width="600" height="49"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QVU-aV-Tt7">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                                 <items>
-                                    <tabBarItem title="Route" id="BQQ-fg-VG5"/>
-                                    <tabBarItem title="ETA" id="nNH-qA-SHX"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="BZ2-MC-7yk"/>
+                                    <barButtonItem title="Sort" id="HmR-MT-QJK">
+                                        <connections>
+                                            <action selector="sortButtonTapped:" destination="p3W-Oe-Rfm" id="iWk-Wb-wUC"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Ngk-nb-rCF"/>
                                 </items>
-                                <connections>
-                                    <outlet property="delegate" destination="p3W-Oe-Rfm" id="b0h-dL-VTT"/>
-                                </connections>
-                            </tabBar>
+                            </toolbar>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ydn-Do-vZP">
-                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="492"/>
                                 <connections>
                                     <segue destination="KoQ-yI-usC" kind="embed" identifier="EmbedSegue" id="sYR-3l-KTM"/>
                                 </connections>
@@ -231,19 +232,18 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="VtQ-aU-goY" firstAttribute="bottom" secondItem="Zqf-qw-6Pc" secondAttribute="top" id="HoN-JO-39C"/>
-                            <constraint firstItem="VtQ-aU-goY" firstAttribute="top" secondItem="Ydn-Do-vZP" secondAttribute="bottom" id="ZWu-ra-F4J"/>
+                            <constraint firstItem="QVU-aV-Tt7" firstAttribute="top" secondItem="Ydn-Do-vZP" secondAttribute="bottom" id="Ctr-IJ-cud"/>
+                            <constraint firstAttribute="trailing" secondItem="QVU-aV-Tt7" secondAttribute="trailing" id="SGG-3a-Ww9"/>
                             <constraint firstItem="Ydn-Do-vZP" firstAttribute="top" secondItem="Vce-tz-PVU" secondAttribute="bottom" id="aVR-Fz-kyA"/>
-                            <constraint firstItem="Ydn-Do-vZP" firstAttribute="trailing" secondItem="VtQ-aU-goY" secondAttribute="trailing" id="bWo-eR-BzG"/>
                             <constraint firstItem="Ydn-Do-vZP" firstAttribute="leading" secondItem="6X1-x9-Jkx" secondAttribute="leading" id="fzc-WK-58f"/>
+                            <constraint firstItem="QVU-aV-Tt7" firstAttribute="leading" secondItem="6X1-x9-Jkx" secondAttribute="leading" id="hmq-rR-3WK"/>
                             <constraint firstAttribute="trailing" secondItem="Ydn-Do-vZP" secondAttribute="trailing" id="ixw-k3-F0X"/>
-                            <constraint firstItem="Ydn-Do-vZP" firstAttribute="leading" secondItem="VtQ-aU-goY" secondAttribute="leading" id="kyg-OC-ZTH"/>
+                            <constraint firstItem="Zqf-qw-6Pc" firstAttribute="top" secondItem="QVU-aV-Tt7" secondAttribute="bottom" id="nRH-Ln-INm"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="etaButton" destination="nNH-qA-SHX" id="Bou-5w-68E"/>
-                        <outlet property="routeButton" destination="BQQ-fg-VG5" id="nX5-c3-0RV"/>
-                        <outlet property="tabBar" destination="VtQ-aU-goY" id="Ren-D9-hpa"/>
+                        <outlet property="sortButton" destination="HmR-MT-QJK" id="RPx-lE-kni"/>
+                        <outlet property="toolbar" destination="QVU-aV-Tt7" id="WgS-Yj-cxX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eXV-5u-3Xj" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -255,7 +255,7 @@
             <objects>
                 <tableViewController id="KoQ-yI-usC" customClass="BusStopDetailsViewController" customModule="Where_s_My_Bus" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="6Mv-dD-If7">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="492"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <progressView key="tableHeaderView" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="1" id="ttv-ZA-E3R">

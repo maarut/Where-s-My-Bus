@@ -26,20 +26,13 @@ class FavouritesViewController: UITableViewController
         super.viewDidLoad()
         navigationItem.title = "Favourite Bus Stops"
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 70
+        tableView.estimatedRowHeight = 8000
         refreshControl = UIRefreshControl()
         refreshControl!.addTarget(self, action: #selector(refresh), forControlEvents: .ValueChanged)
         allFavourites = dataController.allFavourites()
         allFavourites.delegate = self
-        do {
-            try allFavourites.performFetch()
-        }
-        catch let error as NSError {
-            NSLog("\(error)\n\(error.localizedDescription)")
-        }
-        mapFavourites()
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(timerElapsed(_:)),
-            userInfo: nil, repeats: true)
+        do { try allFavourites.performFetch() }
+        catch let error as NSError { NSLog("\(error)\n\(error.localizedDescription)") }
     }
     
     func timerElapsed(timer: NSTimer)
@@ -85,6 +78,26 @@ class FavouritesViewController: UITableViewController
         if let selectedRow = tableView.indexPathForSelectedRow {
             tableView.deselectRowAtIndexPath(selectedRow, animated: true)
         }
+        refreshProgressViewVisibility()
+        mapFavourites()
+        tableView.reloadData()
+    }
+    
+    private func refreshProgressViewVisibility()
+    {
+        if allFavourites.fetchedObjects?.count ?? 0 == 0 {
+            timer?.invalidate()
+            timer = nil
+            UIView.animateWithDuration(0.3) { self.progressView.hidden = true }
+        }
+        else {
+            if !(timer?.valid ?? false) {
+                arrivalRefreshCounter = arrivalRefreshCounterInterval
+                timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self,
+                    selector: #selector(self.timerElapsed(_:)), userInfo: nil, repeats: true)
+                UIView.animateWithDuration(0.3) { self.progressView.hidden = false }
+            }
+        }
     }
     
     private func mapFavourites()
@@ -104,6 +117,36 @@ class FavouritesViewController: UITableViewController
             }
         }
     }
+    
+    private func configureCell(cell: FavouritesCell, with details: FavouritesDetails)
+    {
+        cell.stopName.text =
+            "\(details.stopPointLetter.isEmpty ? "" : "\(details.stopPointLetter) - ")\(details.stopPointName)"
+        for i in 0 ..< details.arrivals.count {
+            let routeInfo: ETAInformationView
+            if i < cell.stackView.arrangedSubviews.count {
+                routeInfo = cell.stackView.arrangedSubviews[i] as! ETAInformationView
+            }
+            else {
+                routeInfo = ETAInformationView(frame: CGRectZero)
+                cell.stackView.addArrangedSubview(routeInfo)
+            }
+            let minutesToArrival = Int(details.arrivals[i].ETA / 60.0)
+            routeInfo.route.text = "\(details.arrivals[i].lineName)"
+            routeInfo.routeBorder.layer.cornerRadius = 3.0
+            routeInfo.towards.text = details.arrivals[i].destination
+            if minutesToArrival == 0 { routeInfo.eta.text = "Due" }
+            else { routeInfo.eta.text = "\(minutesToArrival) min\(minutesToArrival == 1 ? "" : "s")" }
+            routeInfo.hidden = false
+        }
+        if details.arrivals.count < cell.stackView.arrangedSubviews.count {
+            for i in details.arrivals.count ..< cell.stackView.arrangedSubviews.count {
+                cell.stackView.arrangedSubviews[i].hidden = true
+            }
+            cell.stackView.layoutIfNeeded()
+        }
+        cell.layoutIfNeeded()
+    }
 }
 
 // MARK: - UITableViewDataSource Implementation
@@ -116,35 +159,12 @@ extension FavouritesViewController
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        if let cell = tableView.dequeueReusableCellWithIdentifier("Favourite") as? FavouritesCell,
-            let stationId = (allFavourites.fetchedObjects?[indexPath.row] as? Favourite)?.naptanId,
+        guard let cell = tableView.dequeueReusableCellWithIdentifier("Favourite") as? FavouritesCell else {
+            fatalError("Could not dequeue cell with identifier \"Favourite\". This should not happen.")
+        }
+        if let stationId = (allFavourites.fetchedObjects?[indexPath.row] as? Favourite)?.naptanId,
             let details = favouritesMap[stationId] {
-            cell.stopName.text =
-                "\(details.stopPointLetter.isEmpty ? "" : "\(details.stopPointLetter) - ")\(details.stopPointName)"
-            for i in 0 ..< details.arrivals.count {
-                let routeInfo: ETAInformationView
-                if i < cell.stackView.arrangedSubviews.count {
-                    routeInfo = cell.stackView.arrangedSubviews[i] as! ETAInformationView
-                }
-                else {
-                    routeInfo = ETAInformationView(frame: CGRectZero)
-                    cell.stackView.addArrangedSubview(routeInfo)
-                }
-                let minutesToArrival = Int(details.arrivals[i].ETA / 60.0)
-                routeInfo.route.text = "\(details.arrivals[i].lineName)"
-                routeInfo.routeBorder.layer.cornerRadius = 3.0
-                routeInfo.towards.text = details.arrivals[i].towards
-                if minutesToArrival == 0 { routeInfo.eta.text = "Due" }
-                else { routeInfo.eta.text = "\(minutesToArrival) min\(minutesToArrival == 1 ? "" : "s")" }
-                UIView.animateWithDuration(0.3) { routeInfo.hidden = false }
-            }
-            if details.arrivals.count < cell.stackView.arrangedSubviews.count {
-                for i in details.arrivals.count ..< cell.stackView.arrangedSubviews.count {
-                    cell.stackView.arrangedSubviews[i].hidden = true
-                }
-                cell.stackView.layoutIfNeeded()
-            }
-            cell.layoutIfNeeded()
+            configureCell(cell, with: details)
             return cell
         }
         return UITableViewCell()
@@ -170,6 +190,7 @@ extension FavouritesViewController: NSFetchedResultsControllerDelegate
     {
         Dispatch.mainQueue.async {
             self.mapFavourites()
+            self.refreshProgressViewVisibility()
             self.tableView.reloadData()
         }
     }
@@ -201,11 +222,18 @@ private class FavouritesDetails
         TFLClient.instance.busArrivalTimesForStop(stationId, resultsProcessor: self)
     }
     
-    private func reloadTableView()
+    private func indexPath() -> NSIndexPath?
     {
         if let index = viewController?.allFavourites.fetchedObjects?
             .indexOf( { ($0 as! Favourite).naptanId == stationId } ) {
-            let indexPath = NSIndexPath(forRow: index, inSection: 0)
+            return NSIndexPath(forRow: index, inSection: 0)
+        }
+        return nil
+    }
+    
+    private func reloadTableView()
+    {
+        if let indexPath = indexPath() {
             viewController?.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
         }
     }

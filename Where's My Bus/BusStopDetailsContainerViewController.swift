@@ -14,9 +14,8 @@ class BusStopDetailsContainerViewController: UIViewController
     var stationId: NaptanId?
     var dataController: DataController!
     
-    @IBOutlet weak var tabBar: UITabBar!
-    @IBOutlet weak var routeButton: UITabBarItem!
-    @IBOutlet weak var etaButton: UITabBarItem!
+    @IBOutlet weak var toolbar: UIToolbar!
+    @IBOutlet weak var sortButton: UIBarButtonItem!
     
     private var favouritedButton: UIBarButtonItem!
     private var addToFavouriteButton: UIBarButtonItem!
@@ -29,26 +28,16 @@ class BusStopDetailsContainerViewController: UIViewController
         addToFavouriteButton = UIBarButtonItem(image: FavouritesStar.get(.Empty),
             style: .Plain, target: self, action: #selector(toggleFavourite(_:)))
         if let stopPoint = stopPoint {
-            navigationItem.rightBarButtonItem = dataController.isFavourite(stopPoint.id) ?
-                favouritedButton :
-                addToFavouriteButton
+            addItemToToolbar(dataController.isFavourite(stopPoint.id) ? favouritedButton : addToFavouriteButton)
             updateNavigationItemTitle(stopPoint)
         }
         else if let stationId = stationId {
-            navigationItem.rightBarButtonItem = dataController.isFavourite(stationId) ?
-                favouritedButton :
-                addToFavouriteButton
+            addItemToToolbar(dataController.isFavourite(stationId) ? favouritedButton : addToFavouriteButton)
         }
-        routeButton.title = "↓Route"
-        etaButton.title = "↓ETA"
-        switch retrieveSortOrder() {
-        case .Route:
-            tabBar.selectedItem = routeButton
-            break
-        case .ETA:
-            tabBar.selectedItem = etaButton
-            break
-        }
+        var items = toolbar.items
+        items?[1] = UIBarButtonItem(image: SortOrderIcon.get(), style: .Plain, target: self,
+            action: #selector(sortButtonTapped(_:)))
+        toolbar.setItems(items, animated: false)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
@@ -65,14 +54,16 @@ class BusStopDetailsContainerViewController: UIViewController
     func toggleFavourite(control: UIBarButtonItem)
     {
         if let stationId = stationId ?? stopPoint?.id {
+            var items = toolbar.items
             if dataController.isFavourite(stationId) {
                 dataController.unfavourite(stationId)
-                navigationItem.rightBarButtonItem = addToFavouriteButton
+                items?[3] = addToFavouriteButton
             }
             else {
                 dataController.favourite(stationId)
-                navigationItem.rightBarButtonItem = favouritedButton
+                items?[3] = favouritedButton
             }
+            toolbar.setItems(items, animated: false)
         }
     }
     
@@ -83,7 +74,43 @@ class BusStopDetailsContainerViewController: UIViewController
         }
     }
     
-    private func retrieveSortOrder() -> BusStopDetailsSortOrder
+}
+
+// MARK: - IBActions
+extension BusStopDetailsContainerViewController
+{
+    @IBAction func sortButtonTapped(button: UIBarButtonItem)
+    {
+        let actionSheet = UIAlertController(title: "Sort Order",
+            message: "Select a criteria to sort by.", preferredStyle: .ActionSheet)
+        let route = UIAlertAction(title: "Route", style: .Default, handler: { _ in self.implementSortOrder(.Route) })
+        let eta = UIAlertAction(title: "ETA", style: .Default, handler: { _ in self.implementSortOrder(.ETA) })
+        let cancel = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        [route, eta, cancel].forEach { actionSheet.addAction($0) }
+        presentViewController(actionSheet, animated: true, completion: nil)
+    }
+}
+
+// MARK: - Private Functions
+private extension BusStopDetailsContainerViewController
+{
+    func addItemToToolbar(item: UIBarButtonItem)
+    {
+        var currentToolbarItems = toolbar.items
+        currentToolbarItems?.append(item)
+        currentToolbarItems?.append(UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil))
+        toolbar.setItems(currentToolbarItems, animated: false)
+    }
+    
+    func implementSortOrder(order: BusStopDetailsSortOrder)
+    {
+        if let childVC = childViewControllers.first as? BusStopDetailsViewController {
+            childVC.sortOrder = order
+            saveSortOrder(order)
+        }
+    }
+    
+    func retrieveSortOrder() -> BusStopDetailsSortOrder
     {
         if let bundleId = NSBundle.mainBundle().bundleIdentifier {
             let sortOrderRaw = NSUserDefaults.standardUserDefaults().integerForKey("\(bundleId).sortOrder")
@@ -92,7 +119,7 @@ class BusStopDetailsContainerViewController: UIViewController
         return .Route
     }
     
-    private func saveSortOrder(sortOrder: BusStopDetailsSortOrder)
+    func saveSortOrder(sortOrder: BusStopDetailsSortOrder)
     {
         if let bundleId = NSBundle.mainBundle().bundleIdentifier {
             let userDefaults = NSUserDefaults.standardUserDefaults()
@@ -100,24 +127,5 @@ class BusStopDetailsContainerViewController: UIViewController
             userDefaults.synchronize()
         }
     }
-}
-
-extension BusStopDetailsContainerViewController: UITabBarDelegate
-{
-    func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem)
-    {
-        tabBar.selectedItem = item
-        if let childVC = childViewControllers.first as? BusStopDetailsViewController {
-            let sortOrder: BusStopDetailsSortOrder
-            switch item {
-            case etaButton:
-                sortOrder = .ETA
-                break
-            default:
-                sortOrder = .Route
-            }
-            childVC.sortOrder = sortOrder
-            saveSortOrder(sortOrder)
-        }
-    }
+    
 }

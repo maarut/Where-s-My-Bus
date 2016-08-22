@@ -91,13 +91,15 @@ class ETAInformationView: UIView
     required init?(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
+        translatesAutoresizingMaskIntoConstraints = false
     }
     
     override func intrinsicContentSize() -> CGSize
     {
         let width = route.intrinsicContentSize().width * 1.35 +
             max(eta.intrinsicContentSize().width, towards.intrinsicContentSize().width)
-        let height = eta.intrinsicContentSize().height + towards.intrinsicContentSize().height
+        let height = max(route.intrinsicContentSize().height * 1.35,
+            eta.intrinsicContentSize().height + towards.intrinsicContentSize().height)
         return CGSize(width: width, height: height)
     }
 }

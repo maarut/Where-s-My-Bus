@@ -187,7 +187,10 @@ extension BusStopDetailsViewController: TFLBusStopDetailsProcessor
     func processStopPoint(stopPoint: StopPoint)
     {
         self.stopPoint = stopPoint
-        (parentViewController as? BusStopDetailsContainerViewController)?.updateNavigationItemTitle(stopPoint)
+        if let pvc = parentViewController as? BusStopDetailsContainerViewController {
+            pvc.updateNavigationItemTitle(stopPoint)
+        }
+        
         TFLClient.instance.busArrivalTimesForStop(stopPoint.id, resultsProcessor: self)
     }
 }
