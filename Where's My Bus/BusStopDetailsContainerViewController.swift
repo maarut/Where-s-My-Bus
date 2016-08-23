@@ -79,6 +79,11 @@ class BusStopDetailsContainerViewController: UIViewController
 // MARK: - IBActions
 extension BusStopDetailsContainerViewController
 {
+    @IBAction func editTapped(sender: UIBarButtonItem)
+    {
+        
+    }
+    
     @IBAction func sortButtonTapped(button: UIBarButtonItem)
     {
         let actionSheet = UIAlertController(title: "Sort Order",

@@ -92,6 +92,7 @@
 		E38A26951D4FDB44008C6F8E /* TFLClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLClient.swift; sourceTree = "<group>"; };
 		E38A26971D533E45008C6F8E /* Dispatch+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dispatch+Utils.swift"; sourceTree = "<group>"; };
 		E39314D31D6B482C0007B31B /* SortOrderIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortOrderIcon.swift; sourceTree = "<group>"; };
+		E39314D51D6C52900007B31B /* WheresMyBusModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WheresMyBusModel 2.xcdatamodel"; sourceTree = "<group>"; };
 		E3CA5C621D54ACD100FD668C /* BusStopDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusStopDetailsViewController.swift; sourceTree = "<group>"; };
 		E3CA5C641D54F27C00FD668C /* BusArrival.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusArrival.swift; sourceTree = "<group>"; };
 		E3CA5C661D5502C100FD668C /* TFLBusArrivalSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLBusArrivalSearch.swift; sourceTree = "<group>"; };
@@ -598,9 +599,10 @@
 		E36B789D1D4657D400F5C325 /* WheresMyBusModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				E39314D51D6C52900007B31B /* WheresMyBusModel 2.xcdatamodel */,
 				E36B789E1D4657D400F5C325 /* WheresMyBusModel.xcdatamodel */,
 			);
-			currentVersion = E36B789E1D4657D400F5C325 /* WheresMyBusModel.xcdatamodel */;
+			currentVersion = E39314D51D6C52900007B31B /* WheresMyBusModel 2.xcdatamodel */;
 			path = WheresMyBusModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

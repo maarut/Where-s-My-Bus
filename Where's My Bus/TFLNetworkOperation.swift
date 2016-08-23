@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 // MARK: - TFLNetworkOperationRequestor Protocol
 protocol TFLNetworkOperationRequestor
@@ -68,6 +69,7 @@ class TFLNetworkOperation: NSOperation
         }
         sessionTask = session.dataTaskWithRequest(requestor.request)
         sessionTask!.resume()
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     }
 }
 
@@ -105,7 +107,10 @@ extension TFLNetworkOperation: NSURLSessionDataDelegate
     
     func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?)
     {
-        defer { finished = true }
+        defer {
+            finished = true
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        }
         if cancelled {
             sessionTask?.cancel()
             return
@@ -115,7 +120,6 @@ extension TFLNetworkOperation: NSURLSessionDataDelegate
             return
         }
         processor.processData(NSData(data: incomingData))
-        
     }
 }
 

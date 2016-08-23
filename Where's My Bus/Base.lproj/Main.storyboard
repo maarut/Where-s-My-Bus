@@ -241,6 +241,13 @@
                             <constraint firstItem="Zqf-qw-6Pc" firstAttribute="top" secondItem="QVU-aV-Tt7" secondAttribute="bottom" id="nRH-Ln-INm"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="DiS-Fp-VGT">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="1CW-Nj-Zhv">
+                            <connections>
+                                <action selector="editTapped:" destination="p3W-Oe-Rfm" id="Ayu-xc-gBT"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="sortButton" destination="HmR-MT-QJK" id="RPx-lE-kni"/>
                         <outlet property="toolbar" destination="QVU-aV-Tt7" id="WgS-Yj-cxX"/>

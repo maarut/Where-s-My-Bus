@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15G31" minimumToolsVersion="Xcode 7.0">
+    <entity name="Favourite" representedClassName=".Favourite" syncable="YES">
+        <attribute name="naptanId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sortOrder" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="relationship" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Line" inverseName="relationship" inverseEntity="Line" syncable="YES"/>
+    </entity>
+    <entity name="Line" syncable="YES">
+        <attribute name="lineId" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="relationship" toMany="YES" deletionRule="Nullify" destinationEntity="Favourite" inverseName="relationship" inverseEntity="Favourite" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Favourite" positionX="-63" positionY="-18" width="128" height="88"/>
+        <element name="Line" positionX="-63" positionY="0" width="128" height="75"/>
+    </elements>
+</model>

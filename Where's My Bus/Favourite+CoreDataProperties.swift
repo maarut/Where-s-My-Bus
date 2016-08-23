@@ -15,5 +15,6 @@ import CoreData
 extension Favourite {
 
     @NSManaged var naptanId: String?
+    @NSManaged var sortOrder: NSNumber?
 
 }
