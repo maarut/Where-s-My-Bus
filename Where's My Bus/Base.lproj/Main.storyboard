@@ -15,12 +15,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <progressView key="tableHeaderView" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" id="Uen-Ak-aHe">
                             <rect key="frame" x="0.0" y="64" width="600" height="2"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </progressView>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Favourite" rowHeight="80" id="Gl6-o0-fE7" customClass="FavouritesCell" customModule="Where_s_My_Bus" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" showsReorderControl="YES" indentationWidth="10" reuseIdentifier="Favourite" rowHeight="80" id="Gl6-o0-fE7" customClass="FavouritesCell" customModule="Where_s_My_Bus" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="94" width="600" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Gl6-o0-fE7" id="ER1-vX-wYH">
@@ -107,6 +108,7 @@
                         <connections>
                             <outlet property="dataSource" destination="KeJ-Pp-XGS" id="BGb-Fo-ywS"/>
                             <outlet property="delegate" destination="KeJ-Pp-XGS" id="ARd-YO-HME"/>
+                            <outletCollection property="gestureRecognizers" destination="X81-kV-VBs" appends="YES" id="QOS-iT-Ukf"/>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="fuS-Ju-m9D">
@@ -117,11 +119,18 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addStopButton" destination="hgU-Bh-oY8" id="PN2-Jj-jfw"/>
+                        <outlet property="longPressGesture" destination="X81-kV-VBs" id="ub4-n7-tde"/>
                         <outlet property="progressView" destination="Uen-Ak-aHe" id="9lF-E4-kRB"/>
                         <segue destination="p3W-Oe-Rfm" kind="show" identifier="BusStopDetailSegue" id="JxO-Cq-WfJ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yw9-n4-um4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="X81-kV-VBs">
+                    <connections>
+                        <action selector="longPressRecognised:" destination="KeJ-Pp-XGS" id="HRn-fU-fpX"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1098" y="429"/>
         </scene>

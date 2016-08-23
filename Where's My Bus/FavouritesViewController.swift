@@ -12,6 +12,9 @@ import CoreData
 class FavouritesViewController: UITableViewController
 {
     @IBOutlet weak var progressView: UIProgressView!
+    @IBOutlet var longPressGesture: UILongPressGestureRecognizer!
+    @IBOutlet var addStopButton: UIBarButtonItem!
+    private var doneButton: UIBarButtonItem!
     
     var dataController: DataController!
     
@@ -29,31 +32,11 @@ class FavouritesViewController: UITableViewController
         tableView.estimatedRowHeight = 8000
         refreshControl = UIRefreshControl()
         refreshControl!.addTarget(self, action: #selector(refresh), forControlEvents: .ValueChanged)
+        doneButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(doneTapped(_:)))
         allFavourites = dataController.allFavourites()
         allFavourites.delegate = self
         do { try allFavourites.performFetch() }
         catch let error as NSError { NSLog("\(error)\n\(error.localizedDescription)") }
-    }
-    
-    func timerElapsed(timer: NSTimer)
-    {
-        if arrivalRefreshCounter == 0 {
-            refresh()
-        }
-        else {
-            arrivalRefreshCounter -= 1
-        }
-        progressView.progress = Float(arrivalRefreshCounter) / Float(arrivalRefreshCounterInterval)
-    }
-    
-    func refresh()
-    {
-        arrivalRefreshCounter = arrivalRefreshCounterInterval
-        progressView.progress = 1.0
-        for detail in favouritesMap.values {
-            detail.refresh()
-        }
-        refreshControl?.endRefreshing()
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
@@ -145,7 +128,51 @@ class FavouritesViewController: UITableViewController
             }
             cell.stackView.layoutIfNeeded()
         }
+        cell.showsReorderControl = true
         cell.layoutIfNeeded()
+    }
+}
+
+// MARK: - Event Handlers
+extension FavouritesViewController
+{
+    func timerElapsed(timer: NSTimer)
+    {
+        if arrivalRefreshCounter == 0 {
+            refresh()
+        }
+        else {
+            arrivalRefreshCounter -= 1
+        }
+        progressView.progress = Float(arrivalRefreshCounter) / Float(arrivalRefreshCounterInterval)
+    }
+    
+    func refresh()
+    {
+        arrivalRefreshCounter = arrivalRefreshCounterInterval
+        progressView.progress = 1.0
+        for detail in favouritesMap.values {
+            detail.refresh()
+        }
+        refreshControl?.endRefreshing()
+    }
+    
+    func doneTapped(button: UIBarButtonItem)
+    {
+        tableView.setEditing(false, animated: true)
+        navigationItem.setRightBarButtonItem(addStopButton, animated: true)
+    }
+    
+    @IBAction func longPressRecognised(sender: UILongPressGestureRecognizer)
+    {
+        switch sender.state {
+        case .Ended:
+            tableView.setEditing(true, animated: true)
+            navigationItem.setRightBarButtonItem(doneButton, animated: true)
+            break
+        default:
+            break
+        }
     }
 }
 
@@ -168,6 +195,29 @@ extension FavouritesViewController
             return cell
         }
         return UITableViewCell()
+    }
+    
+    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool
+    {
+        return true
+    }
+    
+    override func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath,
+        toIndexPath destinationIndexPath: NSIndexPath)
+    {
+        var favourites = self.allFavourites.fetchedObjects
+        if let obj = favourites?.removeAtIndex(sourceIndexPath.row) {
+            favourites?.insert(obj, atIndex: destinationIndexPath.row)
+        }
+        allFavourites.managedObjectContext.performBlock {
+            for i in 0 ..< (favourites?.count ?? 0) {
+                let favourite = favourites![i] as! Favourite
+                favourite.sortOrder = i
+            }
+            do { try self.allFavourites.managedObjectContext.save() }
+            catch let error as NSError { fatalError("\(error.localizedDescription)\n\(error)") }
+            self.dataController.save()
+        }
     }
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool
@@ -218,7 +268,7 @@ extension FavouritesViewController: NSFetchedResultsControllerDelegate
             refreshProgressViewVisibility()
             break
         case .Move, .Update:
-            tableView.reloadRowsAtIndexPaths([indexPath!, newIndexPath!], withRowAnimation: .None)
+            tableView.reloadRowsAtIndexPaths([indexPath, newIndexPath].flatMap { $0 }, withRowAnimation: .None)
             break
         }
     }
