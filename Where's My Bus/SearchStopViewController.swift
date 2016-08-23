@@ -38,19 +38,18 @@ class SearchStopViewController: UIViewController
         informationalOverlay.layer.cornerRadius = 10.0
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        authoriseLocationServices()
         normalNearMeBarButton = UIBarButtonItem(image: NearMeArrow.get(state: .Normal), style: .Plain,
             target: self, action: #selector(nearMePressed(_:)))
         pressedNearMeBarButton = UIBarButtonItem(image: NearMeArrow.get(state: .Pressed), style: .Plain,
             target: self, action: #selector(nearMePressed(_:)))
         resetToolbar()
-        locationManager.requestLocation()
     }
     
     override func viewWillAppear(animated: Bool)
     {
         super.viewWillAppear(animated)
         checkLocationServices()
+        locationManager.requestLocation()
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
@@ -141,6 +140,9 @@ private extension SearchStopViewController
                 UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
             }))
             presentViewController(alertVC, animated: true, completion: nil)
+        }
+        else {
+            authoriseLocationServices()
         }
     }
 }
@@ -246,7 +248,6 @@ extension SearchStopViewController: CLLocationManagerDelegate
         case CLError.Denied.rawValue:
             NSLog("Location services denied")
             locationManager.stopUpdatingLocation()
-            promptForLocationServicesDenied()
             break
         case CLError.LocationUnknown.rawValue:
             NSLog("Unable to determine location. Will try again later.")
