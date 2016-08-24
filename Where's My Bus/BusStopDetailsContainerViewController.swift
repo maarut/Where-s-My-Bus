@@ -42,13 +42,21 @@ class BusStopDetailsContainerViewController: UIViewController
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
     {
-        if segue.identifier == "EmbedSegue" {
+        switch segue.identifier ?? "" {
+        case "EmbedSegue":
             let nextVC = segue.destinationViewController as! BusStopDetailsViewController
             nextVC.dataController = dataController
             nextVC.stationId = stationId
             nextVC.stopPoint = stopPoint
             nextVC.sortOrder = retrieveSortOrder()
+            break
+        case "LineSelectionSegue":
+            NSLog("Line Selection Segue")
+            break
+        default:
+            break
         }
+        
     }
     
     func toggleFavourite(control: UIBarButtonItem)
@@ -79,11 +87,6 @@ class BusStopDetailsContainerViewController: UIViewController
 // MARK: - IBActions
 extension BusStopDetailsContainerViewController
 {
-    @IBAction func editTapped(sender: UIBarButtonItem)
-    {
-        
-    }
-    
     @IBAction func sortButtonTapped(button: UIBarButtonItem)
     {
         let actionSheet = UIAlertController(title: "Sort Order",
