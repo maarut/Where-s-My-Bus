@@ -68,6 +68,11 @@ class BusStopDetailsViewController: UITableViewController
     
     func refresh()
     {
+        if progressView.hidden {
+            progressView.hidden = false
+            timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(timerElapsed(_:)),
+                userInfo: nil, repeats: true)
+        }
         arrivalRefreshCounter = arrivalRefreshCounterInterval
         progressView.progress = 1.0
         if let stopPoint = stopPoint {
@@ -168,6 +173,17 @@ extension BusStopDetailsViewController: TFLBusArrivalSearchResultsProcessor
     func handleError(error: NSError)
     {
         NSLog("\(error)")
+        Dispatch.mainQueue.async {
+            if self.presentedViewController == nil {
+                let alertVC = UIAlertController(title: "Error Occurred", message: error.localizedDescription,
+                    preferredStyle: .Alert)
+                alertVC.addAction(UIAlertAction(title: "Dismiss", style: .Default, handler: nil))
+                self.presentViewController(alertVC, animated: true, completion: nil)
+                self.timer?.invalidate()
+                self.timer = nil
+                self.progressView.hidden = true
+            }
+        }
     }
     
     func processResults(arrivals: [BusArrival])

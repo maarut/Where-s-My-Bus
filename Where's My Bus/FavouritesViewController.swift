@@ -268,7 +268,6 @@ extension FavouritesViewController: NSFetchedResultsControllerDelegate
             refreshProgressViewVisibility()
             break
         case .Move, .Update:
-            tableView.reloadRowsAtIndexPaths([indexPath, newIndexPath].flatMap { $0 }, withRowAnimation: .None)
             break
         }
     }
@@ -321,7 +320,18 @@ extension FavouritesDetails: TFLBusStopDetailsProcessor
 {
     func handleError(error: NSError)
     {
-        NSLog("\(error)\n\(error.localizedDescription)")
+        NSLog("\(error)")
+        Dispatch.mainQueue.async {
+            if self.viewController?.presentedViewController == nil {
+                let alertVC = UIAlertController(title: "Error Occurred", message: error.localizedDescription,
+                    preferredStyle: .Alert)
+                alertVC.addAction(UIAlertAction(title: "Dismiss", style: .Default, handler: nil))
+                self.viewController?.presentViewController(alertVC, animated: true, completion: nil)
+                self.viewController?.timer?.invalidate()
+                self.viewController?.timer = nil
+                self.viewController?.progressView.hidden = true
+            }
+        }
     }
     
     func processStopPoint(stopPoint: StopPoint)

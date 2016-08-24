@@ -278,7 +278,15 @@ extension SearchStopViewController: TFLBusStopSearchResultsProcessor
     
     func handleError(error: NSError)
     {
-        NSLog("\(error)\n\(error.localizedDescription)")
+        NSLog("\(error)")
+        Dispatch.mainQueue.async {
+            if self.presentedViewController == nil {
+                let alertVC = UIAlertController(title: "Error Occurred", message: error.localizedDescription,
+                    preferredStyle: .Alert)
+                alertVC.addAction(UIAlertAction(title: "Dismiss", style: .Default, handler: nil))
+                self.presentViewController(alertVC, animated: true, completion: nil)
+            }
+        }
     }
 }
 
