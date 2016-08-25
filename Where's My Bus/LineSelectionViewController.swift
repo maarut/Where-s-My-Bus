@@ -10,22 +10,47 @@ import UIKit
 
 class LineSelectionViewController: UIViewController
 {
-    var favourite: Favourite?
+    var dataController: DataController!
+    var stopPoint: StopPoint!
+    
+    private var favourite: Favourite!
+    private var hiddenRoutes = [LineId]()
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        NSLog("\(navigationController == nil)")
+        if let favourite = dataController.retrieve(stopPoint.id)?.objectID {
+            self.favourite = dataController.mainThreadContext.objectWithID(favourite) as? Favourite
+        }
+        hiddenRoutes = self.favourite.hiddenRoutes?.flatMap { LineId(($0 as! Route).lineId!) } ?? []
     }
     
     @IBAction func closeButtonTapped(sender: UIBarButtonItem)
     {
         dismissViewControllerAnimated(true, completion: nil)
     }
+    
+    @IBAction func switchToggled(toggle: UISwitch)
+    {
+        let route = stopPoint.lines[toggle.tag]
+        if toggle.on {
+            dataController.removeHiddenRoute(route.id, from: favourite)
+            if let index = hiddenRoutes.indexOf(route.id) { hiddenRoutes.removeAtIndex(index) }
+        }
+        else {
+            hiddenRoutes.append(route.id)
+            dataController.addHiddenRoute(route.id, to: favourite)
+        }
+    }
 }
 
 extension LineSelectionViewController: UITableViewDelegate
 {
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
+    {
+        if section != 0 { return nil }
+        return "Select the routes that you would like to have visible in the Favourites screen."
+    }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
@@ -39,15 +64,17 @@ extension LineSelectionViewController: UITableViewDataSource
 {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return 5
+        return stopPoint?.lines.count ?? 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        if let cell = tableView.dequeueReusableCellWithIdentifier("LineSelection") {
-            return cell
-        }
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCellWithIdentifier("LineSelection") as! LineSelectionCell
+        let route = stopPoint.lines[indexPath.row]
+        cell.route.text = "\(route.name)"
+        cell.toggle.setOn(!hiddenRoutes.contains(route.id), animated: false)
+        cell.toggle.tag = indexPath.row
+        return cell
         
     }
 }

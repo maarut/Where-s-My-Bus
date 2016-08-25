@@ -258,6 +258,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="editButton" destination="1CW-Nj-Zhv" id="afx-rp-hb3"/>
                         <outlet property="sortButton" destination="HmR-MT-QJK" id="RPx-lE-kni"/>
                         <outlet property="toolbar" destination="QVU-aV-Tt7" id="WgS-Yj-cxX"/>
                     </connections>
@@ -278,12 +279,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Shs-mB-hTy">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Shs-mB-hTy">
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LineSelection" id="sHm-Bj-02B" customClass="LineSelectionCell" customModule="Where_s_My_Bus" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="49.5" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sHm-Bj-02B" id="pt5-SO-F7P">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -291,6 +292,9 @@
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YIX-qR-MFe">
                                                     <rect key="frame" x="531" y="6" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="switchToggled:" destination="W5a-M7-D3s" eventType="valueChanged" id="zJu-cp-Idl"/>
+                                                    </connections>
                                                 </switch>
                                                 <view tag="5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HgG-hH-Nau" userLabel="Route Border">
                                                     <rect key="frame" x="20" y="8" width="42" height="27"/>
@@ -329,7 +333,7 @@
                                     <outlet property="delegate" destination="W5a-M7-D3s" id="5vB-UX-zYA"/>
                                 </connections>
                             </tableView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="obZ-zk-62P">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="obZ-zk-62P">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="AOC-Ho-ge2"/>
@@ -339,15 +343,25 @@
                                         </connections>
                                     </barButtonItem>
                                 </items>
-                                <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="barTintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             </toolbar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ltp-NY-7TJ">
+                                <rect key="frame" x="0.0" y="64" width="600" height="1"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="MK8-UY-zSg"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="obZ-zk-62P" firstAttribute="leading" secondItem="eza-Dh-uZk" secondAttribute="leading" id="0pj-Vj-ZYn"/>
+                            <constraint firstItem="obZ-zk-62P" firstAttribute="bottom" secondItem="ltp-NY-7TJ" secondAttribute="top" id="5hV-wf-bfv"/>
+                            <constraint firstItem="ltp-NY-7TJ" firstAttribute="leading" secondItem="eza-Dh-uZk" secondAttribute="leading" id="DNn-7D-lgt"/>
                             <constraint firstItem="tb8-zt-CH1" firstAttribute="top" secondItem="Shs-mB-hTy" secondAttribute="bottom" id="FRh-EY-3PG"/>
                             <constraint firstAttribute="trailing" secondItem="obZ-zk-62P" secondAttribute="trailing" id="Gg3-IG-uzi"/>
                             <constraint firstAttribute="trailing" secondItem="Shs-mB-hTy" secondAttribute="trailing" id="Mb5-lh-ZiE"/>
+                            <constraint firstAttribute="trailing" secondItem="ltp-NY-7TJ" secondAttribute="trailing" id="ZlR-2d-h19"/>
                             <constraint firstItem="obZ-zk-62P" firstAttribute="bottom" secondItem="Shs-mB-hTy" secondAttribute="top" symbolic="YES" id="eQG-eu-MtG"/>
                             <constraint firstItem="Shs-mB-hTy" firstAttribute="leading" secondItem="eza-Dh-uZk" secondAttribute="leading" id="rrh-Z3-ZYw"/>
                             <constraint firstItem="obZ-zk-62P" firstAttribute="top" secondItem="VsX-YS-qB1" secondAttribute="bottom" id="uoO-cB-xbI"/>

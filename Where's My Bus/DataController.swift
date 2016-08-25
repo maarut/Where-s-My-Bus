@@ -86,7 +86,11 @@ class DataController
     {
         mainThreadContext.performBlock {
             if self.retrieve(naptanId) == nil {
-                let _ = Favourite(naptanId: naptanId, context: self.mainThreadContext)
+                let favourites = self.allFavourites()
+                do { try favourites.performFetch() }
+                catch let error as NSError { logErrorAndAbort(error) }
+                let favourite = Favourite(naptanId: naptanId, context: self.mainThreadContext)
+                favourite.sortOrder = favourites.fetchedObjects?.count ?? Int.max
                 self.save()
             }
         }
@@ -101,6 +105,31 @@ class DataController
         return isFavourite
     }
     
+    func addHiddenRoute(lineId: LineId, to favourite: Favourite)
+    {
+        favourite.managedObjectContext?.performBlock {
+            let route: Route
+            if let r = self.retrieveLineId(lineId) {
+                route = r
+            }
+            else {
+                route = Route(lineId: lineId, context: favourite.managedObjectContext!)
+            }
+            route.mutableSetValueForKey("favourites").addObject(favourite)
+            self.save()
+        }
+    }
+    
+    func removeHiddenRoute(lineId: LineId, from favourite: Favourite)
+    {
+        favourite.managedObjectContext?.performBlock {
+            if let route = favourite.hiddenRoutes?.filter( { ($0 as! Route).lineId == lineId } ).first as? Route {
+                route.mutableSetValueForKey("favourites").removeObject(favourite)
+                self.save()
+            }
+        }
+    }
+    
     func allFavourites() -> NSFetchedResultsController
     {
         let request = NSFetchRequest(entityName: "Favourite")
@@ -109,7 +138,7 @@ class DataController
             sectionNameKeyPath: nil, cacheName: nil)
     }
     
-    private func retrieve(naptanId: NaptanId) -> Favourite?
+    func retrieve(naptanId: NaptanId) -> Favourite?
     {
         let fetchRequest = NSFetchRequest(entityName: "Favourite")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "naptanId", ascending: true)]
@@ -117,6 +146,21 @@ class DataController
         do {
             let results = try self.mainThreadContext.executeFetchRequest(fetchRequest)
             return results.first as? Favourite
+        }
+        catch let error as NSError {
+            logErrorAndAbort(error)
+        }
+        return nil
+    }
+    
+    private func retrieveLineId(lineId: LineId) -> Route?
+    {
+        let fetchRequest = NSFetchRequest(entityName: "Route")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lineId", ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "lineId == %@", lineId)
+        do {
+            let results = try self.mainThreadContext.executeFetchRequest(fetchRequest)
+            return results.first as? Route
         }
         catch let error as NSError {
             logErrorAndAbort(error)

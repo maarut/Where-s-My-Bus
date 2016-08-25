@@ -17,7 +17,6 @@ enum BusStopDetailsSortOrder: Int
 class BusStopDetailsViewController: UITableViewController
 {
     var stopPoint: StopPoint?
-    var stationId: NaptanId?
     var dataController: DataController!
     var sortOrder: BusStopDetailsSortOrder! {
         didSet {
@@ -37,22 +36,25 @@ class BusStopDetailsViewController: UITableViewController
         super.viewDidLoad()
         refreshControl = UIRefreshControl()
         refreshControl!.addTarget(self, action: #selector(refresh), forControlEvents: .ValueChanged)
-        if let stationId = stationId {
-            TFLClient.instance.detailsForBusStop(stationId, resultsProcessor: self)
-        }
-        else if let stopPoint = stopPoint {
-            stationId = stopPoint.id
+        if let stopPoint = stopPoint {
             TFLClient.instance.busArrivalTimesForStop(stopPoint.id, resultsProcessor: self)
         }
-        
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(timerElapsed(_:)),
-            userInfo: nil, repeats: true)
+    }
+    
+    override func viewWillAppear(animated: Bool)
+    {
+        super.viewWillAppear(animated)
+        if timer == nil {
+            timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(timerElapsed(_:)),
+                userInfo: nil, repeats: true)
+        }
     }
     
     override func viewDidDisappear(animated: Bool)
     {
         super.viewDidDisappear(animated)
         timer?.invalidate()
+        timer = nil
     }
     
     func timerElapsed(timer: NSTimer)
@@ -193,20 +195,5 @@ extension BusStopDetailsViewController: TFLBusArrivalSearchResultsProcessor
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
         }
-    }
-}
-
-// MARK: - TFLBusStopDetailsProcessor Implementation
-// handleError(_:) implemented in TFLBusArrivalSearchResultsProcessor extension
-extension BusStopDetailsViewController: TFLBusStopDetailsProcessor
-{
-    func processStopPoint(stopPoint: StopPoint)
-    {
-        self.stopPoint = stopPoint
-        if let pvc = parentViewController as? BusStopDetailsContainerViewController {
-            pvc.updateNavigationItemTitle(stopPoint)
-        }
-        
-        TFLClient.instance.busArrivalTimesForStop(stopPoint.id, resultsProcessor: self)
     }
 }

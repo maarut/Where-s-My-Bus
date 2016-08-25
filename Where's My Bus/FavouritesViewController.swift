@@ -29,7 +29,7 @@ class FavouritesViewController: UITableViewController
         super.viewDidLoad()
         navigationItem.title = "Favourite Bus Stops"
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 8000
+        tableView.estimatedRowHeight = 800
         refreshControl = UIRefreshControl()
         refreshControl!.addTarget(self, action: #selector(refresh), forControlEvents: .ValueChanged)
         doneButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(doneTapped(_:)))
@@ -48,7 +48,7 @@ class FavouritesViewController: UITableViewController
         case .Some("BusStopDetailSegue"):
             let nextVC = (segue.destinationViewController as! BusStopDetailsContainerViewController)
             nextVC.dataController = dataController
-            nextVC.stationId = (sender as? Favourite)?.naptanId
+            nextVC.stopPoint = favouritesMap[(sender as? NaptanId)!]?.stopPoint
             break
         default:
             break
@@ -160,6 +160,8 @@ extension FavouritesViewController
     func doneTapped(button: UIBarButtonItem)
     {
         tableView.setEditing(false, animated: true)
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self,
+            selector: #selector(self.timerElapsed(_:)), userInfo: nil, repeats: true)
         navigationItem.setRightBarButtonItem(addStopButton, animated: true)
     }
     
@@ -168,6 +170,8 @@ extension FavouritesViewController
         switch sender.state {
         case .Ended:
             tableView.setEditing(true, animated: true)
+            timer?.invalidate()
+            timer = nil
             navigationItem.setRightBarButtonItem(doneButton, animated: true)
             break
         default:
@@ -246,7 +250,7 @@ extension FavouritesViewController
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         if let favourite = allFavourites.fetchedObjects?[indexPath.row] as? Favourite {
-            performSegueWithIdentifier("BusStopDetailSegue", sender: favourite)
+            performSegueWithIdentifier("BusStopDetailSegue", sender: favourite.naptanId)
         }
     }
 }
@@ -280,7 +284,9 @@ private class FavouritesDetails
     var stopPointLetter: String
     var stopPointName: String
     var lines: [LineId]
+    var stopPoint: StopPoint?
     var arrivals: [BusArrival]
+    var favourite: Favourite?
     weak var viewController: FavouritesViewController?
     
     init(stationId: NaptanId, viewController: FavouritesViewController)
@@ -291,6 +297,7 @@ private class FavouritesDetails
         stopPointLetter = ""
         lines = []
         self.viewController = viewController
+        favourite = viewController.dataController.retrieve(stationId)!
         TFLClient.instance.detailsForBusStop(stationId, resultsProcessor: self)
     }
     
@@ -340,6 +347,7 @@ extension FavouritesDetails: TFLBusStopDetailsProcessor
             self.stopPointLetter = stopPoint.stopLetter
             self.stopPointName = stopPoint.name
             self.lines = stopPoint.lines.map { $0.id }
+            self.stopPoint = stopPoint
             self.reloadTableView()
         }
     }
@@ -351,7 +359,9 @@ extension FavouritesDetails: TFLBusArrivalSearchResultsProcessor
     {
         Dispatch.mainQueue.async {
             self.arrivals = []
+            let hiddenRoutes = (self.favourite?.hiddenRoutes?.allObjects ?? []) as! [Route]
             for line in self.lines {
+                if hiddenRoutes.contains( { $0.lineId == line } ) { continue }
                 if let arrival = arrivals.filter( { $0.lineId == line } ).sort( { $0.ETA < $1.ETA } ).first {
                     self.arrivals.append(arrival)
                 }

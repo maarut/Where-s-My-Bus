@@ -11,11 +11,11 @@ import UIKit
 class BusStopDetailsContainerViewController: UIViewController
 {
     var stopPoint: StopPoint?
-    var stationId: NaptanId?
     var dataController: DataController!
     
     @IBOutlet weak var toolbar: UIToolbar!
     @IBOutlet weak var sortButton: UIBarButtonItem!
+    @IBOutlet var editButton: UIBarButtonItem!
     
     private var favouritedButton: UIBarButtonItem!
     private var addToFavouriteButton: UIBarButtonItem!
@@ -28,11 +28,15 @@ class BusStopDetailsContainerViewController: UIViewController
         addToFavouriteButton = UIBarButtonItem(image: FavouritesStar.get(.Empty),
             style: .Plain, target: self, action: #selector(toggleFavourite(_:)))
         if let stopPoint = stopPoint {
-            addItemToToolbar(dataController.isFavourite(stopPoint.id) ? favouritedButton : addToFavouriteButton)
+            if dataController.isFavourite(stopPoint.id) {
+                navigationItem.setRightBarButtonItem(editButton, animated: true)
+                addItemToToolbar(favouritedButton)
+            }
+            else {
+                navigationItem.setRightBarButtonItem(nil, animated: true)
+                addItemToToolbar(addToFavouriteButton)
+            }
             updateNavigationItemTitle(stopPoint)
-        }
-        else if let stationId = stationId {
-            addItemToToolbar(dataController.isFavourite(stationId) ? favouritedButton : addToFavouriteButton)
         }
         var items = toolbar.items
         items?[1] = UIBarButtonItem(image: SortOrderIcon.get(), style: .Plain, target: self,
@@ -46,12 +50,13 @@ class BusStopDetailsContainerViewController: UIViewController
         case "EmbedSegue":
             let nextVC = segue.destinationViewController as! BusStopDetailsViewController
             nextVC.dataController = dataController
-            nextVC.stationId = stationId
             nextVC.stopPoint = stopPoint
             nextVC.sortOrder = retrieveSortOrder()
             break
         case "LineSelectionSegue":
-            NSLog("Line Selection Segue")
+            let nextVC = segue.destinationViewController as! LineSelectionViewController
+            nextVC.dataController = dataController
+            nextVC.stopPoint = stopPoint
             break
         default:
             break
@@ -61,15 +66,17 @@ class BusStopDetailsContainerViewController: UIViewController
     
     func toggleFavourite(control: UIBarButtonItem)
     {
-        if let stationId = stationId ?? stopPoint?.id {
+        if let stationId = stopPoint?.id {
             var items = toolbar.items
             if dataController.isFavourite(stationId) {
                 dataController.unfavourite(stationId)
                 items?[3] = addToFavouriteButton
+                navigationItem.setRightBarButtonItem(nil, animated: true)
             }
             else {
                 dataController.favourite(stationId)
                 items?[3] = favouritedButton
+                navigationItem.setRightBarButtonItem(editButton, animated: true)
             }
             toolbar.setItems(items, animated: false)
         }

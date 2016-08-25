@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		E324CAA51D5A41BE00BC19E0 /* UIColor+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E324CAA41D5A41BE00BC19E0 /* UIColor+Utils.swift */; };
 		E324CAA71D5B842700BC19E0 /* FavouritesStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E324CAA61D5B842700BC19E0 /* FavouritesStar.swift */; };
-		E324CAAA1D5C9FDF00BC19E0 /* Favourite+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E324CAA81D5C9FDF00BC19E0 /* Favourite+CoreDataProperties.swift */; };
 		E324CAAB1D5C9FDF00BC19E0 /* Favourite.swift in Sources */ = {isa = PBXBuildFile; fileRef = E324CAA91D5C9FDF00BC19E0 /* Favourite.swift */; };
 		E324CAAE1D5E110600BC19E0 /* TFLBusStopDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = E324CAAD1D5E110600BC19E0 /* TFLBusStopDetails.swift */; };
 		E3638A3A1D58BBD700AEBF4F /* NearMeArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3638A391D58BBD700AEBF4F /* NearMeArrow.swift */; };
@@ -40,6 +39,9 @@
 		E39314D41D6B482C0007B31B /* SortOrderIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39314D31D6B482C0007B31B /* SortOrderIcon.swift */; };
 		E39314D71D6DF4860007B31B /* LineSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39314D61D6DF4860007B31B /* LineSelectionViewController.swift */; };
 		E39314D91D6DF6CA0007B31B /* LineSelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39314D81D6DF6CA0007B31B /* LineSelectionCell.swift */; };
+		E39314DC1D6E318B0007B31B /* Route+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39314DA1D6E318B0007B31B /* Route+CoreDataProperties.swift */; };
+		E39314DD1D6E318B0007B31B /* Favourite+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39314DB1D6E318B0007B31B /* Favourite+CoreDataProperties.swift */; };
+		E39314E31D6E324C0007B31B /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39314E21D6E324C0007B31B /* Route.swift */; };
 		E3CA5C631D54ACD100FD668C /* BusStopDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CA5C621D54ACD100FD668C /* BusStopDetailsViewController.swift */; };
 		E3CA5C651D54F27C00FD668C /* BusArrival.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CA5C641D54F27C00FD668C /* BusArrival.swift */; };
 		E3CA5C671D5502C100FD668C /* TFLBusArrivalSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CA5C661D5502C100FD668C /* TFLBusArrivalSearch.swift */; };
@@ -58,7 +60,6 @@
 /* Begin PBXFileReference section */
 		E324CAA41D5A41BE00BC19E0 /* UIColor+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Utils.swift"; sourceTree = "<group>"; };
 		E324CAA61D5B842700BC19E0 /* FavouritesStar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavouritesStar.swift; sourceTree = "<group>"; };
-		E324CAA81D5C9FDF00BC19E0 /* Favourite+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Favourite+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E324CAA91D5C9FDF00BC19E0 /* Favourite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Favourite.swift; sourceTree = "<group>"; };
 		E324CAAD1D5E110600BC19E0 /* TFLBusStopDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLBusStopDetails.swift; sourceTree = "<group>"; };
 		E3638A391D58BBD700AEBF4F /* NearMeArrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearMeArrow.swift; sourceTree = "<group>"; };
@@ -97,6 +98,9 @@
 		E39314D51D6C52900007B31B /* WheresMyBusModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WheresMyBusModel 2.xcdatamodel"; sourceTree = "<group>"; };
 		E39314D61D6DF4860007B31B /* LineSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineSelectionViewController.swift; sourceTree = "<group>"; };
 		E39314D81D6DF6CA0007B31B /* LineSelectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineSelectionCell.swift; sourceTree = "<group>"; };
+		E39314DA1D6E318B0007B31B /* Route+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Route+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		E39314DB1D6E318B0007B31B /* Favourite+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Favourite+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		E39314E21D6E324C0007B31B /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		E3CA5C621D54ACD100FD668C /* BusStopDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusStopDetailsViewController.swift; sourceTree = "<group>"; };
 		E3CA5C641D54F27C00FD668C /* BusArrival.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusArrival.swift; sourceTree = "<group>"; };
 		E3CA5C661D5502C100FD668C /* TFLBusArrivalSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLBusArrivalSearch.swift; sourceTree = "<group>"; };
@@ -123,7 +127,9 @@
 		E324CAAC1D5C9FF400BC19E0 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				E324CAA81D5C9FDF00BC19E0 /* Favourite+CoreDataProperties.swift */,
+				E39314DA1D6E318B0007B31B /* Route+CoreDataProperties.swift */,
+				E39314E21D6E324C0007B31B /* Route.swift */,
+				E39314DB1D6E318B0007B31B /* Favourite+CoreDataProperties.swift */,
 				E324CAA91D5C9FDF00BC19E0 /* Favourite.swift */,
 				E36B789B1D46538900F5C325 /* DataController.swift */,
 			);
@@ -363,13 +369,13 @@
 				E36AB3E61D62369E0072FE98 /* BusStopDetailsContainerViewController.swift in Sources */,
 				E36B787A1D46242E00F5C325 /* FavouritesViewController.swift in Sources */,
 				E324CAA71D5B842700BC19E0 /* FavouritesStar.swift in Sources */,
-				E324CAAA1D5C9FDF00BC19E0 /* Favourite+CoreDataProperties.swift in Sources */,
 				E36B78A81D46992B00F5C325 /* TFLConstants.swift in Sources */,
 				E36B78B41D4A15AF00F5C325 /* StopPoint.swift in Sources */,
 				E36AB41A1D65AFFA0072FE98 /* ETAInformationView.swift in Sources */,
 				E36B78AC1D491FAD00F5C325 /* TFLURL.swift in Sources */,
 				E36AB4181D650BF70072FE98 /* FavouritesCell.swift in Sources */,
 				E36B789C1D46538900F5C325 /* DataController.swift in Sources */,
+				E39314E31D6E324C0007B31B /* Route.swift in Sources */,
 				E36B78B81D4BA67400F5C325 /* TFLBusStopSearch.swift in Sources */,
 				E39314D71D6DF4860007B31B /* LineSelectionViewController.swift in Sources */,
 				E324CAA51D5A41BE00BC19E0 /* UIColor+Utils.swift in Sources */,
@@ -383,6 +389,7 @@
 				E39314D41D6B482C0007B31B /* SortOrderIcon.swift in Sources */,
 				E324CAAE1D5E110600BC19E0 /* TFLBusStopDetails.swift in Sources */,
 				E324CAAB1D5C9FDF00BC19E0 /* Favourite.swift in Sources */,
+				E39314DD1D6E318B0007B31B /* Favourite+CoreDataProperties.swift in Sources */,
 				E36B78B61D4B6D0B00F5C325 /* Line.swift in Sources */,
 				E36B789F1D4657D400F5C325 /* WheresMyBusModel.xcdatamodeld in Sources */,
 				E38A26981D533E45008C6F8E /* Dispatch+Utils.swift in Sources */,
@@ -390,6 +397,7 @@
 				E36B78AF1D4926A000F5C325 /* Range+Utils.swift in Sources */,
 				E39314D91D6DF6CA0007B31B /* LineSelectionCell.swift in Sources */,
 				E3CA5C631D54ACD100FD668C /* BusStopDetailsViewController.swift in Sources */,
+				E39314DC1D6E318B0007B31B /* Route+CoreDataProperties.swift in Sources */,
 				E36B78AA1D491CA900F5C325 /* TFLNetworkOperation.swift in Sources */,
 				E36B78A61D4678FA00F5C325 /* Constants.m in Sources */,
 			);

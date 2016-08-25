@@ -1,5 +1,5 @@
 //
-//  Favourite+CoreDataProperties.swift
+//  Route+CoreDataProperties.swift
 //  Where's My Bus
 //
 //  Created by Maarut Chandegra on 24/08/2016.
@@ -12,10 +12,9 @@
 import Foundation
 import CoreData
 
-extension Favourite {
+extension Route {
 
-    @NSManaged var naptanId: String?
-    @NSManaged var sortOrder: NSNumber?
-    @NSManaged var hiddenRoutes: NSSet?
+    @NSManaged var lineId: String?
+    @NSManaged var favourites: NSSet?
 
 }

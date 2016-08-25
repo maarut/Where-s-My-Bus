@@ -3,14 +3,14 @@
     <entity name="Favourite" representedClassName=".Favourite" syncable="YES">
         <attribute name="naptanId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sortOrder" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <relationship name="relationship" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Line" inverseName="relationship" inverseEntity="Line" syncable="YES"/>
+        <relationship name="hiddenRoutes" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Route" inverseName="favourites" inverseEntity="Route" syncable="YES"/>
     </entity>
-    <entity name="Line" syncable="YES">
+    <entity name="Route" representedClassName=".Route" syncable="YES">
         <attribute name="lineId" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="relationship" toMany="YES" deletionRule="Nullify" destinationEntity="Favourite" inverseName="relationship" inverseEntity="Favourite" syncable="YES"/>
+        <relationship name="favourites" toMany="YES" deletionRule="Nullify" destinationEntity="Favourite" inverseName="hiddenRoutes" inverseEntity="Favourite" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Favourite" positionX="-63" positionY="-18" width="128" height="88"/>
-        <element name="Line" positionX="-63" positionY="0" width="128" height="75"/>
+        <element name="Favourite" positionX="-63" positionY="-18" width="128" height="90"/>
+        <element name="Route" positionX="-63" positionY="0" width="128" height="75"/>
     </elements>
 </model>

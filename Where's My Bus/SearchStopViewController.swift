@@ -43,11 +43,6 @@ class SearchStopViewController: UIViewController
         pressedNearMeBarButton = UIBarButtonItem(image: NearMeArrow.get(state: .Pressed), style: .Plain,
             target: self, action: #selector(nearMePressed(_:)))
         resetToolbar()
-    }
-    
-    override func viewWillAppear(animated: Bool)
-    {
-        super.viewWillAppear(animated)
         checkLocationServices()
         locationManager.requestLocation()
     }
