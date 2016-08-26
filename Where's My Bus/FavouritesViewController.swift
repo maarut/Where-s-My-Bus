@@ -87,7 +87,7 @@ class FavouritesViewController: UITableViewController
     {
         let fetchedObjects = allFavourites.fetchedObjects ?? []
         for favourite in fetchedObjects {
-            if let stationId = (favourite as! Favourite).naptanId {
+            if let stationId = (favourite as! Favourite).stationId {
                 if favouritesMap[stationId] == nil {
                     favouritesMap[stationId] = FavouritesDetails(stationId: stationId, viewController: self)
                 }
@@ -95,7 +95,7 @@ class FavouritesViewController: UITableViewController
             }
         }
         for stationId in favouritesMap.keys {
-            if !fetchedObjects.contains( { ($0 as! Favourite).naptanId == stationId }) {
+            if !fetchedObjects.contains( { ($0 as! Favourite).stationId == stationId }) {
                 favouritesMap[stationId] = nil
             }
         }
@@ -193,7 +193,7 @@ extension FavouritesViewController
         guard let cell = tableView.dequeueReusableCellWithIdentifier("Favourite") as? FavouritesCell else {
             fatalError("Could not dequeue cell with identifier \"Favourite\". This should not happen.")
         }
-        if let stationId = (allFavourites.fetchedObjects?[indexPath.row] as? Favourite)?.naptanId,
+        if let stationId = (allFavourites.fetchedObjects?[indexPath.row] as? Favourite)?.stationId,
             let details = favouritesMap[stationId] {
             configureCell(cell, with: details)
             return cell
@@ -235,7 +235,7 @@ extension FavouritesViewController
         switch editingStyle {
         case .Delete:
             if let favourite = allFavourites.fetchedObjects?[indexPath.row] as? Favourite {
-                dataController.unfavourite(favourite.naptanId ?? "")
+                dataController.unfavourite(favourite.stationId ?? "")
             }
             break
         default:
@@ -250,7 +250,7 @@ extension FavouritesViewController
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         if let favourite = allFavourites.fetchedObjects?[indexPath.row] as? Favourite {
-            performSegueWithIdentifier("BusStopDetailSegue", sender: favourite.naptanId)
+            performSegueWithIdentifier("BusStopDetailSegue", sender: favourite.stationId)
         }
     }
 }
@@ -286,18 +286,18 @@ private class FavouritesDetails
     var lines: [LineId]
     var stopPoint: StopPoint?
     var arrivals: [BusArrival]
-    var favourite: Favourite?
+    var favourite: Favourite
     weak var viewController: FavouritesViewController?
     
     init(stationId: NaptanId, viewController: FavouritesViewController)
     {
         self.stationId = stationId
-        arrivals = []
-        stopPointName = ""
-        stopPointLetter = ""
-        lines = []
-        self.viewController = viewController
         favourite = viewController.dataController.retrieve(stationId)!
+        stopPointName = favourite.stopName!
+        stopPointLetter = favourite.stopLetter!
+        lines = favourite.routes!.allObjects.flatMap { ($0 as! Route).lineId }
+        self.viewController = viewController
+        arrivals = []
         TFLClient.instance.detailsForBusStop(stationId, resultsProcessor: self)
     }
     
@@ -309,7 +309,7 @@ private class FavouritesDetails
     private func indexPath() -> NSIndexPath?
     {
         if let index = viewController?.allFavourites.fetchedObjects?
-            .indexOf( { ($0 as! Favourite).naptanId == stationId } ) {
+            .indexOf( { ($0 as! Favourite).stationId == stationId } ) {
             return NSIndexPath(forRow: index, inSection: 0)
         }
         return nil
@@ -348,6 +348,23 @@ extension FavouritesDetails: TFLBusStopDetailsProcessor
             self.stopPointName = stopPoint.name
             self.lines = stopPoint.lines.map { $0.id }
             self.stopPoint = stopPoint
+            if self.favourite.stopLetter != self.stopPointLetter { self.favourite.stopLetter = self.stopPointLetter }
+            if self.favourite.stopName != self.stopPointName { self.favourite.stopName = self.stopPointName }
+            let currentRoutes = self.favourite.routes!.allObjects.flatMap { ($0 as! Route).lineId }
+            if currentRoutes != self.lines {
+                for line in stopPoint.lines {
+                    if !currentRoutes.contains(line.id) {
+                        let route = Route(line: line, context: self.favourite.managedObjectContext!)
+                        route.favourite = self.favourite
+                        self.favourite.routes?.mutableCopy().addObject(route)
+                    }
+                }
+                for route in self.favourite.routes! {
+                    if !self.lines.contains(LineId(route.lineId!)) {
+                        self.favourite.routes?.mutableCopy().removeObject(route)
+                    }
+                }
+            }
             self.reloadTableView()
         }
     }
@@ -359,7 +376,9 @@ extension FavouritesDetails: TFLBusArrivalSearchResultsProcessor
     {
         Dispatch.mainQueue.async {
             self.arrivals = []
-            let hiddenRoutes = (self.favourite?.hiddenRoutes?.allObjects ?? []) as! [Route]
+            let hiddenRoutes = (self.favourite.routes!.allObjects.filter {
+                ($0 as! Route).isHidden?.boolValue ?? false
+            } ?? []) as! [Route]
             for line in self.lines {
                 if hiddenRoutes.contains( { $0.lineId == line } ) { continue }
                 if let arrival = arrivals.filter( { $0.lineId == line } ).sort( { $0.ETA < $1.ETA } ).first {

@@ -157,7 +157,7 @@ extension SearchStopViewController: MKMapViewDelegate
                     dataController.unfavourite(annotation.stopPoint.id)
                 }
                 else {
-                    dataController.favourite(annotation.stopPoint.id)
+                    dataController.favourite(annotation.stopPoint)
                 }
             }
         }
@@ -298,8 +298,8 @@ extension SearchStopViewController: NSFetchedResultsControllerDelegate
             }
             let favourites = controller.fetchedObjects as! [Favourite]
             for favourite in favourites {
-                let annotations = busStops.filter { $0.stopPoint.id == favourite.naptanId }
-                if let annotation = annotations.first, let view = self.map.viewForAnnotation(annotation) {
+                if let annotation = busStops.first( { $0.stopPoint.id == favourite.stationId } ),
+                    let view = self.map.viewForAnnotation(annotation) {
                     (view.leftCalloutAccessoryView as! UIButton).setImage(
                         FavouritesStar.get(.Filled), forState: .Normal)
                 }

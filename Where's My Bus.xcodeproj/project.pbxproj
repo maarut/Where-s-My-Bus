@@ -34,6 +34,7 @@
 		E36B78B41D4A15AF00F5C325 /* StopPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78B31D4A15AF00F5C325 /* StopPoint.swift */; };
 		E36B78B61D4B6D0B00F5C325 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78B51D4B6D0B00F5C325 /* Line.swift */; };
 		E36B78B81D4BA67400F5C325 /* TFLBusStopSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78B71D4BA67400F5C325 /* TFLBusStopSearch.swift */; };
+		E38892EC1D7070900078BCCB /* Array+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38892EB1D7070900078BCCB /* Array+Utils.swift */; };
 		E38A26961D4FDB44008C6F8E /* TFLClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38A26951D4FDB44008C6F8E /* TFLClient.swift */; };
 		E38A26981D533E45008C6F8E /* Dispatch+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38A26971D533E45008C6F8E /* Dispatch+Utils.swift */; };
 		E39314D41D6B482C0007B31B /* SortOrderIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39314D31D6B482C0007B31B /* SortOrderIcon.swift */; };
@@ -92,6 +93,7 @@
 		E36B78B31D4A15AF00F5C325 /* StopPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopPoint.swift; sourceTree = "<group>"; };
 		E36B78B51D4B6D0B00F5C325 /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		E36B78B71D4BA67400F5C325 /* TFLBusStopSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLBusStopSearch.swift; sourceTree = "<group>"; };
+		E38892EB1D7070900078BCCB /* Array+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Utils.swift"; sourceTree = "<group>"; };
 		E38A26951D4FDB44008C6F8E /* TFLClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLClient.swift; sourceTree = "<group>"; };
 		E38A26971D533E45008C6F8E /* Dispatch+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dispatch+Utils.swift"; sourceTree = "<group>"; };
 		E39314D31D6B482C0007B31B /* SortOrderIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortOrderIcon.swift; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 				E36B78AE1D4926A000F5C325 /* Range+Utils.swift */,
 				E38A26971D533E45008C6F8E /* Dispatch+Utils.swift */,
 				E324CAA41D5A41BE00BC19E0 /* UIColor+Utils.swift */,
+				E38892EB1D7070900078BCCB /* Array+Utils.swift */,
 			);
 			name = utils;
 			sourceTree = "<group>";
@@ -385,6 +388,7 @@
 				E36B78781D46242E00F5C325 /* AppDelegate.swift in Sources */,
 				E36B789A1D46517400F5C325 /* SearchStopViewController.swift in Sources */,
 				E3CA5C671D5502C100FD668C /* TFLBusArrivalSearch.swift in Sources */,
+				E38892EC1D7070900078BCCB /* Array+Utils.swift in Sources */,
 				E38A26961D4FDB44008C6F8E /* TFLClient.swift in Sources */,
 				E39314D41D6B482C0007B31B /* SortOrderIcon.swift in Sources */,
 				E324CAAE1D5E110600BC19E0 /* TFLBusStopDetails.swift in Sources */,

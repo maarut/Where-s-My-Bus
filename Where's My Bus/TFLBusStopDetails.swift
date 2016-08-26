@@ -81,7 +81,7 @@ private extension TFLBusStopDetails
         }
         catch let error as NSError {
             if error.code == StopPointError.StopLetterKeyNotFound.rawValue {
-                return parseChildren(json).filter { $0.id == stationId }.first
+                return parseChildren(json).first { $0.id == stationId }
             }
             processError(error)
         }

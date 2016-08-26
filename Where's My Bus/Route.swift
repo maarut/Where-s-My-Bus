@@ -12,10 +12,12 @@ import CoreData
 class Route: NSManagedObject
 {    
     // Insert code here to add functionality to your managed object subclass
-    convenience init(lineId: LineId, context: NSManagedObjectContext)
+    convenience init(line: Line, context: NSManagedObjectContext)
     {
         self.init(entity: NSEntityDescription.entityForName("Route", inManagedObjectContext: context)!,
                   insertIntoManagedObjectContext: context)
-        self.lineId = lineId
+        self.lineId = line.id
+        self.lineName = line.name
+        self.isHidden = NSNumber(bool: false)
     }
 }

@@ -72,61 +72,46 @@ class DataController
         }
     }
     
-    func unfavourite(naptanId: NaptanId)
+    func unfavourite(stationId: NaptanId)
     {
         mainThreadContext.performBlock {
-            if let fav = self.retrieve(naptanId) {
+            if let fav = self.retrieve(stationId) {
                 self.mainThreadContext.deleteObject(fav)
                 self.save()
             }
         }
     }
     
-    func favourite(naptanId: NaptanId)
+    func favourite(stopPoint: StopPoint)
     {
         mainThreadContext.performBlock {
-            if self.retrieve(naptanId) == nil {
+            if self.retrieve(stopPoint.id) == nil {
                 let favourites = self.allFavourites()
                 do { try favourites.performFetch() }
                 catch let error as NSError { logErrorAndAbort(error) }
-                let favourite = Favourite(naptanId: naptanId, context: self.mainThreadContext)
+                let favourite = Favourite(stopPoint: stopPoint, context: self.mainThreadContext)
                 favourite.sortOrder = favourites.fetchedObjects?.count ?? Int.max
                 self.save()
             }
         }
     }
     
-    func isFavourite(naptanId: NaptanId) -> Bool
+    func isFavourite(stationId: NaptanId) -> Bool
     {
         var isFavourite = false
         mainThreadContext.performBlockAndWait {
-            isFavourite = self.retrieve(naptanId) != nil
+            isFavourite = self.retrieve(stationId) != nil
         }
         return isFavourite
     }
     
-    func addHiddenRoute(lineId: LineId, to favourite: Favourite)
+    func toggleHiddenLine(line: Line, for favourite: Favourite)
     {
         favourite.managedObjectContext?.performBlock {
-            let route: Route
-            if let r = self.retrieveLineId(lineId) {
-                route = r
+            if let route = favourite.routes?.allObjects.first( { ($0 as! Route).lineId == line.id } ) as? Route {
+                route.isHidden = NSNumber(bool: !route.isHidden!.boolValue)
             }
-            else {
-                route = Route(lineId: lineId, context: favourite.managedObjectContext!)
-            }
-            route.mutableSetValueForKey("favourites").addObject(favourite)
             self.save()
-        }
-    }
-    
-    func removeHiddenRoute(lineId: LineId, from favourite: Favourite)
-    {
-        favourite.managedObjectContext?.performBlock {
-            if let route = favourite.hiddenRoutes?.filter( { ($0 as! Route).lineId == lineId } ).first as? Route {
-                route.mutableSetValueForKey("favourites").removeObject(favourite)
-                self.save()
-            }
         }
     }
     
@@ -138,29 +123,14 @@ class DataController
             sectionNameKeyPath: nil, cacheName: nil)
     }
     
-    func retrieve(naptanId: NaptanId) -> Favourite?
+    func retrieve(stationId: NaptanId) -> Favourite?
     {
         let fetchRequest = NSFetchRequest(entityName: "Favourite")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "naptanId", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "naptanId == %@", naptanId)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "stationId", ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "stationId == %@", stationId)
         do {
             let results = try self.mainThreadContext.executeFetchRequest(fetchRequest)
             return results.first as? Favourite
-        }
-        catch let error as NSError {
-            logErrorAndAbort(error)
-        }
-        return nil
-    }
-    
-    private func retrieveLineId(lineId: LineId) -> Route?
-    {
-        let fetchRequest = NSFetchRequest(entityName: "Route")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lineId", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "lineId == %@", lineId)
-        do {
-            let results = try self.mainThreadContext.executeFetchRequest(fetchRequest)
-            return results.first as? Route
         }
         catch let error as NSError {
             logErrorAndAbort(error)

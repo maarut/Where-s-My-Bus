@@ -22,7 +22,10 @@ class LineSelectionViewController: UIViewController
         if let favourite = dataController.retrieve(stopPoint.id)?.objectID {
             self.favourite = dataController.mainThreadContext.objectWithID(favourite) as? Favourite
         }
-        hiddenRoutes = self.favourite.hiddenRoutes?.flatMap { LineId(($0 as! Route).lineId!) } ?? []
+        hiddenRoutes = self.favourite.routes?.flatMap {
+            let route = $0 as! Route
+            return route.isHidden!.boolValue ? LineId(route.lineId!) : nil
+        } ?? []
     }
     
     @IBAction func closeButtonTapped(sender: UIBarButtonItem)
@@ -33,13 +36,12 @@ class LineSelectionViewController: UIViewController
     @IBAction func switchToggled(toggle: UISwitch)
     {
         let route = stopPoint.lines[toggle.tag]
+        dataController.toggleHiddenLine(route, for: favourite)
         if toggle.on {
-            dataController.removeHiddenRoute(route.id, from: favourite)
             if let index = hiddenRoutes.indexOf(route.id) { hiddenRoutes.removeAtIndex(index) }
         }
         else {
             hiddenRoutes.append(route.id)
-            dataController.addHiddenRoute(route.id, to: favourite)
         }
     }
 }

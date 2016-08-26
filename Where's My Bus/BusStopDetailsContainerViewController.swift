@@ -66,15 +66,15 @@ class BusStopDetailsContainerViewController: UIViewController
     
     func toggleFavourite(control: UIBarButtonItem)
     {
-        if let stationId = stopPoint?.id {
+        if let stopPoint = stopPoint {
             var items = toolbar.items
-            if dataController.isFavourite(stationId) {
-                dataController.unfavourite(stationId)
+            if dataController.isFavourite(stopPoint.id) {
+                dataController.unfavourite(stopPoint.id)
                 items?[3] = addToFavouriteButton
                 navigationItem.setRightBarButtonItem(nil, animated: true)
             }
             else {
-                dataController.favourite(stationId)
+                dataController.favourite(stopPoint)
                 items?[3] = favouritedButton
                 navigationItem.setRightBarButtonItem(editButton, animated: true)
             }

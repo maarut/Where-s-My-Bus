@@ -13,10 +13,18 @@ import CoreData
 class Favourite: NSManagedObject {
 
 // Insert code here to add functionality to your managed object subclass
-    convenience init(naptanId: NaptanId, context: NSManagedObjectContext)
+    convenience init(stopPoint: StopPoint, context: NSManagedObjectContext)
     {
         self.init(entity: NSEntityDescription.entityForName("Favourite", inManagedObjectContext: context)!,
             insertIntoManagedObjectContext: context)
-        self.naptanId = naptanId
+        self.stationId = stopPoint.id
+        self.stopLetter = stopPoint.stopLetter
+        self.stopName = stopPoint.name
+        let mutableRoutes = self.routes?.mutableCopy()
+        for line in stopPoint.lines {
+            let route = Route(line: line, context: context)
+            route.favourite = self
+            mutableRoutes?.addObject(route)
+        }
     }
 }
