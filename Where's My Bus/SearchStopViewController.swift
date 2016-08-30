@@ -107,7 +107,14 @@ private extension SearchStopViewController
     
     func resetToolbar()
     {
-        self.toolbar.setItems([self.normalNearMeBarButton], animated: true)
+        switch CLLocationManager.authorizationStatus() {
+        case .Denied, .Restricted:
+            toolbar.setItems([], animated: true)
+            break
+        default:
+            toolbar.setItems([normalNearMeBarButton], animated: true)
+            break
+        }
     }
     
     func promptForLocationServicesDenied()
@@ -234,6 +241,11 @@ extension SearchStopViewController: CLLocationManagerDelegate
             let region = MKCoordinateRegionMakeWithDistance(location.coordinate, distance, distance)
             map.setRegion(region, animated: true)
         }
+        resetToolbar()
+    }
+    
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus)
+    {
         resetToolbar()
     }
     
