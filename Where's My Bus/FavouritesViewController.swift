@@ -151,6 +151,7 @@ extension FavouritesViewController
     {
         arrivalRefreshCounter = arrivalRefreshCounterInterval
         progressView.progress = 1.0
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         for detail in favouritesMap.values {
             detail.refresh()
         }
@@ -195,6 +196,9 @@ extension FavouritesViewController
         }
         if let stationId = (allFavourites.fetchedObjects?[indexPath.row] as? Favourite)?.stationId,
             let details = favouritesMap[stationId] {
+            if !favouritesMap.values.contains( { !$0.hasRefreshed } ) {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            }
             configureCell(cell, with: details)
             return cell
         }
@@ -287,6 +291,7 @@ private class FavouritesDetails
     var stopPoint: StopPoint?
     var arrivals: [BusArrival]
     var favourite: Favourite
+    var hasRefreshed = false
     weak var viewController: FavouritesViewController?
     
     init(stationId: NaptanId, viewController: FavouritesViewController)
@@ -303,6 +308,7 @@ private class FavouritesDetails
     
     func refresh()
     {
+        hasRefreshed = false
         TFLClient.instance.busArrivalTimesForStop(stationId, resultsProcessor: self)
     }
     
@@ -317,6 +323,7 @@ private class FavouritesDetails
     
     private func reloadTableView()
     {
+        hasRefreshed = true
         if let indexPath = indexPath() {
             viewController?.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
         }

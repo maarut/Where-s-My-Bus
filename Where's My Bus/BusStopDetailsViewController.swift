@@ -79,6 +79,7 @@ class BusStopDetailsViewController: UITableViewController
         progressView.progress = 1.0
         if let stopPoint = stopPoint {
             TFLClient.instance.busArrivalTimesForStop(stopPoint.id , resultsProcessor: self)
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         }
     }
 }
@@ -192,6 +193,7 @@ extension BusStopDetailsViewController: TFLBusArrivalSearchResultsProcessor
     {
         Dispatch.mainQueue.async {
             self.arrivals = arrivals
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
         }

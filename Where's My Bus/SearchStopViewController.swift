@@ -33,7 +33,7 @@ class SearchStopViewController: UIViewController
             try allFavourites.performFetch()
         }
         catch let error as NSError {
-            NSLog("\(error)\n\(error.localizedDescription)")
+            handleError(error)
         }
         informationalOverlay.layer.cornerRadius = 10.0
         locationManager.delegate = self
@@ -210,6 +210,7 @@ extension SearchStopViewController: MKMapViewDelegate
             let radius = min(max(width, height), TFLBusStopSearchCriteria.MaxRadius)
             let searchCriteria = TFLBusStopSearchCriteria(centrePoint: mapView.centerCoordinate, radius: radius)
             TFLClient.instance.busStopSearch(searchCriteria, resultsProcessor: self)
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             UIView.animateWithDuration(0.3, animations: {
                 self.informationalText.alpha = 0.0
                 self.informationalOverlay.alpha = 0.0
@@ -280,6 +281,7 @@ extension SearchStopViewController: TFLBusStopSearchResultsProcessor
             let defunctAnnotations = annotations.filter { !stopPoints.stopPoints.contains($0.stopPoint) }
             self.map.removeAnnotations(defunctAnnotations)
             self.map.addAnnotations(newStopPoints.map { BusStopAnnotation(stopPoint: $0) })
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         }
     }
     
