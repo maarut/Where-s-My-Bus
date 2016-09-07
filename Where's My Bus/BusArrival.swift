@@ -29,6 +29,7 @@ struct BusArrival: Equatable
     static let DestinationNameKey = "destinationName"
     static let ETAKey = "timeToStation"
     static let TowardsKey = "towards"
+    static let BearingKey = "bearing"
     
     let id: BusArrivalId
     let numberPlate: String
@@ -37,6 +38,7 @@ struct BusArrival: Equatable
     let towards: String
     let lineId: LineId
     let lineName: String
+    let bearing: Double
     
     init?(json: [String: AnyObject]) throws
     {
@@ -66,6 +68,9 @@ struct BusArrival: Equatable
         guard let towards = json[BusArrival.TowardsKey] as? String else {
             throw makeError("Key \(BusArrival.TowardsKey) not found.", code: .KeyNotFound)
         }
+        guard let bearing = Double((json[BusArrival.BearingKey] as? String) ?? "") else {
+            throw makeError("Key \(BusArrival.BearingKey) not found.", code: .KeyNotFound)
+        }
         self.id = BusArrivalId(id)
         self.numberPlate = numberPlate
         self.ETA = NSTimeInterval(eta)
@@ -73,5 +78,6 @@ struct BusArrival: Equatable
         self.towards = towards
         self.lineId = LineId(lineId)
         self.lineName = lineName
+        self.bearing = bearing
     }
 }

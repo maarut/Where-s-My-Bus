@@ -15,6 +15,8 @@ class FavouritesViewController: UITableViewController
     @IBOutlet var longPressGesture: UILongPressGestureRecognizer!
     @IBOutlet var addStopButton: UIBarButtonItem!
     private var doneButton: UIBarButtonItem!
+    private weak var informationOverlay: UIView!
+    private weak var informationText: UILabel!
     
     var dataController: DataController!
     
@@ -37,10 +39,18 @@ class FavouritesViewController: UITableViewController
         allFavourites.delegate = self
         do { try allFavourites.performFetch() }
         catch let error as NSError { NSLog("\(error)\n\(error.localizedDescription)") }
+        addInformationOverlay()
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
     {
+        UIView.animateWithDuration(0.3, animations: {
+            self.informationOverlay.alpha = 0
+            self.informationText.alpha = 0
+        }, completion: { _ in
+            self.informationOverlay.hidden = true
+            self.informationText.hidden = true
+        })
         switch segue.identifier {
         case .Some("AddStopSegue"):
             (segue.destinationViewController as! SearchStopViewController).dataController = dataController
@@ -63,7 +73,61 @@ class FavouritesViewController: UITableViewController
         }
         refreshProgressViewVisibility()
         mapFavourites()
+        displayOverlayIfNeeded()
         tableView.reloadData()
+    }
+    
+    private func addInformationOverlay()
+    {
+        if let superView = navigationController?.view {
+            let view = UIView()
+            let text = UILabel()
+            superView.addSubview(view)
+            superView.addSubview(text)
+            text.translatesAutoresizingMaskIntoConstraints = false
+            view.translatesAutoresizingMaskIntoConstraints = false
+            text.text = "Tap the + button to add bus stops to your favourites list."
+            text.textColor = UIColor.whiteColor()
+            text.lineBreakMode = .ByWordWrapping
+            text.textAlignment = .Center
+            text.numberOfLines = 0
+            NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: superView,
+                attribute: .CenterX, multiplier: 0.25, constant: 0).active = true
+            view.heightAnchor.constraintEqualToConstant(64).active = true
+            view.centerXAnchor.constraintEqualToAnchor(superView.centerXAnchor).active = true
+            text.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
+            text.centerYAnchor.constraintEqualToAnchor(view.centerYAnchor).active = true
+            text.heightAnchor.constraintEqualToAnchor(view.heightAnchor, multiplier: 0.9, constant: 0).active = true
+            text.widthAnchor.constraintEqualToAnchor(view.widthAnchor, multiplier: 0.9, constant: 0).active = true
+            view.backgroundColor = UIColor.darkGrayColor()
+            view.alpha = 0.65
+            view.topAnchor.constraintEqualToAnchor(
+                navigationController?.navigationBar.bottomAnchor, constant: 8).active = true
+            view.layer.cornerRadius = 10
+            informationText = text
+            informationOverlay = view
+        }
+    }
+    
+    private func displayOverlayIfNeeded()
+    {
+        if self.allFavourites.fetchedObjects?.count ?? 0 == 0 {
+            UIView.animateWithDuration(0.3) {
+                self.informationOverlay.hidden = false
+                self.informationText.hidden = false
+                self.informationOverlay.alpha = 0.65
+                self.informationText.alpha = 1.0
+            }
+        }
+        else {
+            UIView.animateWithDuration(0.3, animations: {
+                self.informationOverlay.alpha = 0
+                self.informationText.alpha = 0
+            }, completion: { _ in
+                self.informationOverlay.hidden = true
+                self.informationText.hidden = true
+            })
+        }
     }
     
     private func refreshProgressViewVisibility()
@@ -266,6 +330,7 @@ extension FavouritesViewController: NSFetchedResultsControllerDelegate
         atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?)
     {
         mapFavourites()
+        displayOverlayIfNeeded()
         switch type {
         case .Delete:
             tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Left)
