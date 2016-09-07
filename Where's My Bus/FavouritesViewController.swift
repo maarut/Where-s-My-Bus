@@ -44,13 +44,7 @@ class FavouritesViewController: UITableViewController
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
     {
-        UIView.animateWithDuration(0.3, animations: {
-            self.informationOverlay.alpha = 0
-            self.informationText.alpha = 0
-        }, completion: { _ in
-            self.informationOverlay.hidden = true
-            self.informationText.hidden = true
-        })
+        hideOverlay()
         switch segue.identifier {
         case .Some("AddStopSegue"):
             (segue.destinationViewController as! SearchStopViewController).dataController = dataController
@@ -109,8 +103,20 @@ class FavouritesViewController: UITableViewController
         }
     }
     
+    private func hideOverlay()
+    {
+        UIView.animateWithDuration(0.3, animations: {
+            self.informationOverlay.alpha = 0
+            self.informationText.alpha = 0
+        }, completion: { _ in
+            self.informationOverlay.hidden = true
+            self.informationText.hidden = true
+        })
+    }
+    
     private func displayOverlayIfNeeded()
     {
+        guard navigationController?.visibleViewController == self else { return }
         if self.allFavourites.fetchedObjects?.count ?? 0 == 0 {
             UIView.animateWithDuration(0.3) {
                 self.informationOverlay.hidden = false
@@ -120,13 +126,7 @@ class FavouritesViewController: UITableViewController
             }
         }
         else {
-            UIView.animateWithDuration(0.3, animations: {
-                self.informationOverlay.alpha = 0
-                self.informationText.alpha = 0
-            }, completion: { _ in
-                self.informationOverlay.hidden = true
-                self.informationText.hidden = true
-            })
+            hideOverlay()
         }
     }
     
