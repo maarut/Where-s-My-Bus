@@ -76,6 +76,13 @@ extension SearchStopViewController
             break
         }
     }
+    
+    func detailButtonPressed(sender: UIButton)
+    {
+        if let annotation = (sender as? BusStopDetailButton)?.annotation as? BusStopAnnotation {
+            performSegueWithIdentifier("BusStopDetailSegue", sender: annotation)
+        }
+    }
 }
 
 // MARK: - Private Functions
@@ -156,10 +163,7 @@ extension SearchStopViewController: MKMapViewDelegate
         calloutAccessoryControlTapped control: UIControl)
     {
         if let annotation = view.annotation as? BusStopAnnotation {
-            if view.rightCalloutAccessoryView == control {
-                performSegueWithIdentifier("BusStopDetailSegue", sender: annotation)
-            }
-            else if view.leftCalloutAccessoryView == control {
+            if view.leftCalloutAccessoryView == control {
                 if dataController.isFavourite(annotation.stopPoint.id) {
                     dataController.unfavourite(annotation.stopPoint.id)
                 }
@@ -185,13 +189,28 @@ extension SearchStopViewController: MKMapViewDelegate
             let view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "StopPoint")
             view.pinTintColor = MKPinAnnotationView.redPinColor()
             view.canShowCallout = true
-            view.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
-            var frame = view.rightCalloutAccessoryView!.frame
-            frame.origin = CGPointZero
+            let detailButton =  BusStopDetailButton(type: .DetailDisclosure)
+            detailButton.addTarget(self, action: #selector(detailButtonPressed(_:)), forControlEvents: .TouchUpInside)
+            detailButton.annotation = annotation
             let button = UIButton(type: .Custom)
-            button.frame = frame
+            var buttonFrame = detailButton.frame
+            buttonFrame.origin = CGPointZero
+            button.frame = buttonFrame
             button.setImage(image, forState: .Normal)
             view.leftCalloutAccessoryView = button
+            var outerFrame = detailButton.frame
+            outerFrame.size.width = 2 * outerFrame.size.width + 8
+            let outerView = BusStopDetailsButtonWithDirectionView(frame: outerFrame)
+            let direction = UILabel(frame: buttonFrame)
+            direction.text = "↑"
+            direction.textColor = UIColor(hexValue: 0xA1002C)
+            direction.textAlignment = .Center
+            outerView.direction = direction
+            outerView.addSubview(direction)
+            outerView.detailButton = detailButton
+            outerView.addSubview(detailButton)
+            detailButton.frame.origin.x += button.frame.width + 8
+            view.rightCalloutAccessoryView = outerView
             return view
         }
         
@@ -226,6 +245,29 @@ extension SearchStopViewController: MKMapViewDelegate
                 self.informationalOverlay.hidden = false
                 self.informationalText.hidden = false
             })
+        }
+    }
+    
+    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView)
+    {
+        TFLClient.instance.busArrivalTimesForStop((view.annotation as! BusStopAnnotation).stopPoint.id,
+            resultsProcessor: self)
+    }
+}
+
+extension SearchStopViewController: TFLBusArrivalSearchResultsProcessor
+{
+    func processResults(arrivals: [BusArrival])
+    {
+        Dispatch.mainQueue.async {
+            if let bearing = arrivals.first?.bearing,
+                let annotation = self.map.selectedAnnotations.first,
+                let view = self.map.viewForAnnotation(annotation) as? MKPinAnnotationView,
+                let directionView = view.rightCalloutAccessoryView as? BusStopDetailsButtonWithDirectionView {
+                let bearingRad = bearing / 360.0 * 2 * M_PI
+                let xfrm = CGAffineTransformRotate(CGAffineTransformIdentity, CGFloat(bearingRad))
+                UIView.animateWithDuration(0.3) { directionView.direction.transform = xfrm }
+            }
         }
     }
 }
@@ -344,6 +386,11 @@ private class BusStopAnnotation: NSObject, MKAnnotation
         self.subtitle = subtitle
         super.init()
     }
+}
+
+private class BusStopDetailButton: UIButton
+{
+    var annotation: MKAnnotation?
 }
 
 private func ==(lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool
