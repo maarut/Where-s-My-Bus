@@ -96,7 +96,7 @@ class FavouritesViewController: UITableViewController
             view.backgroundColor = UIColor.darkGrayColor()
             view.alpha = 0.65
             view.topAnchor.constraintEqualToAnchor(
-                navigationController?.navigationBar.bottomAnchor, constant: 8).active = true
+                (navigationController?.navigationBar.bottomAnchor)!, constant: 8).active = true
             view.layer.cornerRadius = 10
             informationText = text
             informationOverlay = view

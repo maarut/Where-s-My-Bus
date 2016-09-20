@@ -35,7 +35,7 @@ class DataController
         }
         self.model = model
         coordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
-        dbURL = docsDir.URLByAppendingPathComponent("\(modelName).sqlite")
+        dbURL = docsDir.URLByAppendingPathComponent("\(modelName).sqlite")!
         
         persistingContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
         persistingContext.name = "Persisting"

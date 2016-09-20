@@ -33,7 +33,7 @@ class SortOrderIcon
         if let context = context { view.layer.renderInContext(context) }
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return image
+        return image!
     }
 }
 
