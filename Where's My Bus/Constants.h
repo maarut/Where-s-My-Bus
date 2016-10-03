@@ -10,3 +10,9 @@
 
 extern NSString *const kTFLAppID;
 extern NSString *const kTFLAppKey;
+extern NSString *const kAdMobAppId;
+extern NSString *const kAdMobAdUnitId;
+
+@interface MCConstants: NSObject
++(NSArray *)adMobTestDevices;
+@end

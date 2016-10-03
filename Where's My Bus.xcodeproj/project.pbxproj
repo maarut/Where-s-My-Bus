@@ -55,6 +55,7 @@
 		E36B78B41D4A15AF00F5C325 /* StopPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78B31D4A15AF00F5C325 /* StopPoint.swift */; };
 		E36B78B61D4B6D0B00F5C325 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78B51D4B6D0B00F5C325 /* Line.swift */; };
 		E36B78B81D4BA67400F5C325 /* TFLBusStopSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B78B71D4BA67400F5C325 /* TFLBusStopSearch.swift */; };
+		E36EC3DF1D94520D009DDAC7 /* FavouritesContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36EC3DE1D94520D009DDAC7 /* FavouritesContainerViewController.swift */; };
 		E38892EC1D7070900078BCCB /* Array+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38892EB1D7070900078BCCB /* Array+Utils.swift */; };
 		E38A26961D4FDB44008C6F8E /* TFLClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38A26951D4FDB44008C6F8E /* TFLClient.swift */; };
 		E38A26981D533E45008C6F8E /* Dispatch+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38A26971D533E45008C6F8E /* Dispatch+Utils.swift */; };
@@ -141,6 +142,7 @@
 		E36B78B31D4A15AF00F5C325 /* StopPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopPoint.swift; sourceTree = "<group>"; };
 		E36B78B51D4B6D0B00F5C325 /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		E36B78B71D4BA67400F5C325 /* TFLBusStopSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLBusStopSearch.swift; sourceTree = "<group>"; };
+		E36EC3DE1D94520D009DDAC7 /* FavouritesContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavouritesContainerViewController.swift; sourceTree = "<group>"; };
 		E38892EB1D7070900078BCCB /* Array+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Utils.swift"; sourceTree = "<group>"; };
 		E38A26951D4FDB44008C6F8E /* TFLClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLClient.swift; sourceTree = "<group>"; };
 		E38A26971D533E45008C6F8E /* Dispatch+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dispatch+Utils.swift"; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 				E3CA5C621D54ACD100FD668C /* BusStopDetailsViewController.swift */,
 				E36AB3E51D62369E0072FE98 /* BusStopDetailsContainerViewController.swift */,
 				E39314D61D6DF4860007B31B /* LineSelectionViewController.swift */,
+				E36EC3DE1D94520D009DDAC7 /* FavouritesContainerViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -482,6 +485,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E36EC3DF1D94520D009DDAC7 /* FavouritesContainerViewController.swift in Sources */,
 				E36AB3E61D62369E0072FE98 /* BusStopDetailsContainerViewController.swift in Sources */,
 				E36B787A1D46242E00F5C325 /* FavouritesViewController.swift in Sources */,
 				E324CAA71D5B842700BC19E0 /* FavouritesStar.swift in Sources */,
@@ -599,7 +603,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/**";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -641,7 +645,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/**";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

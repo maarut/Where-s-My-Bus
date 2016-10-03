@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="pHh-Vb-AJE">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="pHh-Vb-AJE">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -8,25 +8,101 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Favourites Container View Controller-->
+        <scene sceneID="DDv-D1-VeO">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="YSn-oq-jBq" customClass="FavouritesContainerViewController" customModule="Where_s_My_Bus" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vhM-zq-PFW"/>
+                        <viewControllerLayoutGuide type="bottom" id="DK6-Td-qO9"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="dur-ZO-dkY">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hI1-A8-IfZ">
+                                <subviews>
+                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f2p-b3-Xgo">
+                                        <connections>
+                                            <segue destination="KeJ-Pp-XGS" kind="embed" identifier="EmbedSegue" id="Vml-mE-gqH"/>
+                                        </connections>
+                                    </containerView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Frt-ST-0Wd" customClass="GADBannerView">
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="hBl-y5-GqK"/>
+                                            <constraint firstAttribute="height" constant="32" id="nEI-MG-Nib"/>
+                                        </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="hBl-y5-GqK"/>
+                                                <exclude reference="nEI-MG-Nib"/>
+                                            </mask>
+                                        </variation>
+                                        <variation key="heightClass=compact-widthClass=compact">
+                                            <mask key="constraints">
+                                                <include reference="nEI-MG-Nib"/>
+                                            </mask>
+                                        </variation>
+                                        <variation key="heightClass=compact-widthClass=regular">
+                                            <mask key="constraints">
+                                                <include reference="nEI-MG-Nib"/>
+                                            </mask>
+                                        </variation>
+                                        <variation key="heightClass=regular-widthClass=compact">
+                                            <mask key="constraints">
+                                                <include reference="hBl-y5-GqK"/>
+                                            </mask>
+                                        </variation>
+                                    </view>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="hI1-A8-IfZ" firstAttribute="leading" secondItem="dur-ZO-dkY" secondAttribute="leading" id="AF5-c1-9Nw"/>
+                            <constraint firstItem="hI1-A8-IfZ" firstAttribute="top" secondItem="vhM-zq-PFW" secondAttribute="bottom" id="Kb0-dP-20y"/>
+                            <constraint firstAttribute="trailing" secondItem="hI1-A8-IfZ" secondAttribute="trailing" id="Lxh-ZI-Vmw"/>
+                            <constraint firstItem="DK6-Td-qO9" firstAttribute="top" secondItem="hI1-A8-IfZ" secondAttribute="bottom" id="bMl-Uf-6Kd"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="5jJ-Xl-9Q8">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="BNW-Z4-spb">
+                            <connections>
+                                <segue destination="hWy-e0-xzU" kind="show" identifier="AddStopSegue" id="HYs-Ng-H12"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="adBannerView" destination="Frt-ST-0Wd" id="CQ3-0f-JGQ"/>
+                        <outlet property="addStopButton" destination="BNW-Z4-spb" id="EHa-pK-k0O"/>
+                        <outlet property="bottomConstraint" destination="bMl-Uf-6Kd" id="iUT-7h-VxE"/>
+                        <segue destination="p3W-Oe-Rfm" kind="show" identifier="BusStopDetailSegue" id="ycQ-WG-49J"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sPt-co-u2f" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1066.6666666666667" y="428.804347826087"/>
+        </scene>
         <!--Favourites-->
         <scene sceneID="fO8-t7-qBd">
             <objects>
                 <tableViewController title="Favourites" id="KeJ-Pp-XGS" customClass="FavouritesViewController" customModule="Where_s_My_Bus" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" id="A56-pg-Wep">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="622"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <progressView key="tableHeaderView" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" id="Uen-Ak-aHe">
-                            <rect key="frame" x="0.0" y="64" width="414" height="2"/>
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="2"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </progressView>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" showsReorderControl="YES" indentationWidth="10" reuseIdentifier="Favourite" rowHeight="80" id="Gl6-o0-fE7" customClass="FavouritesCell" customModule="Where_s_My_Bus" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="94" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="30" width="414" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Gl6-o0-fE7" id="ER1-vX-wYH">
-                                    <frame key="frameInset" width="414" height="79.5"/>
+                                    <frame key="frameInset" width="414" height="79"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bus Stop Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ioS-9V-icE">
@@ -105,18 +181,9 @@
                             <outletCollection property="gestureRecognizers" destination="X81-kV-VBs" appends="YES" id="QOS-iT-Ukf"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="fuS-Ju-m9D">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="hgU-Bh-oY8">
-                            <connections>
-                                <segue destination="hWy-e0-xzU" kind="show" identifier="AddStopSegue" id="sfu-ra-qdV"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
                     <connections>
-                        <outlet property="addStopButton" destination="hgU-Bh-oY8" id="PN2-Jj-jfw"/>
                         <outlet property="longPressGesture" destination="X81-kV-VBs" id="ub4-n7-tde"/>
                         <outlet property="progressView" destination="Uen-Ak-aHe" id="9lF-E4-kRB"/>
-                        <segue destination="p3W-Oe-Rfm" kind="show" identifier="BusStopDetailSegue" id="JxO-Cq-WfJ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yw9-n4-um4" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -126,7 +193,7 @@
                     </connections>
                 </pongPressGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1098" y="429"/>
+            <point key="canvasLocation" x="1949" y="429"/>
         </scene>
         <!--Nearby Bus Stops-->
         <scene sceneID="zv7-Q0-gyN">
@@ -196,7 +263,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aBw-iC-OiS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1848" y="429"/>
+            <point key="canvasLocation" x="594" y="1237"/>
         </scene>
         <!--Bus Stop Details Container View Controller-->
         <scene sceneID="yXl-D4-FyP">
@@ -253,7 +320,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eXV-5u-3Xj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1501" y="1209"/>
+            <point key="canvasLocation" x="1552" y="1237"/>
         </scene>
         <!--Line Selection View Controller-->
         <scene sceneID="FKB-eZ-r2O">
@@ -271,10 +338,10 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LineSelection" id="sHm-Bj-02B" customClass="LineSelectionCell" customModule="Where_s_My_Bus" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="56" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sHm-Bj-02B" id="pt5-SO-F7P">
-                                            <frame key="frameInset" width="414" height="43.5"/>
+                                            <frame key="frameInset" width="414" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YIX-qR-MFe">
@@ -352,7 +419,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KKV-BU-vX5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1501" y="2002"/>
+            <point key="canvasLocation" x="1551" y="1996"/>
         </scene>
         <!--Bus Stop Details View Controller-->
         <scene sceneID="hqf-mo-rF1">
@@ -371,7 +438,7 @@
                                 <rect key="frame" x="0.0" y="30" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="7" contentMode="center" tableViewCell="8hL-fX-rjN" id="E78-2C-YBy">
-                                    <frame key="frameInset" width="414" height="43.5"/>
+                                    <frame key="frameInset" width="414" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rHD-BK-oH4">
@@ -424,7 +491,7 @@
                                 <rect key="frame" x="0.0" y="74" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="7" contentMode="center" tableViewCell="OzC-DS-NrQ" id="Bep-r3-iSF">
-                                    <frame key="frameInset" width="414" height="43.5"/>
+                                    <frame key="frameInset" width="414" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p9y-d8-KLP">
@@ -506,7 +573,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K0S-li-g2U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2532" y="1209"/>
+            <point key="canvasLocation" x="2377" y="1237"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="lTZ-RE-IZp">
@@ -519,7 +586,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="KeJ-Pp-XGS" kind="relationship" relationship="rootViewController" id="4k5-9Z-uiO"/>
+                        <segue destination="YSn-oq-jBq" kind="relationship" relationship="rootViewController" id="ofI-Ql-qba"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eSQ-cO-5pg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -528,6 +595,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="JxO-Cq-WfJ"/>
+        <segue reference="ycQ-WG-49J"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate
@@ -15,11 +16,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     var window: UIWindow?
     var dataController: DataController!
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         dataController = DataController(withModelName: "WheresMyBusModel")
-        let rootVC = (window?.rootViewController as? UINavigationController)?.topViewController as? FavouritesViewController
+        let rootVC = (window?.rootViewController as? UINavigationController)?
+            .topViewController as? FavouritesContainerViewController
         rootVC?.dataController = dataController
+        GADMobileAds.configureWithApplicationID(kAdMobAppId)
         return true
     }
 

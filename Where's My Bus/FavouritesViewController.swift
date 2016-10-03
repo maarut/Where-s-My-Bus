@@ -13,7 +13,6 @@ class FavouritesViewController: UITableViewController
 {
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet var longPressGesture: UILongPressGestureRecognizer!
-    @IBOutlet var addStopButton: UIBarButtonItem!
     private var doneButton: UIBarButtonItem!
     private weak var informationOverlay: UIView!
     private weak var informationText: UILabel!
@@ -39,24 +38,19 @@ class FavouritesViewController: UITableViewController
         allFavourites.delegate = self
         do { try allFavourites.performFetch() }
         catch let error as NSError { NSLog("\(error)\n\(error.localizedDescription)") }
-        addInformationOverlay()
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+    override func didMoveToParentViewController(parent: UIViewController?)
     {
-        hideOverlay()
-        switch segue.identifier {
-        case .Some("AddStopSegue"):
-            (segue.destinationViewController as! SearchStopViewController).dataController = dataController
-            break
-        case .Some("BusStopDetailSegue"):
-            let nextVC = (segue.destinationViewController as! BusStopDetailsContainerViewController)
-            nextVC.dataController = dataController
-            nextVC.stopPoint = favouritesMap[(sender as? NaptanId)!]?.stopPoint
-            break
-        default:
-            break
+        if let navigationView = parent?.navigationController?.view {
+            addInformationOverlayTo(navigationView)
         }
+    }
+    
+    override func viewWillDisappear(animated: Bool)
+    {
+        super.viewWillDisappear(animated)
+        hideOverlay()
     }
     
     override func viewWillAppear(animated: Bool)
@@ -71,36 +65,34 @@ class FavouritesViewController: UITableViewController
         tableView.reloadData()
     }
     
-    private func addInformationOverlay()
+    private func addInformationOverlayTo(superView: UIView)
     {
-        if let superView = navigationController?.view {
-            let view = UIView()
-            let text = UILabel()
-            superView.addSubview(view)
-            superView.addSubview(text)
-            text.translatesAutoresizingMaskIntoConstraints = false
-            view.translatesAutoresizingMaskIntoConstraints = false
-            text.text = "Tap the + button to add bus stops to your favourites list."
-            text.textColor = UIColor.whiteColor()
-            text.lineBreakMode = .ByWordWrapping
-            text.textAlignment = .Center
-            text.numberOfLines = 0
-            NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: superView,
-                attribute: .CenterX, multiplier: 0.25, constant: 0).active = true
-            view.heightAnchor.constraintEqualToConstant(64).active = true
-            view.centerXAnchor.constraintEqualToAnchor(superView.centerXAnchor).active = true
-            text.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
-            text.centerYAnchor.constraintEqualToAnchor(view.centerYAnchor).active = true
-            text.heightAnchor.constraintEqualToAnchor(view.heightAnchor, multiplier: 0.9, constant: 0).active = true
-            text.widthAnchor.constraintEqualToAnchor(view.widthAnchor, multiplier: 0.9, constant: 0).active = true
-            view.backgroundColor = UIColor.darkGrayColor()
-            view.alpha = 0.65
-            view.topAnchor.constraintEqualToAnchor(
-                (navigationController?.navigationBar.bottomAnchor)!, constant: 8).active = true
-            view.layer.cornerRadius = 10
-            informationText = text
-            informationOverlay = view
-        }
+        let view = UIView()
+        let text = UILabel()
+        superView.addSubview(view)
+        superView.addSubview(text)
+        text.translatesAutoresizingMaskIntoConstraints = false
+        view.translatesAutoresizingMaskIntoConstraints = false
+        text.text = "Tap the + button to add bus stops to your favourites list."
+        text.textColor = UIColor.whiteColor()
+        text.lineBreakMode = .ByWordWrapping
+        text.textAlignment = .Center
+        text.numberOfLines = 0
+        NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: superView,
+                           attribute: .CenterX, multiplier: 0.25, constant: 0).active = true
+        view.heightAnchor.constraintEqualToConstant(64).active = true
+        view.centerXAnchor.constraintEqualToAnchor(superView.centerXAnchor).active = true
+        text.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
+        text.centerYAnchor.constraintEqualToAnchor(view.centerYAnchor).active = true
+        text.heightAnchor.constraintEqualToAnchor(view.heightAnchor, multiplier: 0.9, constant: 0).active = true
+        text.widthAnchor.constraintEqualToAnchor(view.widthAnchor, multiplier: 0.9, constant: 0).active = true
+        view.backgroundColor = UIColor.darkGrayColor()
+        view.alpha = 0.65
+        view.topAnchor.constraintEqualToAnchor(//superView.topAnchor, constant: 8).active = true
+            (navigationController?.navigationBar.bottomAnchor)!, constant: 8).active = true
+        view.layer.cornerRadius = 10
+        informationText = text
+        informationOverlay = view
     }
     
     private func hideOverlay()
@@ -116,7 +108,7 @@ class FavouritesViewController: UITableViewController
     
     private func displayOverlayIfNeeded()
     {
-        guard navigationController?.visibleViewController == self else { return }
+        guard navigationController?.visibleViewController == parentViewController else { return }
         if self.allFavourites.fetchedObjects?.count ?? 0 == 0 {
             UIView.animateWithDuration(0.3) {
                 self.informationOverlay.hidden = false
@@ -135,7 +127,8 @@ class FavouritesViewController: UITableViewController
         if allFavourites.fetchedObjects?.count ?? 0 == 0 {
             timer?.invalidate()
             timer = nil
-            UIView.animateWithDuration(0.3) { self.progressView.hidden = true }
+            UIView.animateWithDuration(0.3, animations: { self.progressView.alpha = 1.0 },
+                completion: { _ in self.progressView.hidden = true; self.progressView.alpha = 0.0 })
         }
         else {
             if !(timer?.valid ?? false) {
@@ -215,6 +208,8 @@ extension FavouritesViewController
     {
         arrivalRefreshCounter = arrivalRefreshCounterInterval
         progressView.progress = 1.0
+        timer?.invalidate()
+        timer = nil
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         for detail in favouritesMap.values {
             detail.refresh()
@@ -225,9 +220,12 @@ extension FavouritesViewController
     func doneTapped(button: UIBarButtonItem)
     {
         tableView.setEditing(false, animated: true)
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self,
-            selector: #selector(self.timerElapsed(_:)), userInfo: nil, repeats: true)
-        navigationItem.setRightBarButtonItem(addStopButton, animated: true)
+        if timer == nil || !timer!.valid {
+            timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self,
+                selector: #selector(self.timerElapsed(_:)), userInfo: nil, repeats: true)
+        }
+        parentViewController?.navigationItem.setRightBarButtonItem(
+            (parentViewController as? FavouritesContainerViewController)?.addStopButton, animated: true)
     }
     
     @IBAction func longPressRecognised(sender: UILongPressGestureRecognizer)
@@ -237,7 +235,7 @@ extension FavouritesViewController
             tableView.setEditing(true, animated: true)
             timer?.invalidate()
             timer = nil
-            navigationItem.setRightBarButtonItem(doneButton, animated: true)
+            parentViewController?.navigationItem.setRightBarButtonItem(doneButton, animated: true)
             break
         default:
             break
@@ -262,6 +260,10 @@ extension FavouritesViewController
             let details = favouritesMap[stationId] {
             if !favouritesMap.values.contains( { !$0.hasRefreshed } ) {
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                if timer == nil || !timer!.valid {
+                    timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self,
+                        selector: #selector(self.timerElapsed(_:)), userInfo: nil, repeats: true)
+                }
             }
             configureCell(cell, with: details)
             return cell
@@ -317,8 +319,11 @@ extension FavouritesViewController
 {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        if let favourite = allFavourites.fetchedObjects?[indexPath.row] as? Favourite {
-            performSegueWithIdentifier("BusStopDetailSegue", sender: favourite.stationId)
+        if let favourite = allFavourites.fetchedObjects?[indexPath.row] as? Favourite,
+            let parentVC = parentViewController as? FavouritesContainerViewController {
+            parentVC.stopPoint = favouritesMap[favourite.stationId!]?.stopPoint
+            parentVC.performSegueWithIdentifier("BusStopDetailSegue", sender: nil)
+            hideOverlay()
         }
     }
 }

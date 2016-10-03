@@ -10,3 +10,20 @@
 
 NSString *const kTFLAppID = TFL_APP_ID;
 NSString *const kTFLAppKey = TFL_APP_KEY;
+NSString *const kAdMobAppId = ADMOB_APP_ID;
+NSString *const kAdMobAdUnitId = ADMOB_ADUNIT_ID;
+
+@implementation MCConstants
+
+static NSArray *kAdMobTestDevices;
+
++ (NSArray *) adMobTestDevices
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        kAdMobTestDevices = [ADMOB_TEST_DEVICES componentsSeparatedByString:@" "];
+    });
+    return kAdMobTestDevices;
+}
+
+@end
