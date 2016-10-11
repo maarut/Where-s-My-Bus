@@ -182,6 +182,10 @@ extension SearchStopViewController: MKMapViewDelegate
             FavouritesStar.get(.Empty)
         if let view = mapView.dequeueReusableAnnotationViewWithIdentifier("StopPoint") as? MKPinAnnotationView {
             view.annotation = annotation
+            if let rightCallout = view.rightCalloutAccessoryView as? BusStopDetailsButtonWithDirectionView,
+                let detailButton = rightCallout.detailButton as? BusStopDetailButton {
+                detailButton.annotation = annotation
+            }
             (view.leftCalloutAccessoryView as! UIButton).setImage(image, forState: .Normal)
             return view
         }
