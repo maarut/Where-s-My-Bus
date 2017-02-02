@@ -432,6 +432,11 @@
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = F53K8XZ6AA;
 						LastSwiftMigration = 0800;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					E36B78871D46242E00F5C325 = {
 						CreatedOnToolsVersion = 7.3.1;
