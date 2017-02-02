@@ -10,7 +10,7 @@ import Foundation
 
 extension Array
 {
-    func first(@noescape predicate: (Element) -> Bool) -> Element?
+    func first(_ predicate: (Element) -> Bool) -> Element?
     {
         for element in self { if predicate(element) { return element } }
         return nil

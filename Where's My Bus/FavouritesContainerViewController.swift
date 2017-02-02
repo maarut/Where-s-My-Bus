@@ -14,8 +14,8 @@ class FavouritesContainerViewController: UIViewController
     var dataController: DataController!
     var stopPoint: StopPoint?
     
-    private weak var informationOverlay: UIView!
-    private weak var informationText: UILabel!
+    fileprivate weak var informationOverlay: UIView!
+    fileprivate weak var informationText: UILabel!
     
     @IBOutlet weak var addStopButton: UIBarButtonItem!
     @IBOutlet weak var adBannerView: GADBannerView!
@@ -31,24 +31,24 @@ class FavouritesContainerViewController: UIViewController
         adBannerView.adSize = kGADAdSizeBanner
     }
     
-    override func viewWillAppear(animated: Bool)
+    override func viewWillAppear(_ animated: Bool)
     {
         super.viewWillAppear(animated)
         requestAd()
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
         switch segue.identifier {
-        case .Some("EmbedSegue"):
-            let nextVC = segue.destinationViewController as! FavouritesViewController
+        case .some("EmbedSegue"):
+            let nextVC = segue.destination as! FavouritesViewController
             nextVC.dataController = dataController
             break
-        case .Some("AddStopSegue"):
-            (segue.destinationViewController as! SearchStopViewController).dataController = dataController
+        case .some("AddStopSegue"):
+            (segue.destination as! SearchStopViewController).dataController = dataController
             break
-        case .Some("BusStopDetailSegue"):
-            let nextVC = (segue.destinationViewController as! BusStopDetailsContainerViewController)
+        case .some("BusStopDetailSegue"):
+            let nextVC = (segue.destination as! BusStopDetailsContainerViewController)
             nextVC.dataController = dataController
             nextVC.stopPoint = stopPoint
             break
@@ -58,25 +58,27 @@ class FavouritesContainerViewController: UIViewController
         
     }
     
-    private func requestAd()
+    fileprivate func requestAd()
     {
         let request = GADRequest()
         request.testDevices = MCConstants.adMobTestDevices() + [kGADSimulatorID]
-        adBannerView.loadRequest(request)
+        adBannerView.load(request)
     }
 }
 
 extension FavouritesContainerViewController: GADBannerViewDelegate
 {
-    func adViewDidReceiveAd(bannerView: GADBannerView!)
+    func adViewDidReceiveAd(_ bannerView: GADBannerView!)
     {
-        Dispatch.mainQueue.async { self.bottomConstraint.constant = 0 }
-        Dispatch.mainQueue.after(30 * Int64(NSEC_PER_SEC)) { self.requestAd() }
+        DispatchQueue.main.async { self.bottomConstraint.constant = 0 }
+        let time = DispatchTime(uptimeNanoseconds: DispatchTime.now().uptimeNanoseconds + 30 * NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time) { self.requestAd() }
     }
     
-    func adView(bannerView: GADBannerView!, didFailToReceiveAdWithError error: GADRequestError!)
+    func adView(_ bannerView: GADBannerView!, didFailToReceiveAdWithError error: GADRequestError!)
     {
-        Dispatch.mainQueue.async { self.bottomConstraint.constant = -bannerView.frame.height }
-        Dispatch.mainQueue.after(30 * Int64(NSEC_PER_SEC)) { self.requestAd() }
+        DispatchQueue.main.async { self.bottomConstraint.constant = -bannerView.frame.height }
+        let time = DispatchTime(uptimeNanoseconds: DispatchTime.now().uptimeNanoseconds + 30 * NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time) { self.requestAd() }
     }
 }

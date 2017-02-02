@@ -17,44 +17,44 @@ class BusStopDetailsContainerViewController: UIViewController
     @IBOutlet weak var sortButton: UIBarButtonItem!
     @IBOutlet var editButton: UIBarButtonItem!
     
-    private var favouritedButton: UIBarButtonItem!
-    private var addToFavouriteButton: UIBarButtonItem!
+    fileprivate var favouritedButton: UIBarButtonItem!
+    fileprivate var addToFavouriteButton: UIBarButtonItem!
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        favouritedButton = UIBarButtonItem(image: FavouritesStar.get(.Filled),
-            style: .Plain, target: self, action: #selector(toggleFavourite(_:)))
-        addToFavouriteButton = UIBarButtonItem(image: FavouritesStar.get(.Empty),
-            style: .Plain, target: self, action: #selector(toggleFavourite(_:)))
+        favouritedButton = UIBarButtonItem(image: FavouritesStar.get(.filled),
+            style: .plain, target: self, action: #selector(toggleFavourite(_:)))
+        addToFavouriteButton = UIBarButtonItem(image: FavouritesStar.get(.empty),
+            style: .plain, target: self, action: #selector(toggleFavourite(_:)))
         if let stopPoint = stopPoint {
             if dataController.isFavourite(stopPoint.id) {
-                navigationItem.setRightBarButtonItem(editButton, animated: true)
+                navigationItem.setRightBarButton(editButton, animated: true)
                 addItemToToolbar(favouritedButton)
             }
             else {
-                navigationItem.setRightBarButtonItem(nil, animated: true)
+                navigationItem.setRightBarButton(nil, animated: true)
                 addItemToToolbar(addToFavouriteButton)
             }
             updateNavigationItemTitle(stopPoint)
         }
         var items = toolbar.items
-        items?[1] = UIBarButtonItem(image: SortOrderIcon.get(), style: .Plain, target: self,
+        items?[1] = UIBarButtonItem(image: SortOrderIcon.get(), style: .plain, target: self,
             action: #selector(sortButtonTapped(_:)))
         toolbar.setItems(items, animated: false)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
         switch segue.identifier ?? "" {
         case "EmbedSegue":
-            let nextVC = segue.destinationViewController as! BusStopDetailsViewController
+            let nextVC = segue.destination as! BusStopDetailsViewController
             nextVC.dataController = dataController
             nextVC.stopPoint = stopPoint
             nextVC.sortOrder = retrieveSortOrder()
             break
         case "LineSelectionSegue":
-            let nextVC = segue.destinationViewController as! LineSelectionViewController
+            let nextVC = segue.destination as! LineSelectionViewController
             nextVC.dataController = dataController
             nextVC.stopPoint = stopPoint
             break
@@ -64,27 +64,27 @@ class BusStopDetailsContainerViewController: UIViewController
         
     }
     
-    func toggleFavourite(control: UIBarButtonItem)
+    func toggleFavourite(_ control: UIBarButtonItem)
     {
         if let stopPoint = stopPoint {
             var items = toolbar.items
             if dataController.isFavourite(stopPoint.id) {
                 dataController.unfavourite(stopPoint.id)
                 items?[3] = addToFavouriteButton
-                navigationItem.setRightBarButtonItem(nil, animated: true)
+                navigationItem.setRightBarButton(nil, animated: true)
             }
             else {
                 dataController.favourite(stopPoint)
                 items?[3] = favouritedButton
-                navigationItem.setRightBarButtonItem(editButton, animated: true)
+                navigationItem.setRightBarButton(editButton, animated: true)
             }
             toolbar.setItems(items, animated: false)
         }
     }
     
-    func updateNavigationItemTitle(stopPoint: StopPoint)
+    func updateNavigationItemTitle(_ stopPoint: StopPoint)
     {
-        Dispatch.mainQueue.async {
+        DispatchQueue.main.async {
             self.navigationItem.title = stopPoint.stopLetter.isEmpty ? stopPoint.name : "Stop \(stopPoint.stopLetter)"
         }
     }
@@ -94,30 +94,30 @@ class BusStopDetailsContainerViewController: UIViewController
 // MARK: - IBActions
 extension BusStopDetailsContainerViewController
 {
-    @IBAction func sortButtonTapped(button: UIBarButtonItem)
+    @IBAction func sortButtonTapped(_ button: UIBarButtonItem)
     {
         let actionSheet = UIAlertController(title: "Sort Order",
-            message: "Select a criteria to sort by.", preferredStyle: .ActionSheet)
-        let route = UIAlertAction(title: "Route", style: .Default, handler: { _ in self.implementSortOrder(.Route) })
-        let eta = UIAlertAction(title: "ETA", style: .Default, handler: { _ in self.implementSortOrder(.ETA) })
-        let cancel = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+            message: "Select a criteria to sort by.", preferredStyle: .actionSheet)
+        let route = UIAlertAction(title: "Route", style: .default, handler: { _ in self.implementSortOrder(.route) })
+        let eta = UIAlertAction(title: "ETA", style: .default, handler: { _ in self.implementSortOrder(.eta) })
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         [route, eta, cancel].forEach { actionSheet.addAction($0) }
-        presentViewController(actionSheet, animated: true, completion: nil)
+        present(actionSheet, animated: true, completion: nil)
     }
 }
 
 // MARK: - Private Functions
 private extension BusStopDetailsContainerViewController
 {
-    func addItemToToolbar(item: UIBarButtonItem)
+    func addItemToToolbar(_ item: UIBarButtonItem)
     {
         var currentToolbarItems = toolbar.items
         currentToolbarItems?.append(item)
-        currentToolbarItems?.append(UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil))
+        currentToolbarItems?.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
         toolbar.setItems(currentToolbarItems, animated: false)
     }
     
-    func implementSortOrder(order: BusStopDetailsSortOrder)
+    func implementSortOrder(_ order: BusStopDetailsSortOrder)
     {
         if let childVC = childViewControllers.first as? BusStopDetailsViewController {
             childVC.sortOrder = order
@@ -127,18 +127,18 @@ private extension BusStopDetailsContainerViewController
     
     func retrieveSortOrder() -> BusStopDetailsSortOrder
     {
-        if let bundleId = NSBundle.mainBundle().bundleIdentifier {
-            let sortOrderRaw = NSUserDefaults.standardUserDefaults().integerForKey("\(bundleId).sortOrder")
-            return BusStopDetailsSortOrder(rawValue: sortOrderRaw) ?? .Route
+        if let bundleId = Bundle.main.bundleIdentifier {
+            let sortOrderRaw = UserDefaults.standard.integer(forKey: "\(bundleId).sortOrder")
+            return BusStopDetailsSortOrder(rawValue: sortOrderRaw) ?? .route
         }
-        return .Route
+        return .route
     }
     
-    func saveSortOrder(sortOrder: BusStopDetailsSortOrder)
+    func saveSortOrder(_ sortOrder: BusStopDetailsSortOrder)
     {
-        if let bundleId = NSBundle.mainBundle().bundleIdentifier {
-            let userDefaults = NSUserDefaults.standardUserDefaults()
-            userDefaults.setInteger(sortOrder.rawValue, forKey: "\(bundleId).sortOrder")
+        if let bundleId = Bundle.main.bundleIdentifier {
+            let userDefaults = UserDefaults.standard
+            userDefaults.set(sortOrder.rawValue, forKey: "\(bundleId).sortOrder")
             userDefaults.synchronize()
         }
     }

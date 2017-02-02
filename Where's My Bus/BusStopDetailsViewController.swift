@@ -10,8 +10,8 @@ import UIKit
 
 enum BusStopDetailsSortOrder: Int
 {
-    case Route
-    case ETA
+    case route
+    case eta
 }
 
 class BusStopDetailsViewController: UITableViewController
@@ -24,10 +24,10 @@ class BusStopDetailsViewController: UITableViewController
         }
     }
     
-    private var arrivals = [BusArrival]()
-    private var timer: NSTimer?
-    private var arrivalRefreshCounter = 3000
-    private let arrivalRefreshCounterInterval = 3000
+    fileprivate var arrivals = [BusArrival]()
+    fileprivate var timer: Timer?
+    fileprivate var arrivalRefreshCounter = 3000
+    fileprivate let arrivalRefreshCounterInterval = 3000
     
     @IBOutlet weak var progressView: UIProgressView!
     
@@ -35,29 +35,29 @@ class BusStopDetailsViewController: UITableViewController
     {
         super.viewDidLoad()
         refreshControl = UIRefreshControl()
-        refreshControl!.addTarget(self, action: #selector(refresh), forControlEvents: .ValueChanged)
+        refreshControl!.addTarget(self, action: #selector(refresh), for: .valueChanged)
         if let stopPoint = stopPoint {
             TFLClient.instance.busArrivalTimesForStop(stopPoint.id, resultsProcessor: self)
         }
     }
     
-    override func viewWillAppear(animated: Bool)
+    override func viewWillAppear(_ animated: Bool)
     {
         super.viewWillAppear(animated)
         if timer == nil {
-            timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(timerElapsed(_:)),
+            timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(timerElapsed(_:)),
                 userInfo: nil, repeats: true)
         }
     }
     
-    override func viewDidDisappear(animated: Bool)
+    override func viewDidDisappear(_ animated: Bool)
     {
         super.viewDidDisappear(animated)
         timer?.invalidate()
         timer = nil
     }
     
-    func timerElapsed(timer: NSTimer)
+    func timerElapsed(_ timer: Timer)
     {
         if arrivalRefreshCounter == 0 {
             refresh()
@@ -70,16 +70,16 @@ class BusStopDetailsViewController: UITableViewController
     
     func refresh()
     {
-        if progressView.hidden {
-            progressView.hidden = false
-            timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: #selector(timerElapsed(_:)),
+        if progressView.isHidden {
+            progressView.isHidden = false
+            timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(timerElapsed(_:)),
                 userInfo: nil, repeats: true)
         }
         arrivalRefreshCounter = arrivalRefreshCounterInterval
         progressView.progress = 1.0
         if let stopPoint = stopPoint {
             TFLClient.instance.busArrivalTimesForStop(stopPoint.id , resultsProcessor: self)
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
         }
     }
 }
@@ -87,39 +87,39 @@ class BusStopDetailsViewController: UITableViewController
 // MARK: - UITableViewDataSource Implementation
 extension BusStopDetailsViewController
 {
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         switch sortOrder! {
-        case .Route:
+        case .route:
             if let lineId = stopPoint?.lines[section].id {
                 let lineIdArrivals = arrivals.filter { $0.lineId == lineId }
                 return lineIdArrivals.count
             }
             break
-        case .ETA:
+        case .eta:
             return arrivals.count
         }
         return 0
     }
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int
+    override func numberOfSections(in tableView: UITableView) -> Int
     {
         switch sortOrder! {
-        case .ETA:
+        case .eta:
             return 1
-        case .Route:
+        case .route:
             return stopPoint?.lines.count ?? 0
         }
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
-        return sortOrder == .ETA ? nil : stopPoint?.lines[section].name
+        return sortOrder == .eta ? nil : stopPoint?.lines[section].name
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        if let cell = tableView.dequeueReusableCellWithIdentifier(identifier()) as? BusArrivalDetailsCell,
+        if let cell = tableView.dequeueReusableCell(withIdentifier: identifier()) as? BusArrivalDetailsCell,
             let arrival = arrival(indexPath) {
             let minutes = Int(arrival.ETA / 60.0)
             if minutes == 0 { cell.eta.text = "Due" }
@@ -134,37 +134,37 @@ extension BusStopDetailsViewController
         return UITableViewCell()
     }
     
-    private func identifier() -> String
+    fileprivate func identifier() -> String
     {
         let identifier: String
         switch sortOrder! {
-        case .ETA: identifier = "eta"
-        case .Route: identifier = "route"
+        case .eta: identifier = "eta"
+        case .route: identifier = "route"
         }
         return identifier
     }
     
-    private func configure(cell: BusArrivalDetailsCell, with arrival: String)
+    fileprivate func configure(_ cell: BusArrivalDetailsCell, with arrival: String)
     {
         switch sortOrder! {
-        case .ETA:
+        case .eta:
             cell.route.text = arrival
             cell.routeBorder.layer.cornerRadius = 3.0
             break
-        case .Route:
+        case .route:
             break
         }
     }
     
-    private func arrival(indexPath: NSIndexPath) -> BusArrival?
+    fileprivate func arrival(_ indexPath: IndexPath) -> BusArrival?
     {
-        if sortOrder == .Route {
+        if sortOrder == .route {
             if let line = stopPoint?.lines[indexPath.section] {
                 return arrivals.filter { $0.lineId == line.id }[indexPath.row]
             }
         }
-        else if sortOrder == .ETA {
-            return arrivals.sort { $0.ETA < $1.ETA }[indexPath.row]
+        else if sortOrder == .eta {
+            return arrivals.sorted { $0.ETA < $1.ETA }[indexPath.row]
         }
         return nil
     }
@@ -173,27 +173,27 @@ extension BusStopDetailsViewController
 // MARK: - TFLBusArrivalSearchResultsProcessor Implementation
 extension BusStopDetailsViewController: TFLBusArrivalSearchResultsProcessor
 {
-    func handleError(error: NSError)
+    func handleError(_ error: NSError)
     {
         NSLog("\(error)")
-        Dispatch.mainQueue.async {
+        DispatchQueue.main.async {
             if self.presentedViewController == nil {
                 let alertVC = UIAlertController(title: "Error Occurred", message: error.localizedDescription,
-                    preferredStyle: .Alert)
-                alertVC.addAction(UIAlertAction(title: "Dismiss", style: .Default, handler: nil))
-                self.presentViewController(alertVC, animated: true, completion: nil)
+                    preferredStyle: .alert)
+                alertVC.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
+                self.present(alertVC, animated: true, completion: nil)
                 self.timer?.invalidate()
                 self.timer = nil
-                self.progressView.hidden = true
+                self.progressView.isHidden = true
             }
         }
     }
     
-    func processResults(arrivals: [BusArrival])
+    func processResults(_ arrivals: [BusArrival])
     {
-        Dispatch.mainQueue.async {
+        DispatchQueue.main.async {
             self.arrivals = arrivals
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
         }

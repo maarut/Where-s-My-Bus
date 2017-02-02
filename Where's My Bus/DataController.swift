@@ -11,44 +11,44 @@ import CoreData
 
 class DataController
 {
-    private let model: NSManagedObjectModel
-    private let coordinator: NSPersistentStoreCoordinator
-    private let dbURL: NSURL
-    private let persistingContext: NSManagedObjectContext
+    fileprivate let model: NSManagedObjectModel
+    fileprivate let coordinator: NSPersistentStoreCoordinator
+    fileprivate let dbURL: URL
+    fileprivate let persistingContext: NSManagedObjectContext
     
     let mainThreadContext: NSManagedObjectContext
     
     init?(withModelName modelName: String)
     {
-        guard let modelUrl = NSBundle.mainBundle().URLForResource(modelName, withExtension: "momd") else {
+        guard let modelUrl = Bundle.main.url(forResource: modelName, withExtension: "momd") else {
             NSLog("Unable to find model in bundle")
             return nil
         }
-        guard let model = NSManagedObjectModel(contentsOfURL: modelUrl) else {
+        guard let model = NSManagedObjectModel(contentsOf: modelUrl) else {
             NSLog("Unable to create object model")
             return nil
         }
-        guard let docsDir = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory,
-            inDomains: .UserDomainMask).first else {
+        guard let docsDir = FileManager.default.urls(for: .documentDirectory,
+            in: .userDomainMask).first else {
             NSLog("Unable to obtain Documents directory for user")
             return nil
         }
         self.model = model
         coordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
-        dbURL = docsDir.URLByAppendingPathComponent("\(modelName).sqlite")!
+        dbURL = docsDir.appendingPathComponent("\(modelName).sqlite")
         
-        persistingContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
+        persistingContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         persistingContext.name = "Persisting"
         persistingContext.persistentStoreCoordinator = coordinator
         
-        mainThreadContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        mainThreadContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         mainThreadContext.name = "Main"
-        mainThreadContext.parentContext = persistingContext
+        mainThreadContext.parent = persistingContext
         
         do {
             let options = [NSMigratePersistentStoresAutomaticallyOption: true,
                 NSInferMappingModelAutomaticallyOption: true]
-            try coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: dbURL,
+            try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: dbURL,
                 options: options)
         }
         catch let error as NSError {
@@ -58,13 +58,13 @@ class DataController
     
     func save()
     {
-        mainThreadContext.performBlockAndWait {
+        mainThreadContext.performAndWait {
             if self.mainThreadContext.hasChanges {
                 do { try self.mainThreadContext.save() }
                 catch let error as NSError { logErrorAndAbort(error) }
             }
         }
-        persistingContext.performBlock {
+        persistingContext.perform {
             if self.persistingContext.hasChanges {
                 do { try self.persistingContext.save() }
                 catch let error as NSError { logErrorAndAbort(error) }
@@ -72,65 +72,65 @@ class DataController
         }
     }
     
-    func unfavourite(stationId: NaptanId)
+    func unfavourite(_ stationId: NaptanId)
     {
-        mainThreadContext.performBlock {
+        mainThreadContext.perform {
             if let fav = self.retrieve(stationId) {
-                self.mainThreadContext.deleteObject(fav)
+                self.mainThreadContext.delete(fav)
                 self.save()
             }
         }
     }
     
-    func favourite(stopPoint: StopPoint)
+    func favourite(_ stopPoint: StopPoint)
     {
-        mainThreadContext.performBlock {
+        mainThreadContext.perform {
             if self.retrieve(stopPoint.id) == nil {
                 let favourites = self.allFavourites()
                 do { try favourites.performFetch() }
                 catch let error as NSError { logErrorAndAbort(error) }
                 let favourite = Favourite(stopPoint: stopPoint, context: self.mainThreadContext)
-                favourite.sortOrder = favourites.fetchedObjects?.count ?? Int.max
+                favourite.sortOrder = favourites.fetchedObjects?.count as NSNumber?? ?? Int.max as NSNumber?
                 self.save()
             }
         }
     }
     
-    func isFavourite(stationId: NaptanId) -> Bool
+    func isFavourite(_ stationId: NaptanId) -> Bool
     {
         var isFavourite = false
-        mainThreadContext.performBlockAndWait {
+        mainThreadContext.performAndWait {
             isFavourite = self.retrieve(stationId) != nil
         }
         return isFavourite
     }
     
-    func toggleHiddenLine(line: Line, for favourite: Favourite)
+    func toggleHiddenLine(_ line: Line, for favourite: Favourite)
     {
-        favourite.managedObjectContext?.performBlock {
+        favourite.managedObjectContext?.perform {
             if let route = favourite.routes?.allObjects.first( { ($0 as! Route).lineId == line.id } ) as? Route {
-                route.isHidden = NSNumber(bool: !route.isHidden!.boolValue)
+                route.isHidden = NSNumber(value: !route.isHidden!.boolValue as Bool)
             }
             self.save()
         }
     }
     
-    func allFavourites() -> NSFetchedResultsController
+    func allFavourites() -> NSFetchedResultsController<Favourite>
     {
-        let request = NSFetchRequest(entityName: "Favourite")
+        let request = NSFetchRequest<Favourite>(entityName: "Favourite")
         request.sortDescriptors = [NSSortDescriptor(key: "sortOrder", ascending: true)]
-        return NSFetchedResultsController(fetchRequest: request, managedObjectContext: mainThreadContext,
+        return NSFetchedResultsController<Favourite>(fetchRequest: request, managedObjectContext: mainThreadContext,
             sectionNameKeyPath: nil, cacheName: nil)
     }
     
-    func retrieve(stationId: NaptanId) -> Favourite?
+    func retrieve(_ stationId: NaptanId) -> Favourite?
     {
-        let fetchRequest = NSFetchRequest(entityName: "Favourite")
+        let fetchRequest = NSFetchRequest<Favourite>(entityName: "Favourite")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "stationId", ascending: true)]
         fetchRequest.predicate = NSPredicate(format: "stationId == %@", stationId)
         do {
-            let results = try self.mainThreadContext.executeFetchRequest(fetchRequest)
-            return results.first as? Favourite
+            let results = try self.mainThreadContext.fetch(fetchRequest)
+            return results.first
         }
         catch let error as NSError {
             logErrorAndAbort(error)
@@ -139,7 +139,7 @@ class DataController
     }
 }
 
-private func logErrorAndAbort(error: NSError)
+private func logErrorAndAbort(_ error: NSError)
 {
     var errorString = "Core Data Error: \(error.localizedDescription)\n\(error)\n"
     if let detailedErrors = error.userInfo[NSDetailedErrorsKey] as? [NSError] {

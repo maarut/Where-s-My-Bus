@@ -6,7 +6,7 @@
 //  Copyright © 2016 Maarut Chandegra. All rights reserved.
 //
 
-public func ~=<I : ForwardIndexType where I : Comparable>(value: I, pattern: Range<I>) -> Bool
+public func ~=<I : Comparable>(value: I, pattern: Range<I>) -> Bool where I : Comparable
 {
     return pattern ~= value
 }

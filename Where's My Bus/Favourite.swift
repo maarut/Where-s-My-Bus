@@ -15,8 +15,8 @@ class Favourite: NSManagedObject {
 // Insert code here to add functionality to your managed object subclass
     convenience init(stopPoint: StopPoint, context: NSManagedObjectContext)
     {
-        self.init(entity: NSEntityDescription.entityForName("Favourite", inManagedObjectContext: context)!,
-            insertIntoManagedObjectContext: context)
+        self.init(entity: NSEntityDescription.entity(forEntityName: "Favourite", in: context)!,
+            insertInto: context)
         self.stationId = stopPoint.id
         self.stopLetter = stopPoint.stopLetter
         self.stopName = stopPoint.name
@@ -24,7 +24,7 @@ class Favourite: NSManagedObject {
         for line in stopPoint.lines {
             let route = Route(line: line, context: context)
             route.favourite = self
-            mutableRoutes?.addObject(route)
+            (mutableRoutes as AnyObject).add(route)
         }
     }
 }

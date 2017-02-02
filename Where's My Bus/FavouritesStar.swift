@@ -10,44 +10,40 @@ import UIKit
 
 enum FavouritesStarState
 {
-    case Filled
-    case Empty
+    case filled
+    case empty
 }
 
 class FavouritesStar
 {
-    private static let defaultColour = UIColor(hexValue: 0x007AFE, alpha: 1.0)
-    static func get(state: FavouritesStarState, colour: UIColor = FavouritesStar.defaultColour) -> UIImage
+    private static var filledImage: UIImage = { (colour: UIColor) in
+                let star = FavouritesStarView(frame: CGRect(x: 0, y: 0, width: 30, height: 30),
+                    colour: colour, state: .filled)
+                return FavouritesStar.generateImageFrom(star)
+            }(FavouritesStar.defaultColour)
+    private static var emptyImage: UIImage = { (colour: UIColor) in
+                let star = FavouritesStarView(frame: CGRect(x: 0, y: 0, width: 30, height: 30),
+                    colour: colour, state: .empty)
+                return FavouritesStar.generateImageFrom(star)
+            }(FavouritesStar.defaultColour)
+    
+    fileprivate static let defaultColour = UIColor(hexValue: 0x007AFE, alpha: 1.0)
+    
+    static func get(_ state: FavouritesStarState) -> UIImage
     {
-        struct DispatchOnce {
-            static var emptyToken = 0
-            static var filledToken = 0
-            static var emptyImage: UIImage!
-            static var filledImage: UIImage!
-        }
         switch state {
-        case .Empty:
-            dispatch_once(&DispatchOnce.emptyToken) {
-                let star = FavouritesStarView(frame: CGRect(x: 0, y: 0, width: 30, height: 30),
-                    colour: colour, state: state)
-                DispatchOnce.emptyImage = FavouritesStar.generateImageFrom(star)
-            }
-            return DispatchOnce.emptyImage
-        case .Filled:
-            dispatch_once(&DispatchOnce.filledToken) {
-                let star = FavouritesStarView(frame: CGRect(x: 0, y: 0, width: 30, height: 30),
-                    colour: colour, state: state)
-                DispatchOnce.filledImage = FavouritesStar.generateImageFrom(star)
-            }
-            return DispatchOnce.filledImage
+        case .empty:
+            return emptyImage
+        case .filled:
+            return filledImage
         }
     }
     
-    private static func generateImageFrom(view: UIView) -> UIImage
+    fileprivate static func generateImageFrom(_ view: UIView) -> UIImage
     {
         UIGraphicsBeginImageContextWithOptions(view.frame.size, false, 0.0)
         let context = UIGraphicsGetCurrentContext()
-        if let context = context { view.layer.renderInContext(context) }
+        if let context = context { view.layer.render(in: context) }
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return image!
@@ -64,39 +60,39 @@ private class FavouritesStarView: UIView
         self.state = state
         self.colour = colour
         super.init(frame: frame)
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
     }
     
     override convenience init(frame: CGRect)
     {
-        self.init(frame: frame, colour: FavouritesStar.defaultColour, state: .Empty)
+        self.init(frame: frame, colour: FavouritesStar.defaultColour, state: .empty)
     }
     
     required init?(coder aDecoder: NSCoder)
     {
-        state = aDecoder.decodeObjectForKey("state") as! FavouritesStarState
-        colour = aDecoder.decodeObjectForKey("colour") as! UIColor
+        state = aDecoder.decodeObject(forKey: "state") as! FavouritesStarState
+        colour = aDecoder.decodeObject(forKey: "colour") as! UIColor
         super.init(coder: aDecoder)
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
     }
     
-    override func drawRect(rect: CGRect)
+    override func draw(_ rect: CGRect)
     {
         let path = UIBezierPath()
-        path.moveToPoint(CGPoint(x: frame.width * 42.0 / 84.0, y: frame.height * 10.0 / 84.0))
-        path.addLineToPoint(CGPoint(x: frame.width * 50.0 / 84.0, y: frame.height * 32.0 / 84.0))
-        path.addLineToPoint(CGPoint(x: frame.width * 74.0 / 84.0, y: frame.height * 32.0 / 84.0))
-        path.addLineToPoint(CGPoint(x: frame.width * 54.0 / 84.0, y: frame.height * 46.0 / 84.0))
-        path.addLineToPoint(CGPoint(x: frame.width * 62.0 / 84.0, y: frame.height * 70.0 / 84.0))
-        path.addLineToPoint(CGPoint(x: frame.width * 42.0 / 84.0, y: frame.height * 54.0 / 84.0))
-        path.addLineToPoint(CGPoint(x: frame.width * 22.0 / 84.0, y: frame.height * 70.0 / 84.0))
-        path.addLineToPoint(CGPoint(x: frame.width * 29.0 / 84.0, y: frame.height * 46.0 / 84.0))
-        path.addLineToPoint(CGPoint(x: frame.width * 10.0 / 84.0, y: frame.height * 32.0 / 84.0))
-        path.addLineToPoint(CGPoint(x: frame.width * 34.0 / 84.0, y: frame.height * 32.0 / 84.0))
-        path.closePath()
+        path.move(to: CGPoint(x: frame.width * 42.0 / 84.0, y: frame.height * 10.0 / 84.0))
+        path.addLine(to: CGPoint(x: frame.width * 50.0 / 84.0, y: frame.height * 32.0 / 84.0))
+        path.addLine(to: CGPoint(x: frame.width * 74.0 / 84.0, y: frame.height * 32.0 / 84.0))
+        path.addLine(to: CGPoint(x: frame.width * 54.0 / 84.0, y: frame.height * 46.0 / 84.0))
+        path.addLine(to: CGPoint(x: frame.width * 62.0 / 84.0, y: frame.height * 70.0 / 84.0))
+        path.addLine(to: CGPoint(x: frame.width * 42.0 / 84.0, y: frame.height * 54.0 / 84.0))
+        path.addLine(to: CGPoint(x: frame.width * 22.0 / 84.0, y: frame.height * 70.0 / 84.0))
+        path.addLine(to: CGPoint(x: frame.width * 29.0 / 84.0, y: frame.height * 46.0 / 84.0))
+        path.addLine(to: CGPoint(x: frame.width * 10.0 / 84.0, y: frame.height * 32.0 / 84.0))
+        path.addLine(to: CGPoint(x: frame.width * 34.0 / 84.0, y: frame.height * 32.0 / 84.0))
+        path.close()
         colour.setStroke()
         path.stroke()
-        if state == .Filled {
+        if state == .filled {
             colour.setFill()
             path.fill()
         }

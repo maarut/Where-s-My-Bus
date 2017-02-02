@@ -14,10 +14,10 @@ class Route: NSManagedObject
     // Insert code here to add functionality to your managed object subclass
     convenience init(line: Line, context: NSManagedObjectContext)
     {
-        self.init(entity: NSEntityDescription.entityForName("Route", inManagedObjectContext: context)!,
-                  insertIntoManagedObjectContext: context)
+        self.init(entity: NSEntityDescription.entity(forEntityName: "Route", in: context)!,
+                  insertInto: context)
         self.lineId = line.id
         self.lineName = line.name
-        self.isHidden = NSNumber(bool: false)
+        self.isHidden = NSNumber(value: false as Bool)
     }
 }

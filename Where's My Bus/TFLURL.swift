@@ -10,19 +10,19 @@ import Foundation
 
 class TFLURL
 {
-    let url: NSURL
+    let url: URL
     
     init(method: String, parameters: [String: Any])
     {
-        let url = NSURLComponents()
+        var url = URLComponents()
         url.scheme = TFLConstants.API.Scheme
         url.host = TFLConstants.API.Host
         url.path = "/\(method)"
         
-        url.queryItems = parameters.map { NSURLQueryItem(name: $0, value: "\($1)") }
-        url.queryItems!.append(NSURLQueryItem(name: TFLConstants.ParameterKeys.AppId, value: TFLConstants.API.AppId))
-        url.queryItems!.append(NSURLQueryItem(name: TFLConstants.ParameterKeys.AppKey, value: TFLConstants.API.AppKey))
+        url.queryItems = parameters.map { URLQueryItem(name: $0, value: "\($1)") }
+        url.queryItems!.append(URLQueryItem(name: TFLConstants.ParameterKeys.AppId, value: TFLConstants.API.AppId))
+        url.queryItems!.append(URLQueryItem(name: TFLConstants.ParameterKeys.AppKey, value: TFLConstants.API.AppKey))
         
-        self.url = url.URL!
+        self.url = url.url!
     }
 }

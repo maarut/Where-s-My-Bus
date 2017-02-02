@@ -18,7 +18,7 @@ class ETAInformationView: UIView
     override init(frame: CGRect)
     {
         super.init(frame: frame)
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
         let route = UILabel()
         let eta = UILabel()
         let towards = UILabel()
@@ -26,14 +26,14 @@ class ETAInformationView: UIView
         eta.translatesAutoresizingMaskIntoConstraints = false
         towards.translatesAutoresizingMaskIntoConstraints = false
         translatesAutoresizingMaskIntoConstraints = false
-        route.textColor = UIColor.whiteColor()
+        route.textColor = UIColor.white
         eta.text = "ETA"
-        eta.font = UIFont.systemFontOfSize(16.0)
+        eta.font = UIFont.systemFont(ofSize: 16.0)
         route.text = "H28"
         route.font = UIFont(name: "Menlo-Bold", size: 17.0)
-        route.textAlignment = .Center
+        route.textAlignment = .center
         towards.text = "Towards"
-        towards.font = UIFont.systemFontOfSize(11)
+        towards.font = UIFont.systemFont(ofSize: 11)
         let routeBorder = UIView()
         routeBorder.translatesAutoresizingMaskIntoConstraints = false
         routeBorder.backgroundColor = UIColor(hexValue: 0xA1002C)
@@ -46,43 +46,43 @@ class ETAInformationView: UIView
         self.route = route
         self.towards = towards
         
-        NSLayoutConstraint.activateConstraints(createConstraints())
+        NSLayoutConstraint.activate(createConstraints())
         
     }
     
-    private func createConstraints() -> [NSLayoutConstraint]
+    fileprivate func createConstraints() -> [NSLayoutConstraint]
     {
-        var constraints = NSLayoutConstraint.constraintsWithVisualFormat("[border]-[eta]",
+        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "[border]-[eta]",
             options: [], metrics: nil, views: ["border": routeBorder, "eta": eta])
         
-        constraints.append(routeBorder.leadingAnchor.constraintEqualToAnchor(self.leadingAnchor))
+        constraints.append(routeBorder.leadingAnchor.constraint(equalTo: self.leadingAnchor))
         constraints.last!.identifier = "Route Border Leading to Information View Leading"
         
-        constraints.append(route.centerXAnchor.constraintEqualToAnchor(routeBorder.centerXAnchor))
+        constraints.append(route.centerXAnchor.constraint(equalTo: routeBorder.centerXAnchor))
         constraints.last!.identifier = "Route Center X with Route Border"
         
-        constraints.append(route.centerYAnchor.constraintEqualToAnchor(routeBorder.centerYAnchor))
+        constraints.append(route.centerYAnchor.constraint(equalTo: routeBorder.centerYAnchor))
         constraints.last!.identifier = "Route Center Y with Route Border"
         
-        constraints.append(routeBorder.heightAnchor.constraintEqualToAnchor(route.heightAnchor, multiplier: 1.35))
+        constraints.append(routeBorder.heightAnchor.constraint(equalTo: route.heightAnchor, multiplier: 1.35))
         constraints.last!.identifier = "Route Border Height is 1.35x Route Height"
         
-        constraints.append(routeBorder.widthAnchor.constraintEqualToAnchor(route.widthAnchor, multiplier: 1.35))
+        constraints.append(routeBorder.widthAnchor.constraint(equalTo: route.widthAnchor, multiplier: 1.35))
         constraints.last!.identifier = "Route Border Width is 1.35x Route Width"
         
-        constraints.append(routeBorder.centerYAnchor.constraintEqualToAnchor(self.centerYAnchor))
+        constraints.append(routeBorder.centerYAnchor.constraint(equalTo: self.centerYAnchor))
         constraints.last!.identifier = "Route Border Center Y to Information View Center Y"
         
-        constraints.append(eta.topAnchor.constraintEqualToAnchor(self.topAnchor))
+        constraints.append(eta.topAnchor.constraint(equalTo: self.topAnchor))
         constraints.last!.identifier = "ETA Label Top to Information View Top"
         
-        constraints.append(towards.topAnchor.constraintEqualToAnchor(eta.bottomAnchor))
+        constraints.append(towards.topAnchor.constraint(equalTo: eta.bottomAnchor))
         constraints.last!.identifier = "Towards Label Top to ETA Label Bottom"
         
-        constraints.append(towards.leadingAnchor.constraintEqualToAnchor(eta.leadingAnchor))
+        constraints.append(towards.leadingAnchor.constraint(equalTo: eta.leadingAnchor))
         constraints.last!.identifier = "Towards Label Leading to ETA Label Leading"
 
-        constraints.append(towards.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor))
+        constraints.append(towards.bottomAnchor.constraint(equalTo: self.bottomAnchor))
         constraints.last!.identifier = "Towards Label Bottom to Information View Bottom"
 
         return constraints
@@ -94,12 +94,12 @@ class ETAInformationView: UIView
         translatesAutoresizingMaskIntoConstraints = false
     }
     
-    override func intrinsicContentSize() -> CGSize
+    override var intrinsicContentSize : CGSize
     {
-        let width = route.intrinsicContentSize().width * 1.35 +
-            max(eta.intrinsicContentSize().width, towards.intrinsicContentSize().width)
-        let height = max(route.intrinsicContentSize().height * 1.35,
-            eta.intrinsicContentSize().height + towards.intrinsicContentSize().height)
+        let width = route.intrinsicContentSize.width * 1.35 +
+            max(eta.intrinsicContentSize.width, towards.intrinsicContentSize.width)
+        let height = max(route.intrinsicContentSize.height * 1.35,
+            eta.intrinsicContentSize.height + towards.intrinsicContentSize.height)
         return CGSize(width: width, height: height)
     }
 }

@@ -13,14 +13,14 @@ class LineSelectionViewController: UIViewController
     var dataController: DataController!
     var stopPoint: StopPoint!
     
-    private var favourite: Favourite!
-    private var hiddenRoutes = [LineId]()
+    fileprivate var favourite: Favourite!
+    fileprivate var hiddenRoutes = [LineId]()
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         if let favourite = dataController.retrieve(stopPoint.id)?.objectID {
-            self.favourite = dataController.mainThreadContext.objectWithID(favourite) as? Favourite
+            self.favourite = dataController.mainThreadContext.object(with: favourite) as? Favourite
         }
         hiddenRoutes = self.favourite.routes?.flatMap {
             let route = $0 as! Route
@@ -28,17 +28,17 @@ class LineSelectionViewController: UIViewController
         } ?? []
     }
     
-    @IBAction func closeButtonTapped(sender: UIBarButtonItem)
+    @IBAction func closeButtonTapped(_ sender: UIBarButtonItem)
     {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func switchToggled(toggle: UISwitch)
+    @IBAction func switchToggled(_ toggle: UISwitch)
     {
         let route = stopPoint.lines[toggle.tag]
         dataController.toggleHiddenLine(route, for: favourite)
-        if toggle.on {
-            if let index = hiddenRoutes.indexOf(route.id) { hiddenRoutes.removeAtIndex(index) }
+        if toggle.isOn {
+            if let index = hiddenRoutes.index(of: route.id) { hiddenRoutes.remove(at: index) }
         }
         else {
             hiddenRoutes.append(route.id)
@@ -48,30 +48,30 @@ class LineSelectionViewController: UIViewController
 
 extension LineSelectionViewController: UITableViewDelegate
 {
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
         if section != 0 { return nil }
         return "Select the routes that you would like to have visible in the Favourites screen."
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
-        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? LineSelectionCell {
-            cell.toggle.setOn(!cell.toggle.on, animated: true)
+        if let cell = tableView.cellForRow(at: indexPath) as? LineSelectionCell {
+            cell.toggle.setOn(!cell.toggle.isOn, animated: true)
         }
     }
 }
 
 extension LineSelectionViewController: UITableViewDataSource
 {
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return stopPoint?.lines.count ?? 0
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCellWithIdentifier("LineSelection") as! LineSelectionCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LineSelection") as! LineSelectionCell
         let route = stopPoint.lines[indexPath.row]
         cell.route.text = "\(route.name)"
         cell.toggle.setOn(!hiddenRoutes.contains(route.id), animated: false)

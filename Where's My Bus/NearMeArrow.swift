@@ -11,47 +11,41 @@ import UIKit
 // MARK: - NearMeArrowState Enum
 enum NearMeArrowState
 {
-    case Pressed
-    case Normal
+    case pressed
+    case normal
 }
 
 // MARK: - NearMeArrow Implementation
 class NearMeArrow
 {
-    private static let defaultColour = UIColor(hexValue: 0x007AFE, alpha: 1.0)
+    private static var pressedImage: UIImage = { (colour: UIColor) in
+                let locationArrow = NearMeArrowView(frame: CGRect(x: 0, y: 0, width: 36, height: 36),
+                                                    colour: colour, state: .pressed)
+                return NearMeArrow.generateImageFrom(locationArrow)
+            }(NearMeArrow.defaultColour)
+    private static var normalImage: UIImage = { (colour: UIColor) in
+                let locationArrow = NearMeArrowView(frame: CGRect(x: 0, y: 0, width: 36, height: 36),
+                                                    colour: colour, state: .normal)
+                return NearMeArrow.generateImageFrom(locationArrow)
+            }(NearMeArrow.defaultColour)
+    fileprivate static let defaultColour = UIColor(hexValue: 0x007AFE, alpha: 1.0)
     
-    static func get(state state: NearMeArrowState, colour: UIColor = NearMeArrow.defaultColour) -> UIImage
+    static func get(state: NearMeArrowState, colour: UIColor = NearMeArrow.defaultColour) -> UIImage
     {
-        struct DispatchOnce {
-            static var pressedToken = 0
-            static var normalToken = 0
-            static var pressedImage: UIImage!
-            static var normalImage: UIImage!
-        }
         switch state {
-        case .Normal:
-            dispatch_once(&DispatchOnce.normalToken) {
-                let locationArrow = NearMeArrowView(frame: CGRect(x: 0, y: 0, width: 36, height: 36),
-                                                    colour: colour, state: state)
-                DispatchOnce.normalImage = NearMeArrow.generateImageFrom(locationArrow)
-            }
-            return DispatchOnce.normalImage
-        case .Pressed:
-            dispatch_once(&DispatchOnce.pressedToken) {
-                let locationArrow = NearMeArrowView(frame: CGRect(x: 0, y: 0, width: 36, height: 36),
-                                                    colour: colour, state: state)
-                DispatchOnce.pressedImage = NearMeArrow.generateImageFrom(locationArrow)
-            }
-            return DispatchOnce.pressedImage
+        case .normal:
+            return normalImage
+        case .pressed:
+            return pressedImage
         }
         
     }
     
-    private static func generateImageFrom(view: UIView) -> UIImage
+    fileprivate static func generateImageFrom(_ view: UIView) -> UIImage
     {
         UIGraphicsBeginImageContextWithOptions(view.frame.size, false, 0.0)
         let context = UIGraphicsGetCurrentContext()
-        if let context = context { view.layer.renderInContext(context) }
+        if let context = context { view.layer.render(in: context) }
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return image!
@@ -67,34 +61,34 @@ private class NearMeArrowView: UIView
     init(frame: CGRect, colour: UIColor, state: NearMeArrowState)
     {
         switch state {
-        case .Normal:
+        case .normal:
             arrowColour = colour
-            borderColour = UIColor.clearColor()
+            borderColour = UIColor.clear
             break
-        case .Pressed:
+        case .pressed:
             borderColour = colour
-            arrowColour = UIColor.clearColor()
+            arrowColour = UIColor.clear
             break
         }
         super.init(frame: frame)
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
     }
     
     override convenience init(frame: CGRect)
     {
-        self.init(frame: frame, colour: NearMeArrow.defaultColour, state: .Normal)
+        self.init(frame: frame, colour: NearMeArrow.defaultColour, state: .normal)
     }
     
     required init?(coder aDecoder: NSCoder)
     {
-        arrowColour = aDecoder.decodeObjectForKey("arrowColour") as! UIColor
-        borderColour = aDecoder.decodeObjectForKey("borderColour") as! UIColor
+        arrowColour = aDecoder.decodeObject(forKey: "arrowColour") as! UIColor
+        borderColour = aDecoder.decodeObject(forKey: "borderColour") as! UIColor
         super.init(coder: aDecoder)
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
     }
 
     
-    override func drawRect(rect: CGRect)
+    override func draw(_ rect: CGRect)
     {
         let firstPoint = CGPoint(x: frame.width * 38.0 / 72.0, y: frame.height * 35.0 / 72.0)
         let secondPoint = CGPoint(x: frame.width * 13.0 / 72.0, y: frame.height * 35.0 / 72.0)
@@ -102,15 +96,15 @@ private class NearMeArrowView: UIView
         let fourthPoint = CGPoint(x: frame.width * 38.0 / 72.0, y: frame.height * 58.0 / 72.0)
         arrowColour.setStroke()
         let arrowPath = UIBezierPath()
-        arrowPath.moveToPoint(firstPoint)
-        arrowPath.addLineToPoint(secondPoint)
-        arrowPath.addLineToPoint(thirdPoint)
-        arrowPath.addLineToPoint(fourthPoint)
-        arrowPath.closePath()
+        arrowPath.move(to: firstPoint)
+        arrowPath.addLine(to: secondPoint)
+        arrowPath.addLine(to: thirdPoint)
+        arrowPath.addLine(to: fourthPoint)
+        arrowPath.close()
         arrowPath.stroke()
-        if borderColour != UIColor.clearColor() {
+        if borderColour != UIColor.clear {
             let borderPath = UIBezierPath(roundedRect: bounds, cornerRadius: frame.width * 9.0 / 72.0)
-            borderPath.appendPath(arrowPath)
+            borderPath.append(arrowPath)
             borderColour.setStroke()
             borderColour.setFill()
             borderPath.usesEvenOddFillRule = true

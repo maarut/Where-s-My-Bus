@@ -10,24 +10,24 @@ import Foundation
 // MARK: - TFLBusStopDetailsProcessor Protocol
 protocol TFLBusStopDetailsProcessor: class
 {
-    func processStopPoint(stopPoint: StopPoint)
-    func handleError(error: NSError)
+    func processStopPoint(_ stopPoint: StopPoint)
+    func handleError(_ error: NSError)
 }
 
 // MARK: - TFLBusStopDetailsError Enum
 enum TFLBusStopDetailsError: Int
 {
-    case JsonParse
-    case NoData
+    case jsonParse
+    case noData
 }
 
 // MARK: - TFLBusStopDetails class
 class TFLBusStopDetails: TFLNetworkOperationProcessor, TFLNetworkOperationRequestor
 {
-    private weak var resultsHandler: TFLBusStopDetailsProcessor?
-    private let stationId: NaptanId
-    private let _request: NSURLRequest
-    var request: NSURLRequest {
+    fileprivate weak var resultsHandler: TFLBusStopDetailsProcessor?
+    fileprivate let stationId: NaptanId
+    fileprivate let _request: URLRequest
+    var request: URLRequest {
         get {
             return _request
         }
@@ -36,19 +36,19 @@ class TFLBusStopDetails: TFLNetworkOperationProcessor, TFLNetworkOperationReques
     init(stationId: NaptanId, resultsHandler: TFLBusStopDetailsProcessor)
     {
         let method = "StopPoint/\(stationId)"
-        _request = NSURLRequest(URL: TFLURL(method: method, parameters: [:]).url)
+        _request = URLRequest(url: TFLURL(method: method, parameters: [:]).url as URL)
         self.resultsHandler = resultsHandler
         self.stationId = stationId
     }
     
-    func processData(data: NSData)
+    func processData(_ data: Data)
     {
         guard let parsedJson = parseJson(data) else { return }
         guard let json = parsedJson as? [String: AnyObject] else {
             
             let userInfo = [NSLocalizedDescriptionKey: "Returned data could not be formatted in to JSON."]
             let error = NSError(domain: "TFLBusStopDetails.processData",
-                                code: TFLBusStopDetailsError.JsonParse.rawValue, userInfo: userInfo)
+                                code: TFLBusStopDetailsError.jsonParse.rawValue, userInfo: userInfo)
             handleError(error)
             return
         }
@@ -65,7 +65,7 @@ class TFLBusStopDetails: TFLNetworkOperationProcessor, TFLNetworkOperationReques
         }
     }
     
-    func handleError(error: NSError)
+    func handleError(_ error: NSError)
     {
         resultsHandler?.handleError(error)
     }
@@ -74,13 +74,13 @@ class TFLBusStopDetails: TFLNetworkOperationProcessor, TFLNetworkOperationReques
 // MARK: - TFLBusStopDetails Private Functions
 private extension TFLBusStopDetails
 {
-    func parseDetails(json: [String: AnyObject]) -> StopPoint?
+    func parseDetails(_ json: [String: AnyObject]) -> StopPoint?
     {
         do {
             return try StopPoint(json: json)
         }
         catch let error as NSError {
-            if error.code == StopPointError.StopLetterKeyNotFound.rawValue {
+            if error.code == StopPointError.stopLetterKeyNotFound.rawValue {
                 return parseChildren(json).first { $0.id == stationId }
             }
             processError(error)
@@ -88,7 +88,7 @@ private extension TFLBusStopDetails
         return nil
     }
     
-    func parseChildren(json: [String: AnyObject]) -> [StopPoint]
+    func parseChildren(_ json: [String: AnyObject]) -> [StopPoint]
     {
         if let children = json[StopPoint.ChildrenKey] as? [[String: AnyObject]] {
             var parsedChildren = [StopPoint]()
@@ -100,7 +100,7 @@ private extension TFLBusStopDetails
                     
                 }
                 catch let error as NSError {
-                    if error.code != StopPointError.StopLetterKeyNotFound.rawValue {
+                    if error.code != StopPointError.stopLetterKeyNotFound.rawValue {
                         processError(error)
                         return []
                     }
@@ -114,24 +114,24 @@ private extension TFLBusStopDetails
         return []
     }
     
-    func processError(underlyingError: NSError)
+    func processError(_ underlyingError: NSError)
     {
         let userInfo = [NSLocalizedDescriptionKey: "JSON response could not be parsed.",
-                        NSUnderlyingErrorKey: underlyingError]
+                        NSUnderlyingErrorKey: underlyingError] as [String : Any]
         let error = NSError(domain: "TFLBusArrivalSearch.parseArrivals",
-                            code: TFLBusStopDetailsError.JsonParse.rawValue, userInfo: userInfo)
+                            code: TFLBusStopDetailsError.jsonParse.rawValue, userInfo: userInfo)
         handleError(error)
     }
     
-    func parseJson(data: NSData) -> AnyObject?
+    func parseJson(_ data: Data) -> Any?
     {
         do {
-            return try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+            return try JSONSerialization.jsonObject(with: data, options: .allowFragments)
         }
         catch let error as NSError {
-            let userInfo = [NSLocalizedDescriptionKey: "Unable to parse JSON object", NSUnderlyingErrorKey: error]
+            let userInfo = [NSLocalizedDescriptionKey: "Unable to parse JSON object", NSUnderlyingErrorKey: error] as [String : Any]
             let error = NSError(domain: "TFLBusArrivalSearch.parseJson",
-                                code: TFLBusStopDetailsError.NoData.rawValue, userInfo: userInfo)
+                                code: TFLBusStopDetailsError.noData.rawValue, userInfo: userInfo)
             handleError(error)
         }
         return nil

@@ -20,10 +20,10 @@ class SearchStopViewController: UIViewController
     @IBOutlet weak var informationalText: UILabel!
     @IBOutlet weak var toolbar: UIToolbar!
     
-    private let locationManager = CLLocationManager()
-    private var normalNearMeBarButton: UIBarButtonItem!
-    private var pressedNearMeBarButton: UIBarButtonItem!
-    private var allFavourites: NSFetchedResultsController!
+    fileprivate let locationManager = CLLocationManager()
+    fileprivate var normalNearMeBarButton: UIBarButtonItem!
+    fileprivate var pressedNearMeBarButton: UIBarButtonItem!
+    fileprivate var allFavourites: NSFetchedResultsController<Favourite>!
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -38,20 +38,20 @@ class SearchStopViewController: UIViewController
         informationalOverlay.layer.cornerRadius = 10.0
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        normalNearMeBarButton = UIBarButtonItem(image: NearMeArrow.get(state: .Normal), style: .Plain,
+        normalNearMeBarButton = UIBarButtonItem(image: NearMeArrow.get(state: .normal), style: .plain,
             target: self, action: #selector(nearMePressed(_:)))
-        pressedNearMeBarButton = UIBarButtonItem(image: NearMeArrow.get(state: .Pressed), style: .Plain,
+        pressedNearMeBarButton = UIBarButtonItem(image: NearMeArrow.get(state: .pressed), style: .plain,
             target: self, action: #selector(nearMePressed(_:)))
         resetToolbar()
         checkLocationServices()
         locationManager.requestLocation()
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
         if segue.identifier == "BusStopDetailSegue" {
             let annotation = sender as! BusStopAnnotation
-            let destinationVC = segue.destinationViewController as! BusStopDetailsContainerViewController
+            let destinationVC = segue.destination as! BusStopDetailsContainerViewController
             destinationVC.stopPoint = annotation.stopPoint
             destinationVC.dataController = dataController
         }
@@ -61,7 +61,7 @@ class SearchStopViewController: UIViewController
 // MARK: - IBActions
 extension SearchStopViewController
 {
-    func nearMePressed(sender: UIBarButtonItem)
+    func nearMePressed(_ sender: UIBarButtonItem)
     {
         switch sender {
         case normalNearMeBarButton:
@@ -77,10 +77,10 @@ extension SearchStopViewController
         }
     }
     
-    func detailButtonPressed(sender: UIButton)
+    func detailButtonPressed(_ sender: UIButton)
     {
         if let annotation = (sender as? BusStopDetailButton)?.annotation as? BusStopAnnotation {
-            performSegueWithIdentifier("BusStopDetailSegue", sender: annotation)
+            performSegue(withIdentifier: "BusStopDetailSegue", sender: annotation)
         }
     }
 }
@@ -92,20 +92,20 @@ private extension SearchStopViewController
     {
         switch CLLocationManager.authorizationStatus()
         {
-        case .NotDetermined:
+        case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
             break
-        case .Denied:
+        case .denied:
             promptForLocationServicesDenied()
             break
-        case .Restricted:
+        case .restricted:
             let alertVC = UIAlertController(title: "Location Services Restricted",
                 message: "Please speak to your device manager to enable location services to automatically find " +
                     "bus stops near you.",
-                preferredStyle: .Alert)
-            alertVC.addAction(UIAlertAction(title: "Cancel", style: .Cancel,
-                handler: { _ in self.dismissViewControllerAnimated(true, completion: nil) } ))
-            presentViewController(alertVC, animated: true, completion: nil)
+                preferredStyle: .alert)
+            alertVC.addAction(UIAlertAction(title: "Cancel", style: .cancel,
+                handler: { _ in self.dismiss(animated: true, completion: nil) } ))
+            present(alertVC, animated: true, completion: nil)
             break
         default:
             break
@@ -115,7 +115,7 @@ private extension SearchStopViewController
     func resetToolbar()
     {
         switch CLLocationManager.authorizationStatus() {
-        case .Denied, .Restricted:
+        case .denied, .restricted:
             toolbar.setItems([], animated: true)
             break
         default:
@@ -128,13 +128,13 @@ private extension SearchStopViewController
     {
         let alertVC = UIAlertController(title: "Location Services Denied",
             message: "Please enable location services to automatically find bus stops near you.",
-            preferredStyle: .Alert)
-        alertVC.addAction(UIAlertAction(title: "Cancel", style: .Cancel,
-            handler: { _ in self.dismissViewControllerAnimated(true, completion: nil) } ))
-        alertVC.addAction(UIAlertAction(title: "Settings", style: .Default, handler: { _ in
-            UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+            preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "Cancel", style: .cancel,
+            handler: { _ in self.dismiss(animated: true, completion: nil) } ))
+        alertVC.addAction(UIAlertAction(title: "Settings", style: .default, handler: { _ in
+            UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
         }))
-        presentViewController(alertVC, animated: true, completion: nil)
+        present(alertVC, animated: true, completion: nil)
     }
     
     func checkLocationServices()
@@ -142,13 +142,13 @@ private extension SearchStopViewController
         if !CLLocationManager.locationServicesEnabled() {
             let alertVC = UIAlertController(title: "Location Services Disabled",
                 message: "Please enable location services to automatically find bus stops near you.",
-                preferredStyle: .Alert)
-            alertVC.addAction(UIAlertAction(title: "Cancel", style: .Cancel,
-                handler: { _ in self.dismissViewControllerAnimated(true, completion: nil) } ))
-            alertVC.addAction(UIAlertAction(title: "Settings", style: .Default, handler: { _ in
-                UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+                preferredStyle: .alert)
+            alertVC.addAction(UIAlertAction(title: "Cancel", style: .cancel,
+                handler: { _ in self.dismiss(animated: true, completion: nil) } ))
+            alertVC.addAction(UIAlertAction(title: "Settings", style: .default, handler: { _ in
+                UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
             }))
-            presentViewController(alertVC, animated: true, completion: nil)
+            present(alertVC, animated: true, completion: nil)
         }
         else {
             authoriseLocationServices()
@@ -159,7 +159,7 @@ private extension SearchStopViewController
 // MARK: - MKMapViewDelegate Implementation
 extension SearchStopViewController: MKMapViewDelegate
 {
-    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView,
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView,
         calloutAccessoryControlTapped control: UIControl)
     {
         if let annotation = view.annotation as? BusStopAnnotation {
@@ -174,33 +174,33 @@ extension SearchStopViewController: MKMapViewDelegate
         }
     }
 
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView?
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?
     {
         if annotation is MKUserLocation { return nil }
         let image = dataController!.isFavourite((annotation as! BusStopAnnotation).stopPoint.id) ?
-            FavouritesStar.get(.Filled) :
-            FavouritesStar.get(.Empty)
-        if let view = mapView.dequeueReusableAnnotationViewWithIdentifier("StopPoint") as? MKPinAnnotationView {
+            FavouritesStar.get(.filled) :
+            FavouritesStar.get(.empty)
+        if let view = mapView.dequeueReusableAnnotationView(withIdentifier: "StopPoint") as? MKPinAnnotationView {
             view.annotation = annotation
             if let rightCallout = view.rightCalloutAccessoryView as? BusStopDetailsButtonWithDirectionView,
                 let detailButton = rightCallout.detailButton as? BusStopDetailButton {
                 detailButton.annotation = annotation
             }
-            (view.leftCalloutAccessoryView as! UIButton).setImage(image, forState: .Normal)
+            (view.leftCalloutAccessoryView as! UIButton).setImage(image, for: UIControlState())
             return view
         }
         else {
             let view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "StopPoint")
             view.pinTintColor = MKPinAnnotationView.redPinColor()
             view.canShowCallout = true
-            let detailButton =  BusStopDetailButton(type: .DetailDisclosure)
-            detailButton.addTarget(self, action: #selector(detailButtonPressed(_:)), forControlEvents: .TouchUpInside)
+            let detailButton =  BusStopDetailButton(type: .detailDisclosure)
+            detailButton.addTarget(self, action: #selector(detailButtonPressed(_:)), for: .touchUpInside)
             detailButton.annotation = annotation
-            let button = UIButton(type: .Custom)
+            let button = UIButton(type: .custom)
             var buttonFrame = detailButton.frame
-            buttonFrame.origin = CGPointZero
+            buttonFrame.origin = CGPoint.zero
             button.frame = buttonFrame
-            button.setImage(image, forState: .Normal)
+            button.setImage(image, for: UIControlState())
             view.leftCalloutAccessoryView = button
             var outerFrame = detailButton.frame
             outerFrame.size.width = 2 * outerFrame.size.width + 8
@@ -208,7 +208,7 @@ extension SearchStopViewController: MKMapViewDelegate
             let direction = UILabel(frame: buttonFrame)
             direction.text = "↑"
             direction.textColor = UIColor(hexValue: 0xA1002C)
-            direction.textAlignment = .Center
+            direction.textAlignment = .center
             outerView.direction = direction
             outerView.addSubview(direction)
             outerView.detailButton = detailButton
@@ -220,7 +220,7 @@ extension SearchStopViewController: MKMapViewDelegate
         
     }
     
-    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool)
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool)
     {
         let origin = mapView.visibleMapRect.origin
         let size = mapView.visibleMapRect.size
@@ -233,26 +233,26 @@ extension SearchStopViewController: MKMapViewDelegate
             let radius = min(max(width, height), TFLBusStopSearchCriteria.MaxRadius)
             let searchCriteria = TFLBusStopSearchCriteria(centrePoint: mapView.centerCoordinate, radius: radius)
             TFLClient.instance.busStopSearch(searchCriteria, resultsProcessor: self)
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-            UIView.animateWithDuration(0.3, animations: {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+            UIView.animate(withDuration: 0.3, animations: {
                 self.informationalText.alpha = 0.0
                 self.informationalOverlay.alpha = 0.0
             }, completion: { isFinished in
-                self.informationalOverlay.hidden = true
-                self.informationalText.hidden = true
+                self.informationalOverlay.isHidden = true
+                self.informationalText.isHidden = true
             })
         }
         else {
-            UIView.animateWithDuration(0.3, animations: {
+            UIView.animate(withDuration: 0.3, animations: {
                 self.informationalText.alpha = 1.0
                 self.informationalOverlay.alpha = 0.65
-                self.informationalOverlay.hidden = false
-                self.informationalText.hidden = false
+                self.informationalOverlay.isHidden = false
+                self.informationalText.isHidden = false
             })
         }
     }
     
-    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView)
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView)
     {
         TFLClient.instance.busArrivalTimesForStop((view.annotation as! BusStopAnnotation).stopPoint.id,
             resultsProcessor: self)
@@ -261,16 +261,16 @@ extension SearchStopViewController: MKMapViewDelegate
 
 extension SearchStopViewController: TFLBusArrivalSearchResultsProcessor
 {
-    func processResults(arrivals: [BusArrival])
+    func processResults(_ arrivals: [BusArrival])
     {
-        Dispatch.mainQueue.async {
+        DispatchQueue.main.async {
             if let bearing = arrivals.first?.bearing,
                 let annotation = self.map.selectedAnnotations.first,
-                let view = self.map.viewForAnnotation(annotation) as? MKPinAnnotationView,
+                let view = self.map.view(for: annotation) as? MKPinAnnotationView,
                 let directionView = view.rightCalloutAccessoryView as? BusStopDetailsButtonWithDirectionView {
                 let bearingRad = bearing / 360.0 * 2 * M_PI
-                let xfrm = CGAffineTransformRotate(CGAffineTransformIdentity, CGFloat(bearingRad))
-                UIView.animateWithDuration(0.3) { directionView.direction.transform = xfrm }
+                let xfrm = CGAffineTransform.identity.rotated(by: CGFloat(bearingRad))
+                UIView.animate(withDuration: 0.3, animations: { directionView.direction.transform = xfrm }) 
             }
         }
     }
@@ -279,7 +279,7 @@ extension SearchStopViewController: TFLBusArrivalSearchResultsProcessor
 // MARK: - CLLocationManagerDelegate Implementation
 extension SearchStopViewController: CLLocationManagerDelegate
 {
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     {
         if let location = locations.last {
             let distance: CLLocationDistance
@@ -291,19 +291,19 @@ extension SearchStopViewController: CLLocationManagerDelegate
         resetToolbar()
     }
     
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus)
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus)
     {
         resetToolbar()
     }
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError)
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error)
     {
-        switch error.code {
-        case CLError.Denied.rawValue:
+        switch (error as NSError).code {
+        case CLError.Code.denied.rawValue:
             NSLog("Location services denied")
             locationManager.stopUpdatingLocation()
             break
-        case CLError.LocationUnknown.rawValue:
+        case CLError.Code.locationUnknown.rawValue:
             NSLog("Unable to determine location. Will try again later.")
             resetToolbar()
             break
@@ -317,9 +317,9 @@ extension SearchStopViewController: CLLocationManagerDelegate
 // MARK: - TFLBusStopSearchResultsProcessor Implementation
 extension SearchStopViewController: TFLBusStopSearchResultsProcessor
 {
-    func processStopPoints(stopPoints: StopPoints)
+    func processStopPoints(_ stopPoints: StopPoints)
     {
-        Dispatch.mainQueue.async {
+        DispatchQueue.main.async {
             let annotations = self.map.annotations.flatMap { $0 as? BusStopAnnotation }
             let newStopPoints = stopPoints.stopPoints.filter { sp in
                 !annotations.contains { sp == $0.stopPoint }
@@ -327,19 +327,19 @@ extension SearchStopViewController: TFLBusStopSearchResultsProcessor
             let defunctAnnotations = annotations.filter { !stopPoints.stopPoints.contains($0.stopPoint) }
             self.map.removeAnnotations(defunctAnnotations)
             self.map.addAnnotations(newStopPoints.map { BusStopAnnotation(stopPoint: $0) })
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
         }
     }
     
-    func handleError(error: NSError)
+    func handleError(_ error: NSError)
     {
         NSLog("\(error)")
-        Dispatch.mainQueue.async {
+        DispatchQueue.main.async {
             if self.presentedViewController == nil {
                 let alertVC = UIAlertController(title: "Error Occurred", message: error.localizedDescription,
-                    preferredStyle: .Alert)
-                alertVC.addAction(UIAlertAction(title: "Dismiss", style: .Default, handler: nil))
-                self.presentViewController(alertVC, animated: true, completion: nil)
+                    preferredStyle: .alert)
+                alertVC.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
+                self.present(alertVC, animated: true, completion: nil)
             }
         }
     }
@@ -348,20 +348,20 @@ extension SearchStopViewController: TFLBusStopSearchResultsProcessor
 // MARKY - NSFetchedResultsControllerDelegate Implementation
 extension SearchStopViewController: NSFetchedResultsControllerDelegate
 {
-    func controllerDidChangeContent(controller: NSFetchedResultsController)
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>)
     {
-        Dispatch.mainQueue.async {
+        DispatchQueue.main.async {
             let busStops = self.map.annotations.flatMap { $0 as? BusStopAnnotation }
             for stop in busStops {
-                let view = self.map.viewForAnnotation(stop)
-                (view?.leftCalloutAccessoryView as! UIButton).setImage(FavouritesStar.get(.Empty), forState: .Normal)
+                let view = self.map.view(for: stop)
+                (view?.leftCalloutAccessoryView as! UIButton).setImage(FavouritesStar.get(.empty), for: UIControlState())
             }
             let favourites = controller.fetchedObjects as! [Favourite]
             for favourite in favourites {
                 if let annotation = busStops.first( { $0.stopPoint.id == favourite.stationId } ),
-                    let view = self.map.viewForAnnotation(annotation) {
+                    let view = self.map.view(for: annotation) {
                     (view.leftCalloutAccessoryView as! UIButton).setImage(
-                        FavouritesStar.get(.Filled), forState: .Normal)
+                        FavouritesStar.get(.filled), for: UIControlState())
                 }
             }
         }
@@ -371,15 +371,15 @@ extension SearchStopViewController: NSFetchedResultsControllerDelegate
 // MARK: - BusStopAnnocation Private Class
 private class BusStopAnnotation: NSObject, MKAnnotation
 {
-    private (set) var stopPoint: StopPoint
+    fileprivate (set) var stopPoint: StopPoint
     @objc var coordinate: CLLocationCoordinate2D {
         get {
             return stopPoint.location
         }
     }
     
-    @objc private (set) var title: String?
-    @objc private (set) var subtitle: String?
+    @objc fileprivate (set) var title: String?
+    @objc fileprivate (set) var subtitle: String?
     
     init(stopPoint: StopPoint)
     {

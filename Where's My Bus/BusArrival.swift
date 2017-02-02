@@ -17,7 +17,7 @@ func ==(lhs: BusArrival, rhs: BusArrival) -> Bool
 
 enum BusArrivalsError: Int
 {
-    case KeyNotFound
+    case keyNotFound
 }
 
 struct BusArrival: Equatable
@@ -33,7 +33,7 @@ struct BusArrival: Equatable
     
     let id: BusArrivalId
     let numberPlate: String
-    let ETA: NSTimeInterval
+    let ETA: TimeInterval
     let destination: String
     let towards: String
     let lineId: LineId
@@ -42,38 +42,38 @@ struct BusArrival: Equatable
     
     init?(json: [String: AnyObject]) throws
     {
-        func makeError(errorString: String, code: LineError) -> NSError
+        func makeError(_ errorString: String, code: LineError) -> NSError
         {
             return NSError(domain: "BusArrivals.init", code: code.rawValue,
                 userInfo: [NSLocalizedDescriptionKey: errorString])
         }
         guard let id = Int(json[BusArrival.IdKey] as? String ?? "") else {
-            throw makeError("Key \(BusArrival.IdKey) not found.", code: .KeyNotFound)
+            throw makeError("Key \(BusArrival.IdKey) not found.", code: .keyNotFound)
         }
         guard let numberPlate = json[BusArrival.NumberPlateKey] as? String else {
-            throw makeError("Key \(BusArrival.NumberPlateKey) not found.", code: .KeyNotFound)
+            throw makeError("Key \(BusArrival.NumberPlateKey) not found.", code: .keyNotFound)
         }
         guard let lineId = json[BusArrival.LineIdKey] as? String else {
-            throw makeError("Key \(BusArrival.LineIdKey) not found.", code: .KeyNotFound)
+            throw makeError("Key \(BusArrival.LineIdKey) not found.", code: .keyNotFound)
         }
         guard let lineName = json[BusArrival.LineNameKey] as? String else {
-            throw makeError("Key \(BusArrival.LineNameKey) not found.", code: .KeyNotFound)
+            throw makeError("Key \(BusArrival.LineNameKey) not found.", code: .keyNotFound)
         }
         guard let destination = json[BusArrival.DestinationNameKey] as? String else {
-            throw makeError("Key \(BusArrival.DestinationNameKey) not found.", code: .KeyNotFound)
+            throw makeError("Key \(BusArrival.DestinationNameKey) not found.", code: .keyNotFound)
         }
         guard let eta = json[BusArrival.ETAKey] as? Int else {
-            throw makeError("Key \(BusArrival.ETAKey) not found.", code: .KeyNotFound)
+            throw makeError("Key \(BusArrival.ETAKey) not found.", code: .keyNotFound)
         }
         guard let towards = json[BusArrival.TowardsKey] as? String else {
-            throw makeError("Key \(BusArrival.TowardsKey) not found.", code: .KeyNotFound)
+            throw makeError("Key \(BusArrival.TowardsKey) not found.", code: .keyNotFound)
         }
         guard let bearing = Double((json[BusArrival.BearingKey] as? String) ?? "") else {
-            throw makeError("Key \(BusArrival.BearingKey) not found.", code: .KeyNotFound)
+            throw makeError("Key \(BusArrival.BearingKey) not found.", code: .keyNotFound)
         }
         self.id = BusArrivalId(id)
         self.numberPlate = numberPlate
-        self.ETA = NSTimeInterval(eta)
+        self.ETA = TimeInterval(eta)
         self.destination = destination
         self.towards = towards
         self.lineId = LineId(lineId)

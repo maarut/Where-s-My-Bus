@@ -11,45 +11,45 @@ import Foundation
 // MARK: - TFLNetworkOperationRequestor Protocol
 protocol TFLNetworkOperationRequestor
 {
-    var request: NSURLRequest { get }
+    var request: URLRequest { get }
 }
 
 // MARK: - TFLNetworkOperationProcessor Protocol
 protocol TFLNetworkOperationProcessor
 {
-    func handleError(error: NSError)
-    func processData(data: NSData)
+    func handleError(_ error: NSError)
+    func processData(_ data: Data)
 }
 
 // MARK: - TFLNetworkOperationError Enum
 enum TFLNetworkOperationError: Int
 {
-    case InvalidStatus = 900
-    case Response
-    case JsonParse
+    case invalidStatus = 900
+    case response
+    case jsonParse
 }
 
 // MARK: - TFLNetworkOperation
-class TFLNetworkOperation: NSOperation
+class TFLNetworkOperation: Operation
 {
-    private let incomingData = NSMutableData()
-    private var sessionTask: NSURLSessionTask?
-    private lazy var session: NSURLSession = {
-        return NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
+    fileprivate let incomingData = NSMutableData()
+    fileprivate var sessionTask: URLSessionTask?
+    fileprivate lazy var session: Foundation.URLSession = {
+        return Foundation.URLSession(configuration: URLSessionConfiguration.default,
             delegate: self, delegateQueue: nil)
     }()
-    private var processor: TFLNetworkOperationProcessor
-    private let requestor: TFLNetworkOperationRequestor
+    fileprivate var processor: TFLNetworkOperationProcessor
+    fileprivate let requestor: TFLNetworkOperationRequestor
     
     var _finished: Bool = false
-    override var finished: Bool {
+    override var isFinished: Bool {
         get {
             return _finished
         }
         set {
-            willChangeValueForKey("isFinished")
+            willChangeValue(forKey: "isFinished")
             _finished = newValue
-            didChangeValueForKey("isFinished")
+            didChangeValue(forKey: "isFinished")
         }
     }
     
@@ -62,59 +62,59 @@ class TFLNetworkOperation: NSOperation
     
     override func start()
     {
-        if cancelled {
-            finished = true
+        if isCancelled {
+            isFinished = true
             return
         }
-        sessionTask = session.dataTaskWithRequest(requestor.request)
+        sessionTask = session.dataTask(with: requestor.request)
         sessionTask!.resume()
     }
 }
 
 // MARK: - NSURLSessionDataDelegate Implementation
-extension TFLNetworkOperation: NSURLSessionDataDelegate
+extension TFLNetworkOperation: URLSessionDataDelegate
 {
-    func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveResponse response: NSURLResponse,
-        completionHandler: (NSURLSessionResponseDisposition) -> Void)
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse,
+        completionHandler: @escaping (URLSession.ResponseDisposition) -> Void)
     {
-        if cancelled {
+        if isCancelled {
             sessionTask?.cancel()
-            finished = true
-            completionHandler(.Cancel)
+            isFinished = true
+            completionHandler(.cancel)
             return
         }
-        if let response = response as? NSHTTPURLResponse {
+        if let response = response as? HTTPURLResponse {
             if !(response.statusCode ~= 200 ..< 300) {
 
                 let invalidStatusProcessor = InvalidStatusProcessor(processor: processor)
                 processor = invalidStatusProcessor
             }
         }
-        completionHandler(.Allow)
+        completionHandler(.allow)
     }
     
-    func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData)
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data)
     {
-        if cancelled {
+        if isCancelled {
             sessionTask?.cancel()
-            finished = true
+            isFinished = true
             return
         }
-        incomingData.appendData(data)
+        incomingData.append(data)
     }
     
-    func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?)
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?)
     {
-        defer { finished = true }
-        if cancelled {
+        defer { isFinished = true }
+        if isCancelled {
             sessionTask?.cancel()
             return
         }
         guard error == nil else {
-            processor.handleError(error!)
+            processor.handleError(error! as NSError)
             return
         }
-        processor.processData(NSData(data: incomingData))
+        processor.processData(NSData(data: incomingData as Data) as Data)
     }
 }
 
@@ -128,46 +128,46 @@ private class InvalidStatusProcessor: TFLNetworkOperationProcessor
         NSLog("Invalid status detected")
     }
     
-    func handleError(error: NSError)
+    func handleError(_ error: NSError)
     {
         processor.handleError(error)
     }
     
-    func processData(data: NSData)
+    func processData(_ data: Data)
     {
         guard let parsedJson = parseJson(data) else { return }
         guard let json = parsedJson as? [String: AnyObject] else {
             
             let userInfo = [NSLocalizedDescriptionKey: "Returned data could not be formatted in to JSON."]
             let error = NSError(domain: "InvalidStatusProcessor.processData",
-                code: TFLNetworkOperationError.JsonParse.rawValue, userInfo: userInfo)
+                code: TFLNetworkOperationError.jsonParse.rawValue, userInfo: userInfo)
             handleError(error)
             return
         }
         if let message = json["message"] as? String {
             let userInfo = [NSLocalizedDescriptionKey: message]
             let error = NSError(domain: "InvalidStatusProcessor.processData",
-                code: TFLNetworkOperationError.InvalidStatus.rawValue, userInfo: userInfo)
+                code: TFLNetworkOperationError.invalidStatus.rawValue, userInfo: userInfo)
             handleError(error)
         }
         else {
             let userInfo = [NSLocalizedDescriptionKey: "Invalid status received."]
             let error = NSError(domain: "InvalidStatusProcessor.processData",
-                code: TFLNetworkOperationError.InvalidStatus.rawValue, userInfo: userInfo)
+                code: TFLNetworkOperationError.invalidStatus.rawValue, userInfo: userInfo)
             handleError(error)
         }
         
     }
     
-    func parseJson(data: NSData) -> AnyObject?
+    func parseJson(_ data: Data) -> Any?
     {
         do {
-            return try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+            return try JSONSerialization.jsonObject(with: data, options: .allowFragments)
         }
         catch let error as NSError {
-            let userInfo = [NSLocalizedDescriptionKey: "Unable to parse JSON object", NSUnderlyingErrorKey: error]
+            let userInfo = [NSLocalizedDescriptionKey: "Unable to parse JSON object", NSUnderlyingErrorKey: error] as [String : Any]
             let error = NSError(domain: "InvalidStatusProcessor.parseJson",
-                code: TFLNetworkOperationError.Response.rawValue, userInfo: userInfo)
+                code: TFLNetworkOperationError.response.rawValue, userInfo: userInfo)
             handleError(error)
         }
         return nil

@@ -58,7 +58,6 @@
 		E36EC3DF1D94520D009DDAC7 /* FavouritesContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36EC3DE1D94520D009DDAC7 /* FavouritesContainerViewController.swift */; };
 		E38892EC1D7070900078BCCB /* Array+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38892EB1D7070900078BCCB /* Array+Utils.swift */; };
 		E38A26961D4FDB44008C6F8E /* TFLClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38A26951D4FDB44008C6F8E /* TFLClient.swift */; };
-		E38A26981D533E45008C6F8E /* Dispatch+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38A26971D533E45008C6F8E /* Dispatch+Utils.swift */; };
 		E39314D41D6B482C0007B31B /* SortOrderIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39314D31D6B482C0007B31B /* SortOrderIcon.swift */; };
 		E39314D71D6DF4860007B31B /* LineSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39314D61D6DF4860007B31B /* LineSelectionViewController.swift */; };
 		E39314D91D6DF6CA0007B31B /* LineSelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39314D81D6DF6CA0007B31B /* LineSelectionCell.swift */; };
@@ -145,7 +144,6 @@
 		E36EC3DE1D94520D009DDAC7 /* FavouritesContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavouritesContainerViewController.swift; sourceTree = "<group>"; };
 		E38892EB1D7070900078BCCB /* Array+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Utils.swift"; sourceTree = "<group>"; };
 		E38A26951D4FDB44008C6F8E /* TFLClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLClient.swift; sourceTree = "<group>"; };
-		E38A26971D533E45008C6F8E /* Dispatch+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dispatch+Utils.swift"; sourceTree = "<group>"; };
 		E39314D31D6B482C0007B31B /* SortOrderIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortOrderIcon.swift; sourceTree = "<group>"; };
 		E39314D51D6C52900007B31B /* WheresMyBusModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WheresMyBusModel 2.xcdatamodel"; sourceTree = "<group>"; };
 		E39314D61D6DF4860007B31B /* LineSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineSelectionViewController.swift; sourceTree = "<group>"; };
@@ -362,7 +360,6 @@
 			isa = PBXGroup;
 			children = (
 				E36B78AE1D4926A000F5C325 /* Range+Utils.swift */,
-				E38A26971D533E45008C6F8E /* Dispatch+Utils.swift */,
 				E324CAA41D5A41BE00BC19E0 /* UIColor+Utils.swift */,
 				E38892EB1D7070900078BCCB /* Array+Utils.swift */,
 			);
@@ -431,7 +428,7 @@
 					E36B78731D46242E00F5C325 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = F53K8XZ6AA;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0820;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 1;
@@ -441,7 +438,7 @@
 					E36B78871D46242E00F5C325 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = F53K8XZ6AA;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0820;
 						TestTargetID = E36B78731D46242E00F5C325;
 					};
 				};
@@ -518,7 +515,6 @@
 				E39314DD1D6E318B0007B31B /* Favourite+CoreDataProperties.swift in Sources */,
 				E36B78B61D4B6D0B00F5C325 /* Line.swift in Sources */,
 				E36B789F1D4657D400F5C325 /* WheresMyBusModel.xcdatamodeld in Sources */,
-				E38A26981D533E45008C6F8E /* Dispatch+Utils.swift in Sources */,
 				E36B78B21D4A02E200F5C325 /* StopPoints.swift in Sources */,
 				E36B78AF1D4926A000F5C325 /* Range+Utils.swift in Sources */,
 				E39314D91D6DF6CA0007B31B /* LineSelectionCell.swift in Sources */,
@@ -675,7 +671,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Where's My Bus/Where's My Bus-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -697,7 +693,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Where's My Bus/Where's My Bus-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -710,7 +706,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.maarut.Where-s-My-BusTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Where's My Bus.app/Where's My Bus";
 			};
 			name = Debug;
@@ -725,7 +721,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.maarut.Where-s-My-BusTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Where's My Bus.app/Where's My Bus";
 			};
 			name = Release;

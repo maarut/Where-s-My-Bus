@@ -13,9 +13,9 @@ typealias NaptanId = String
 
 enum StopPointError: Int
 {
-    case StopLetterKeyNotFound
-    case KeyNotFound
-    case LineParsing
+    case stopLetterKeyNotFound
+    case keyNotFound
+    case lineParsing
 }
 
 func ==(lhs: StopPoint, rhs: StopPoint) -> Bool
@@ -43,55 +43,55 @@ struct StopPoint: Equatable
     
     init?(json: [String: AnyObject]) throws
     {
-        func makeError(errorString: String, code: StopPointError) -> NSError
+        func makeError(_ errorString: String, code: StopPointError) -> NSError
         {
             return NSError(domain: "StopPoint.init", code: code.rawValue,
                 userInfo: [NSLocalizedDescriptionKey: errorString])
         }
         guard let lat = json[StopPoint.LatKey] as? Double else {
-            throw makeError("Key \(StopPoint.LatKey) not found.", code: .KeyNotFound)
+            throw makeError("Key \(StopPoint.LatKey) not found.", code: .keyNotFound)
         }
         guard let lon = json[StopPoint.LonKey] as? Double else {
-            throw makeError("Key \(StopPoint.LonKey) not found.", code: .KeyNotFound)
+            throw makeError("Key \(StopPoint.LonKey) not found.", code: .keyNotFound)
         }
         guard let name = json[StopPoint.NameKey] as? String else {
-            throw makeError("Key \(StopPoint.NameKey) not found.", code: .KeyNotFound)
+            throw makeError("Key \(StopPoint.NameKey) not found.", code: .keyNotFound)
         }
         guard let stopLetter = json[StopPoint.StopLetterKey] as? String else {
-            throw makeError("Key \(StopPoint.StopLetterKey) not found.", code: .StopLetterKeyNotFound)
+            throw makeError("Key \(StopPoint.StopLetterKey) not found.", code: .stopLetterKeyNotFound)
         }
         guard let linesJson = json[StopPoint.LinesKey] as? [[String: AnyObject]] else {
-            throw makeError("Key \(StopPoint.LinesKey) not found.", code: .KeyNotFound)
+            throw makeError("Key \(StopPoint.LinesKey) not found.", code: .keyNotFound)
         }
         guard let id = json[StopPoint.IdKey] as? String else {
-            throw makeError("Key \(StopPoint.IdKey) not found.", code: .KeyNotFound)
+            throw makeError("Key \(StopPoint.IdKey) not found.", code: .keyNotFound)
         }
         guard let children = json[StopPoint.ChildrenKey] as? [[String: AnyObject]] else {
-            throw makeError("Key \(StopPoint.ChildrenKey) not found.", code: .KeyNotFound)
+            throw makeError("Key \(StopPoint.ChildrenKey) not found.", code: .keyNotFound)
         }
         self.location = CLLocationCoordinate2D(latitude: lat, longitude: lon)
         self.stopLetter = stopLetter.hasPrefix("-") ? "" : stopLetter
         self.name = name
         self.id = NaptanId(id)
         do {
-            self.lines = try linesJson.flatMap { try Line(json: $0) }.sort { $0.id < $1.id }
+            self.lines = try linesJson.flatMap { try Line(json: $0) }.sorted { $0.id < $1.id }
         }
         catch let error as NSError {
             let userInfo: [String: AnyObject] =
-                [NSLocalizedDescriptionKey: "Could not parse JSON dictionary for key \(StopPoint.LinesKey).",
+                [NSLocalizedDescriptionKey: "Could not parse JSON dictionary for key \(StopPoint.LinesKey)." as AnyObject,
                 NSUnderlyingErrorKey: error]
-            throw NSError(domain: "StopPoint.init", code: StopPointError.LineParsing.rawValue, userInfo: userInfo)
+            throw NSError(domain: "StopPoint.init", code: StopPointError.lineParsing.rawValue, userInfo: userInfo)
         }
         self.children = try children.flatMap {
             do { return try StopPoint(json: $0) }
             catch let error as NSError {
-                if error.code == StopPointError.StopLetterKeyNotFound.rawValue {
+                if error.code == StopPointError.stopLetterKeyNotFound.rawValue {
                     return nil
                 }
                 let userInfo: [String: AnyObject] =
-                    [NSLocalizedDescriptionKey: "Could not parse JSON dictionary for key \(StopPoints.StopPointsKey).",
+                    [NSLocalizedDescriptionKey: "Could not parse JSON dictionary for key \(StopPoints.StopPointsKey)." as AnyObject,
                         NSUnderlyingErrorKey: error]
-                throw NSError(domain: "StopPoints.init", code: StopPointsError.StopPointsParsing.rawValue,
+                throw NSError(domain: "StopPoints.init", code: StopPointsError.stopPointsParsing.rawValue,
                     userInfo: userInfo)
             }
         }

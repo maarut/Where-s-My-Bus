@@ -13,7 +13,7 @@ typealias LineDetails = String
 
 enum LineError: Int
 {
-    case KeyNotFound
+    case keyNotFound
 }
 
 struct Line
@@ -28,19 +28,19 @@ struct Line
     
     init?(json: [String: AnyObject]) throws
     {
-        func makeError(errorString: String, code: LineError) -> NSError
+        func makeError(_ errorString: String, code: LineError) -> NSError
         {
             return NSError(domain: "Line.init", code: code.rawValue,
                            userInfo: [NSLocalizedDescriptionKey: errorString])
         }
         guard let id = json[Line.IdKey] as? String else {
-            throw makeError("Key \(Line.IdKey) not found.", code: .KeyNotFound)
+            throw makeError("Key \(Line.IdKey) not found.", code: .keyNotFound)
         }
         guard let name = json[Line.NameKey] as? String else {
-            throw makeError("Key \(Line.NameKey) not found.", code: .KeyNotFound)
+            throw makeError("Key \(Line.NameKey) not found.", code: .keyNotFound)
         }
         guard let uri = json[Line.UriKey] as? String else {
-            throw makeError("Key \(Line.UriKey) not found.", code: .KeyNotFound)
+            throw makeError("Key \(Line.UriKey) not found.", code: .keyNotFound)
         }
         self.id = LineId(id)
         self.name = name
