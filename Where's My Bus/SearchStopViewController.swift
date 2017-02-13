@@ -33,7 +33,7 @@ class SearchStopViewController: UIViewController
             try allFavourites.performFetch()
         }
         catch let error as NSError {
-            handleError(error)
+            handle(error: error)
         }
         informationalOverlay.layer.cornerRadius = 10.0
         locationManager.delegate = self
@@ -261,7 +261,7 @@ extension SearchStopViewController: MKMapViewDelegate
 
 extension SearchStopViewController: TFLBusArrivalSearchResultsProcessor
 {
-    func processResults(_ arrivals: [BusArrival])
+    func process(arrivals: [BusArrival])
     {
         DispatchQueue.main.async {
             if let bearing = arrivals.first?.bearing,
@@ -317,7 +317,7 @@ extension SearchStopViewController: CLLocationManagerDelegate
 // MARK: - TFLBusStopSearchResultsProcessor Implementation
 extension SearchStopViewController: TFLBusStopSearchResultsProcessor
 {
-    func processStopPoints(_ stopPoints: StopPoints)
+    func process(stopPoints: StopPoints)
     {
         DispatchQueue.main.async {
             let annotations = self.map.annotations.flatMap { $0 as? BusStopAnnotation }
@@ -331,7 +331,7 @@ extension SearchStopViewController: TFLBusStopSearchResultsProcessor
         }
     }
     
-    func handleError(_ error: NSError)
+    func handle(error: NSError)
     {
         NSLog("\(error)")
         DispatchQueue.main.async {

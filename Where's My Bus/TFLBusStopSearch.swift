@@ -12,8 +12,8 @@ import CoreLocation
 // MARK: - TFLBusStopSearchResultsProcessor Protocol
 protocol TFLBusStopSearchResultsProcessor: class
 {
-    func processStopPoints(_ stopPoints: StopPoints)
-    func handleError(_ error: NSError)
+    func process(stopPoints: StopPoints)
+    func handle(error: NSError)
 }
 
 // MARK: - TFLBusStopSearchErrorCodes Enum
@@ -60,7 +60,7 @@ class TFLBusStopSearch: TFLNetworkOperationRequestor, TFLNetworkOperationProcess
         self.resultsHandler = resultsHandler
     }
     
-    func processData(_ data: Data)
+    func process(data: Data)
     {
         guard let parsedJson = parseJson(data) else { return }
         guard let json = parsedJson as? [String: AnyObject] else {
@@ -68,16 +68,16 @@ class TFLBusStopSearch: TFLNetworkOperationRequestor, TFLNetworkOperationProcess
             let userInfo = [NSLocalizedDescriptionKey: "Returned data could not be formatted in to JSON."]
             let error = NSError(domain: "TFLBusStopSearch.processData",
                 code: TFLBusStopSearchError.jsonParse.rawValue, userInfo: userInfo)
-            handleError(error)
+            handle(error: error)
             return
         }
         if let stopPoints = parseStopPoints(json) {
-            resultsHandler?.processStopPoints(stopPoints)
+            resultsHandler?.process(stopPoints: stopPoints)
         }
     }
     
-    func handleError(_ error: NSError) {
-        resultsHandler?.handleError(error)
+    func handle(error: NSError) {
+        resultsHandler?.handle(error: error)
     }
 }
 
@@ -94,7 +94,7 @@ private extension TFLBusStopSearch
                 NSUnderlyingErrorKey: error] as [String : Any]
             let error = NSError(domain: "TFLBusStopSearch.processData",
                 code: TFLBusStopSearchError.jsonParse.rawValue, userInfo: userInfo)
-            handleError(error)
+            handle(error: error)
         }
         return nil
     }
@@ -108,7 +108,7 @@ private extension TFLBusStopSearch
             let userInfo = [NSLocalizedDescriptionKey: "Unable to parse JSON object", NSUnderlyingErrorKey: error] as [String : Any]
             let error = NSError(domain: "TFLBusStopSearch.parseJson",
                 code: TFLBusStopSearchError.noData.rawValue, userInfo: userInfo)
-            handleError(error)
+            handle(error: error)
         }
         return nil
     }

@@ -11,26 +11,6 @@
 		E324CAA71D5B842700BC19E0 /* FavouritesStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E324CAA61D5B842700BC19E0 /* FavouritesStar.swift */; };
 		E324CAAB1D5C9FDF00BC19E0 /* Favourite.swift in Sources */ = {isa = PBXBuildFile; fileRef = E324CAA91D5C9FDF00BC19E0 /* Favourite.swift */; };
 		E324CAAE1D5E110600BC19E0 /* TFLBusStopDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = E324CAAD1D5E110600BC19E0 /* TFLBusStopDetails.swift */; };
-		E33908101D913AAB00112665 /* FirebaseAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E339080A1D913AAB00112665 /* FirebaseAnalytics.framework */; };
-		E33908111D913AAB00112665 /* FirebaseInstanceID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E339080B1D913AAB00112665 /* FirebaseInstanceID.framework */; };
-		E33908121D913AAB00112665 /* GoogleInterchangeUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E339080C1D913AAB00112665 /* GoogleInterchangeUtilities.framework */; };
-		E33908131D913AAB00112665 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E339080D1D913AAB00112665 /* GoogleMobileAds.framework */; };
-		E33908141D913AAB00112665 /* GoogleSymbolUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E339080E1D913AAB00112665 /* GoogleSymbolUtilities.framework */; };
-		E33908151D913AAB00112665 /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E339080F1D913AAB00112665 /* GoogleUtilities.framework */; };
-		E33908181D913C2400112665 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E33908161D913C2400112665 /* AddressBook.framework */; };
-		E33908191D913C2400112665 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E33908171D913C2400112665 /* AVFoundation.framework */; };
-		E339081F1D913CAC00112665 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E339081E1D913CAC00112665 /* CoreMedia.framework */; };
-		E33908211D913CB700112665 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E33908201D913CB700112665 /* CoreTelephony.framework */; };
-		E33908231D913CCF00112665 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E33908221D913CCF00112665 /* SafariServices.framework */; };
-		E33908251D913CE400112665 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E33908241D913CE400112665 /* MediaPlayer.framework */; };
-		E33908271D913CF100112665 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E33908261D913CF100112665 /* MessageUI.framework */; };
-		E33908291D913CFC00112665 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E33908281D913CFC00112665 /* CoreMotion.framework */; };
-		E339082B1D913D0B00112665 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E339082A1D913D0B00112665 /* AudioToolbox.framework */; };
-		E339082F1D913D3C00112665 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E339082E1D913D3C00112665 /* GLKit.framework */; };
-		E33908311D913D6100112665 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E33908301D913D6100112665 /* MobileCoreServices.framework */; };
-		E33908331D913E2B00112665 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E33908321D913E2B00112665 /* libstdc++.tbd */; };
-		E33908371D913E8500112665 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E33908361D913E8500112665 /* libz.tbd */; };
-		E33908391D913E8E00112665 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E33908381D913E8E00112665 /* libsqlite3.tbd */; };
 		E33B69331D831D880032D13C /* BusStopDetailsButtonWithDirectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33B69321D831D880032D13C /* BusStopDetailsButtonWithDirectionView.swift */; };
 		E3638A3A1D58BBD700AEBF4F /* NearMeArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3638A391D58BBD700AEBF4F /* NearMeArrow.swift */; };
 		E36AB3E61D62369E0072FE98 /* BusStopDetailsContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36AB3E51D62369E0072FE98 /* BusStopDetailsContainerViewController.swift */; };
@@ -64,6 +44,16 @@
 		E39314DC1D6E318B0007B31B /* Route+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39314DA1D6E318B0007B31B /* Route+CoreDataProperties.swift */; };
 		E39314DD1D6E318B0007B31B /* Favourite+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39314DB1D6E318B0007B31B /* Favourite+CoreDataProperties.swift */; };
 		E39314E31D6E324C0007B31B /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39314E21D6E324C0007B31B /* Route.swift */; };
+		E3B5671B1E43A6B5005E8E5C /* FirebaseAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B567141E43A6B5005E8E5C /* FirebaseAnalytics.framework */; };
+		E3B5671C1E43A6B5005E8E5C /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B567151E43A6B5005E8E5C /* FirebaseCore.framework */; };
+		E3B5671D1E43A6B5005E8E5C /* FirebaseInstanceID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B567161E43A6B5005E8E5C /* FirebaseInstanceID.framework */; };
+		E3B5671E1E43A6B5005E8E5C /* GoogleInterchangeUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B567171E43A6B5005E8E5C /* GoogleInterchangeUtilities.framework */; };
+		E3B5671F1E43A6B5005E8E5C /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B567181E43A6B5005E8E5C /* GoogleMobileAds.framework */; };
+		E3B567201E43A6B5005E8E5C /* GoogleSymbolUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B567191E43A6B5005E8E5C /* GoogleSymbolUtilities.framework */; };
+		E3B567211E43A6B5005E8E5C /* GoogleToolboxForMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B5671A1E43A6B5005E8E5C /* GoogleToolboxForMac.framework */; };
+		E3B567231E43A6F4005E8E5C /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B567221E43A6F4005E8E5C /* libstdc++.tbd */; };
+		E3B567251E43A6FA005E8E5C /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B567241E43A6FA005E8E5C /* libz.tbd */; };
+		E3B567271E43A703005E8E5C /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B567261E43A703005E8E5C /* libsqlite3.tbd */; };
 		E3CA5C631D54ACD100FD668C /* BusStopDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CA5C621D54ACD100FD668C /* BusStopDetailsViewController.swift */; };
 		E3CA5C651D54F27C00FD668C /* BusArrival.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CA5C641D54F27C00FD668C /* BusArrival.swift */; };
 		E3CA5C671D5502C100FD668C /* TFLBusArrivalSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CA5C661D5502C100FD668C /* TFLBusArrivalSearch.swift */; };
@@ -86,30 +76,6 @@
 		E324CAAD1D5E110600BC19E0 /* TFLBusStopDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLBusStopDetails.swift; sourceTree = "<group>"; };
 		E33908081D90221300112665 /* Firebase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Firebase.h; sourceTree = "<group>"; };
 		E33908091D90224F00112665 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		E339080A1D913AAB00112665 /* FirebaseAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAnalytics.framework; path = Frameworks/FirebaseAnalytics.framework; sourceTree = "<group>"; };
-		E339080B1D913AAB00112665 /* FirebaseInstanceID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseInstanceID.framework; path = Frameworks/FirebaseInstanceID.framework; sourceTree = "<group>"; };
-		E339080C1D913AAB00112665 /* GoogleInterchangeUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleInterchangeUtilities.framework; path = Frameworks/GoogleInterchangeUtilities.framework; sourceTree = "<group>"; };
-		E339080D1D913AAB00112665 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = Frameworks/GoogleMobileAds.framework; sourceTree = "<group>"; };
-		E339080E1D913AAB00112665 /* GoogleSymbolUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleSymbolUtilities.framework; path = Frameworks/GoogleSymbolUtilities.framework; sourceTree = "<group>"; };
-		E339080F1D913AAB00112665 /* GoogleUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleUtilities.framework; path = Frameworks/GoogleUtilities.framework; sourceTree = "<group>"; };
-		E33908161D913C2400112665 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
-		E33908171D913C2400112665 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		E339081A1D913C5C00112665 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
-		E339081C1D913C7500112665 /* libcompression.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcompression.tbd; path = usr/lib/libcompression.tbd; sourceTree = SDKROOT; };
-		E339081E1D913CAC00112665 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		E33908201D913CB700112665 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
-		E33908221D913CCF00112665 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
-		E33908241D913CE400112665 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		E33908261D913CF100112665 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		E33908281D913CFC00112665 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
-		E339082A1D913D0B00112665 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		E339082C1D913D1A00112665 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		E339082E1D913D3C00112665 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
-		E33908301D913D6100112665 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		E33908321D913E2B00112665 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
-		E33908341D913E3F00112665 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		E33908361D913E8500112665 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		E33908381D913E8E00112665 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		E33B69321D831D880032D13C /* BusStopDetailsButtonWithDirectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusStopDetailsButtonWithDirectionView.swift; sourceTree = "<group>"; };
 		E3638A391D58BBD700AEBF4F /* NearMeArrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearMeArrow.swift; sourceTree = "<group>"; };
 		E36AB3E51D62369E0072FE98 /* BusStopDetailsContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusStopDetailsContainerViewController.swift; sourceTree = "<group>"; };
@@ -151,6 +117,16 @@
 		E39314DA1D6E318B0007B31B /* Route+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Route+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E39314DB1D6E318B0007B31B /* Favourite+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Favourite+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E39314E21D6E324C0007B31B /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		E3B567141E43A6B5005E8E5C /* FirebaseAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAnalytics.framework; path = Frameworks/FirebaseAnalytics.framework; sourceTree = "<group>"; };
+		E3B567151E43A6B5005E8E5C /* FirebaseCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCore.framework; path = Frameworks/FirebaseCore.framework; sourceTree = "<group>"; };
+		E3B567161E43A6B5005E8E5C /* FirebaseInstanceID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseInstanceID.framework; path = Frameworks/FirebaseInstanceID.framework; sourceTree = "<group>"; };
+		E3B567171E43A6B5005E8E5C /* GoogleInterchangeUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleInterchangeUtilities.framework; path = Frameworks/GoogleInterchangeUtilities.framework; sourceTree = "<group>"; };
+		E3B567181E43A6B5005E8E5C /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = Frameworks/GoogleMobileAds.framework; sourceTree = "<group>"; };
+		E3B567191E43A6B5005E8E5C /* GoogleSymbolUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleSymbolUtilities.framework; path = Frameworks/GoogleSymbolUtilities.framework; sourceTree = "<group>"; };
+		E3B5671A1E43A6B5005E8E5C /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleToolboxForMac.framework; path = Frameworks/GoogleToolboxForMac.framework; sourceTree = "<group>"; };
+		E3B567221E43A6F4005E8E5C /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		E3B567241E43A6FA005E8E5C /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		E3B567261E43A703005E8E5C /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		E3CA5C621D54ACD100FD668C /* BusStopDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusStopDetailsViewController.swift; sourceTree = "<group>"; };
 		E3CA5C641D54F27C00FD668C /* BusArrival.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusArrival.swift; sourceTree = "<group>"; };
 		E3CA5C661D5502C100FD668C /* TFLBusArrivalSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLBusArrivalSearch.swift; sourceTree = "<group>"; };
@@ -161,26 +137,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E33908391D913E8E00112665 /* libsqlite3.tbd in Frameworks */,
-				E33908371D913E8500112665 /* libz.tbd in Frameworks */,
-				E33908331D913E2B00112665 /* libstdc++.tbd in Frameworks */,
-				E33908311D913D6100112665 /* MobileCoreServices.framework in Frameworks */,
-				E339082F1D913D3C00112665 /* GLKit.framework in Frameworks */,
-				E339082B1D913D0B00112665 /* AudioToolbox.framework in Frameworks */,
-				E33908291D913CFC00112665 /* CoreMotion.framework in Frameworks */,
-				E33908271D913CF100112665 /* MessageUI.framework in Frameworks */,
-				E33908251D913CE400112665 /* MediaPlayer.framework in Frameworks */,
-				E33908231D913CCF00112665 /* SafariServices.framework in Frameworks */,
-				E33908211D913CB700112665 /* CoreTelephony.framework in Frameworks */,
-				E339081F1D913CAC00112665 /* CoreMedia.framework in Frameworks */,
-				E33908181D913C2400112665 /* AddressBook.framework in Frameworks */,
-				E33908191D913C2400112665 /* AVFoundation.framework in Frameworks */,
-				E33908151D913AAB00112665 /* GoogleUtilities.framework in Frameworks */,
-				E33908121D913AAB00112665 /* GoogleInterchangeUtilities.framework in Frameworks */,
-				E33908101D913AAB00112665 /* FirebaseAnalytics.framework in Frameworks */,
-				E33908141D913AAB00112665 /* GoogleSymbolUtilities.framework in Frameworks */,
-				E33908131D913AAB00112665 /* GoogleMobileAds.framework in Frameworks */,
-				E33908111D913AAB00112665 /* FirebaseInstanceID.framework in Frameworks */,
+				E3B567271E43A703005E8E5C /* libsqlite3.tbd in Frameworks */,
+				E3B567251E43A6FA005E8E5C /* libz.tbd in Frameworks */,
+				E3B567231E43A6F4005E8E5C /* libstdc++.tbd in Frameworks */,
+				E3B567211E43A6B5005E8E5C /* GoogleToolboxForMac.framework in Frameworks */,
+				E3B567201E43A6B5005E8E5C /* GoogleSymbolUtilities.framework in Frameworks */,
+				E3B5671C1E43A6B5005E8E5C /* FirebaseCore.framework in Frameworks */,
+				E3B5671E1E43A6B5005E8E5C /* GoogleInterchangeUtilities.framework in Frameworks */,
+				E3B5671F1E43A6B5005E8E5C /* GoogleMobileAds.framework in Frameworks */,
+				E3B5671D1E43A6B5005E8E5C /* FirebaseInstanceID.framework in Frameworks */,
+				E3B5671B1E43A6B5005E8E5C /* FirebaseAnalytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,30 +175,16 @@
 		E33907EE1D8C559200112665 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E33908381D913E8E00112665 /* libsqlite3.tbd */,
-				E33908361D913E8500112665 /* libz.tbd */,
-				E33908341D913E3F00112665 /* StoreKit.framework */,
-				E33908321D913E2B00112665 /* libstdc++.tbd */,
-				E33908301D913D6100112665 /* MobileCoreServices.framework */,
-				E339082E1D913D3C00112665 /* GLKit.framework */,
-				E339082C1D913D1A00112665 /* CoreGraphics.framework */,
-				E339082A1D913D0B00112665 /* AudioToolbox.framework */,
-				E33908281D913CFC00112665 /* CoreMotion.framework */,
-				E33908261D913CF100112665 /* MessageUI.framework */,
-				E33908241D913CE400112665 /* MediaPlayer.framework */,
-				E33908221D913CCF00112665 /* SafariServices.framework */,
-				E33908201D913CB700112665 /* CoreTelephony.framework */,
-				E339081E1D913CAC00112665 /* CoreMedia.framework */,
-				E339081C1D913C7500112665 /* libcompression.tbd */,
-				E339081A1D913C5C00112665 /* libsqlite3.0.tbd */,
-				E33908161D913C2400112665 /* AddressBook.framework */,
-				E33908171D913C2400112665 /* AVFoundation.framework */,
-				E339080A1D913AAB00112665 /* FirebaseAnalytics.framework */,
-				E339080B1D913AAB00112665 /* FirebaseInstanceID.framework */,
-				E339080C1D913AAB00112665 /* GoogleInterchangeUtilities.framework */,
-				E339080D1D913AAB00112665 /* GoogleMobileAds.framework */,
-				E339080E1D913AAB00112665 /* GoogleSymbolUtilities.framework */,
-				E339080F1D913AAB00112665 /* GoogleUtilities.framework */,
+				E3B567261E43A703005E8E5C /* libsqlite3.tbd */,
+				E3B567241E43A6FA005E8E5C /* libz.tbd */,
+				E3B567221E43A6F4005E8E5C /* libstdc++.tbd */,
+				E3B567141E43A6B5005E8E5C /* FirebaseAnalytics.framework */,
+				E3B567151E43A6B5005E8E5C /* FirebaseCore.framework */,
+				E3B567161E43A6B5005E8E5C /* FirebaseInstanceID.framework */,
+				E3B567171E43A6B5005E8E5C /* GoogleInterchangeUtilities.framework */,
+				E3B567181E43A6B5005E8E5C /* GoogleMobileAds.framework */,
+				E3B567191E43A6B5005E8E5C /* GoogleSymbolUtilities.framework */,
+				E3B5671A1E43A6B5005E8E5C /* GoogleToolboxForMac.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

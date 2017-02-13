@@ -10,8 +10,8 @@ import Foundation
 // MARK: - TFLBusArrivalSearchResultsProcessor Protocol
 protocol TFLBusArrivalSearchResultsProcessor: class
 {
-    func processResults(_ arrivals: [BusArrival])
-    func handleError(_ error: NSError)
+    func process(arrivals: [BusArrival])
+    func handle(error: NSError)
 }
 
 // MARK: - TFLBusArrivalSearchError Enum
@@ -39,7 +39,7 @@ class TFLBusArrivalSearch: TFLNetworkOperationProcessor, TFLNetworkOperationRequ
         self.resultsHandler = resultsHandler
     }
     
-    func processData(_ data: Data)
+    func process(data: Data)
     {
         guard let parsedJson = parseJson(data) else { return }
         guard let json = parsedJson as? [[String: AnyObject]] else {
@@ -47,16 +47,16 @@ class TFLBusArrivalSearch: TFLNetworkOperationProcessor, TFLNetworkOperationRequ
             let userInfo = [NSLocalizedDescriptionKey: "Returned data could not be formatted in to JSON."]
             let error = NSError(domain: "TFLBusStopSearch.processData",
                                 code: TFLBusArrivalSearchError.jsonParse.rawValue, userInfo: userInfo)
-            handleError(error)
+            handle(error: error)
             return
         }
         let arrivals = parseArrivals(json)
-        resultsHandler?.processResults(arrivals.sorted { $0.ETA < $1.ETA })
+        resultsHandler?.process(arrivals: arrivals.sorted { $0.ETA < $1.ETA })
     }
     
-    func handleError(_ error: NSError)
+    func handle(error: NSError)
     {
-        resultsHandler?.handleError(error)
+        resultsHandler?.handle(error: error)
     }
 }
 
@@ -73,7 +73,7 @@ private extension TFLBusArrivalSearch
                             NSUnderlyingErrorKey: error] as [String : Any]
             let error = NSError(domain: "TFLBusArrivalSearch.parseArrivals",
                                 code: TFLBusArrivalSearchError.jsonParse.rawValue, userInfo: userInfo)
-            handleError(error)
+            handle(error: error)
         }
         return []
     }
@@ -87,7 +87,7 @@ private extension TFLBusArrivalSearch
             let userInfo = [NSLocalizedDescriptionKey: "Unable to parse JSON object", NSUnderlyingErrorKey: error] as [String : Any]
             let error = NSError(domain: "TFLBusArrivalSearch.parseJson",
                                 code: TFLBusArrivalSearchError.noData.rawValue, userInfo: userInfo)
-            handleError(error)
+            handle(error: error)
         }
         return nil
     }

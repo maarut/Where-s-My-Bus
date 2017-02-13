@@ -402,7 +402,7 @@ private class FavouritesDetails
 
 extension FavouritesDetails: TFLBusStopDetailsProcessor
 {
-    func handleError(_ error: NSError)
+    func handle(error: NSError)
     {
         NSLog("\(error)")
         DispatchQueue.main.async {
@@ -418,7 +418,7 @@ extension FavouritesDetails: TFLBusStopDetailsProcessor
         }
     }
     
-    func processStopPoint(_ stopPoint: StopPoint)
+    func process(stopPoint: StopPoint)
     {
         DispatchQueue.main.async {
             self.stopPointLetter = stopPoint.stopLetter
@@ -449,7 +449,7 @@ extension FavouritesDetails: TFLBusStopDetailsProcessor
 
 extension FavouritesDetails: TFLBusArrivalSearchResultsProcessor
 {
-    func processResults(_ arrivals: [BusArrival])
+    func process(arrivals: [BusArrival])
     {
         DispatchQueue.main.async {
             self.arrivals = []

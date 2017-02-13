@@ -136,12 +136,10 @@ extension BusStopDetailsViewController
     
     fileprivate func identifier() -> String
     {
-        let identifier: String
         switch sortOrder! {
-        case .eta: identifier = "eta"
-        case .route: identifier = "route"
+        case .eta:      return "eta"
+        case .route:    return "route"
         }
-        return identifier
     }
     
     fileprivate func configure(_ cell: BusArrivalDetailsCell, with arrival: String)
@@ -158,13 +156,13 @@ extension BusStopDetailsViewController
     
     fileprivate func arrival(_ indexPath: IndexPath) -> BusArrival?
     {
-        if sortOrder == .route {
+        switch sortOrder! {
+        case .eta:
+            return arrivals.sorted { $0.ETA < $1.ETA }[indexPath.row]
+        case .route:
             if let line = stopPoint?.lines[indexPath.section] {
                 return arrivals.filter { $0.lineId == line.id }[indexPath.row]
             }
-        }
-        else if sortOrder == .eta {
-            return arrivals.sorted { $0.ETA < $1.ETA }[indexPath.row]
         }
         return nil
     }
@@ -173,23 +171,22 @@ extension BusStopDetailsViewController
 // MARK: - TFLBusArrivalSearchResultsProcessor Implementation
 extension BusStopDetailsViewController: TFLBusArrivalSearchResultsProcessor
 {
-    func handleError(_ error: NSError)
+    func handle(error: NSError)
     {
         NSLog("\(error)")
         DispatchQueue.main.async {
-            if self.presentedViewController == nil {
-                let alertVC = UIAlertController(title: "Error Occurred", message: error.localizedDescription,
-                    preferredStyle: .alert)
-                alertVC.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
-                self.present(alertVC, animated: true, completion: nil)
-                self.timer?.invalidate()
-                self.timer = nil
-                self.progressView.isHidden = true
-            }
+            if self.presentedViewController != nil { return }
+            let alertVC = UIAlertController(title: "Error Occurred", message: error.localizedDescription,
+                preferredStyle: .alert)
+            alertVC.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
+            self.present(alertVC, animated: true, completion: nil)
+            self.timer?.invalidate()
+            self.timer = nil
+            self.progressView.isHidden = true
         }
     }
     
-    func processResults(_ arrivals: [BusArrival])
+    func process(arrivals: [BusArrival])
     {
         DispatchQueue.main.async {
             self.arrivals = arrivals

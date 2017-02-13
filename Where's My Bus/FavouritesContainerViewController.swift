@@ -20,7 +20,7 @@ class FavouritesContainerViewController: UIViewController
     @IBOutlet weak var addStopButton: UIBarButtonItem!
     @IBOutlet weak var adBannerView: GADBannerView!
     
-    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var adViewToCollectionViewConstraint: NSLayoutConstraint!
     
     override func viewDidLoad()
     {
@@ -34,6 +34,8 @@ class FavouritesContainerViewController: UIViewController
     override func viewWillAppear(_ animated: Bool)
     {
         super.viewWillAppear(animated)
+        adViewToCollectionViewConstraint.constant = -adBannerView.frame.height
+        view.layoutIfNeeded()
         requestAd()
     }
     
@@ -68,16 +70,22 @@ class FavouritesContainerViewController: UIViewController
 
 extension FavouritesContainerViewController: GADBannerViewDelegate
 {
-    func adViewDidReceiveAd(_ bannerView: GADBannerView!)
+    func adViewDidReceiveAd(_ bannerView: GADBannerView)
     {
-        DispatchQueue.main.async { self.bottomConstraint.constant = 0 }
+        UIView.animate(withDuration: 0.3) {
+            self.adViewToCollectionViewConstraint.constant = 0
+            self.view.layoutIfNeeded()
+        }
         let time = DispatchTime(uptimeNanoseconds: DispatchTime.now().uptimeNanoseconds + 30 * NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: time) { self.requestAd() }
     }
     
-    func adView(_ bannerView: GADBannerView!, didFailToReceiveAdWithError error: GADRequestError!)
+    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError)
     {
-        DispatchQueue.main.async { self.bottomConstraint.constant = -bannerView.frame.height }
+        UIView.animate(withDuration: 0.3) {
+            self.adViewToCollectionViewConstraint.constant = -bannerView.frame.height
+            self.view.layoutIfNeeded()
+        }
         let time = DispatchTime(uptimeNanoseconds: DispatchTime.now().uptimeNanoseconds + 30 * NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: time) { self.requestAd() }
     }

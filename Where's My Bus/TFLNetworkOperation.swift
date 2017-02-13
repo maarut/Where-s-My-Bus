@@ -17,8 +17,8 @@ protocol TFLNetworkOperationRequestor
 // MARK: - TFLNetworkOperationProcessor Protocol
 protocol TFLNetworkOperationProcessor
 {
-    func handleError(_ error: NSError)
-    func processData(_ data: Data)
+    func handle(error: NSError)
+    func process(data: Data)
 }
 
 // MARK: - TFLNetworkOperationError Enum
@@ -111,10 +111,10 @@ extension TFLNetworkOperation: URLSessionDataDelegate
             return
         }
         guard error == nil else {
-            processor.handleError(error! as NSError)
+            processor.handle(error: error! as NSError)
             return
         }
-        processor.processData(NSData(data: incomingData as Data) as Data)
+        processor.process(data: NSData(data: incomingData as Data) as Data)
     }
 }
 
@@ -128,12 +128,12 @@ private class InvalidStatusProcessor: TFLNetworkOperationProcessor
         NSLog("Invalid status detected")
     }
     
-    func handleError(_ error: NSError)
+    func handle(error: NSError)
     {
-        processor.handleError(error)
+        processor.handle(error: error)
     }
     
-    func processData(_ data: Data)
+    func process(data: Data)
     {
         guard let parsedJson = parseJson(data) else { return }
         guard let json = parsedJson as? [String: AnyObject] else {
@@ -141,20 +141,20 @@ private class InvalidStatusProcessor: TFLNetworkOperationProcessor
             let userInfo = [NSLocalizedDescriptionKey: "Returned data could not be formatted in to JSON."]
             let error = NSError(domain: "InvalidStatusProcessor.processData",
                 code: TFLNetworkOperationError.jsonParse.rawValue, userInfo: userInfo)
-            handleError(error)
+            handle(error: error)
             return
         }
         if let message = json["message"] as? String {
             let userInfo = [NSLocalizedDescriptionKey: message]
             let error = NSError(domain: "InvalidStatusProcessor.processData",
                 code: TFLNetworkOperationError.invalidStatus.rawValue, userInfo: userInfo)
-            handleError(error)
+            handle(error: error)
         }
         else {
             let userInfo = [NSLocalizedDescriptionKey: "Invalid status received."]
             let error = NSError(domain: "InvalidStatusProcessor.processData",
                 code: TFLNetworkOperationError.invalidStatus.rawValue, userInfo: userInfo)
-            handleError(error)
+            handle(error: error)
         }
         
     }
@@ -168,7 +168,7 @@ private class InvalidStatusProcessor: TFLNetworkOperationProcessor
             let userInfo = [NSLocalizedDescriptionKey: "Unable to parse JSON object", NSUnderlyingErrorKey: error] as [String : Any]
             let error = NSError(domain: "InvalidStatusProcessor.parseJson",
                 code: TFLNetworkOperationError.response.rawValue, userInfo: userInfo)
-            handleError(error)
+            handle(error: error)
         }
         return nil
     }
