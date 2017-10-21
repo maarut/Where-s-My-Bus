@@ -57,7 +57,7 @@ class BusStopDetailsViewController: UITableViewController
         timer = nil
     }
     
-    func timerElapsed(_ timer: Timer)
+    @objc func timerElapsed(_ timer: Timer)
     {
         if arrivalRefreshCounter == 0 {
             refresh()
@@ -68,7 +68,7 @@ class BusStopDetailsViewController: UITableViewController
         progressView.progress = Float(arrivalRefreshCounter) / Float(arrivalRefreshCounterInterval)
     }
     
-    func refresh()
+    @objc func refresh()
     {
         if progressView.isHidden {
             progressView.isHidden = false

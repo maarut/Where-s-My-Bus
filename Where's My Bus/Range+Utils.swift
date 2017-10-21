@@ -6,7 +6,7 @@
 //  Copyright © 2016 Maarut Chandegra. All rights reserved.
 //
 
-public func ~=<I : Comparable>(value: I, pattern: Range<I>) -> Bool where I : Comparable
+public func ~=<I>(value: I, pattern: Range<I>) -> Bool
 {
     return pattern ~= value
 }

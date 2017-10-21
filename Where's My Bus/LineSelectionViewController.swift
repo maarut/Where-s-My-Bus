@@ -24,7 +24,10 @@ class LineSelectionViewController: UIViewController
         }
         hiddenRoutes = self.favourite.routes?.flatMap {
             let route = $0 as! Route
-            return route.isHidden!.boolValue ? LineId(route.lineId!) : nil
+            if route.isHidden!.boolValue {
+                return LineId(describing: route.lineId)
+            }
+            return nil
         } ?? []
     }
     

@@ -64,7 +64,7 @@ class BusStopDetailsContainerViewController: UIViewController
         
     }
     
-    func toggleFavourite(_ control: UIBarButtonItem)
+    @objc func toggleFavourite(_ control: UIBarButtonItem)
     {
         if let stopPoint = stopPoint {
             var items = toolbar.items

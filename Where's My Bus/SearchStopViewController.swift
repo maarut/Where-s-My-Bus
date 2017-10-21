@@ -61,7 +61,7 @@ class SearchStopViewController: UIViewController
 // MARK: - IBActions
 extension SearchStopViewController
 {
-    func nearMePressed(_ sender: UIBarButtonItem)
+    @objc func nearMePressed(_ sender: UIBarButtonItem)
     {
         switch sender {
         case normalNearMeBarButton:
@@ -77,7 +77,7 @@ extension SearchStopViewController
         }
     }
     
-    func detailButtonPressed(_ sender: UIButton)
+    @objc func detailButtonPressed(_ sender: UIButton)
     {
         if let annotation = (sender as? BusStopDetailButton)?.annotation as? BusStopAnnotation {
             performSegue(withIdentifier: "BusStopDetailSegue", sender: annotation)
@@ -268,7 +268,7 @@ extension SearchStopViewController: TFLBusArrivalSearchResultsProcessor
                 let annotation = self.map.selectedAnnotations.first,
                 let view = self.map.view(for: annotation) as? MKPinAnnotationView,
                 let directionView = view.rightCalloutAccessoryView as? BusStopDetailsButtonWithDirectionView {
-                let bearingRad = bearing / 360.0 * 2 * M_PI
+                let bearingRad = bearing / 360.0 * 2 * .pi
                 let xfrm = CGAffineTransform.identity.rotated(by: CGFloat(bearingRad))
                 UIView.animate(withDuration: 0.3, animations: { directionView.direction.transform = xfrm }) 
             }

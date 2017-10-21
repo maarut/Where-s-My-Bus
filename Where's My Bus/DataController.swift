@@ -90,7 +90,7 @@ class DataController
                 do { try favourites.performFetch() }
                 catch let error as NSError { logErrorAndAbort(error) }
                 let favourite = Favourite(stopPoint: stopPoint, context: self.mainThreadContext)
-                favourite.sortOrder = favourites.fetchedObjects?.count as NSNumber?? ?? Int.max as NSNumber?
+                favourite.sortOrder = (favourites.fetchedObjects?.count ?? Int.max) as NSNumber?
                 self.save()
             }
         }

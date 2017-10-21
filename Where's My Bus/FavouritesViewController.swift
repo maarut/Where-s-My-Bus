@@ -193,7 +193,7 @@ class FavouritesViewController: UITableViewController
 // MARK: - Event Handlers
 extension FavouritesViewController
 {
-    func timerElapsed(_ timer: Timer)
+    @objc func timerElapsed(_ timer: Timer)
     {
         if arrivalRefreshCounter == 0 {
             refresh()
@@ -204,7 +204,7 @@ extension FavouritesViewController
         progressView.progress = Float(arrivalRefreshCounter) / Float(arrivalRefreshCounterInterval)
     }
     
-    func refresh()
+    @objc func refresh()
     {
         arrivalRefreshCounter = arrivalRefreshCounterInterval
         progressView.progress = 1.0
@@ -217,7 +217,7 @@ extension FavouritesViewController
         refreshControl?.endRefreshing()
     }
     
-    func doneTapped(_ button: UIBarButtonItem)
+    @objc func doneTapped(_ button: UIBarButtonItem)
     {
         tableView.setEditing(false, animated: true)
         if timer == nil || !timer!.isValid {
